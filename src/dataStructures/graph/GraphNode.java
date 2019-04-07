@@ -2,6 +2,10 @@ package dataStructures.graph;
 
 import java.util.ArrayList;
 
+/**
+ * Classe referent al node de un graf genèric
+ * @param <T> Classe de l'objecte que volem emmagatzemar a cada node del graf
+ */
 public class GraphNode <T>{
     // Attributes
     private T element;
@@ -32,5 +36,4 @@ public class GraphNode <T>{
     }
 
     // Functions
-
 }
