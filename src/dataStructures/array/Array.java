@@ -5,12 +5,10 @@ import java.util.Arrays;
 public class Array<T> {
     // Attributes
     private Object[] elements;
-    private int size;
 
     // Constructor
     public Array(){
-        this.size = 1;
-        this.elements = new Object[size];
+        this.elements = new Object[0];
     }
 
     // Getters & Setters
@@ -20,21 +18,17 @@ public class Array<T> {
     public void setElements(T[] elements) {
         this.elements = elements;
     }
-    public int getSize() {
-        return size;
-    }
-    public void setSize(int size) {
-        this.size = size;
-    }
 
     // Functions
     public void add(T newElement){
-        this.elements = Arrays.copyOf(elements, size + 1);
-        this.elements[size] = newElement;
-        this.size++;
+        this.elements = Arrays.copyOf(elements, elements.length + 1);
+        this.elements[elements.length - 1] = newElement;
+    }
+    public Object get(int index){
+        return elements[index];
     }
     public int size(){
-        return this.size;
+        return elements.length;
     }
 
 }
