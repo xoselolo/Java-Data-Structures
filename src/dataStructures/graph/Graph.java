@@ -2,17 +2,30 @@ package dataStructures.graph;
 
 import dataStructures.array.Array;
 
-public class Graph {
-    public static void main(String[] args) {
-        Array<Integer> list = new Array<Integer>();
+public class Graph<T> {
+    // Attributes
+    private Array<GraphNode<T>> adjacencyList;
 
-        for (int i = 0; i < 5; i++){
-            list.add(i);
-        }
-
-        for (int i = 0; i < list.size(); i++){
-            int num = (int) list.get(i);
-            System.out.println("Element in index " + i + " is " + num);
-        }
+    // Constructor
+    public Graph(){
+        this.adjacencyList = new Array<GraphNode<T>>();
     }
+
+    // Getters & Setters
+    public Array<GraphNode<T>> getAdjacencyList() {
+        return adjacencyList;
+    }
+    public void setAdjacencyList(Array<GraphNode<T>> adjacencyList) {
+        this.adjacencyList = adjacencyList;
+    }
+
+    // Functions
+    public Array indexYconnectsWith(int y){
+        return ((GraphNode)adjacencyList.get(y)).getNext();
+    }
+
+    public static void main(String[] args) {
+
+    }
+
 }

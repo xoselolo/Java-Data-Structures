@@ -11,6 +11,10 @@ public class Array<T> {
         this.elements = new Object[0];
     }
 
+    public Array(Array<T> prevArray) {
+        this.elements = prevArray.getElements();
+    }
+
     // Getters & Setters
     public Object[] getElements() {
         return elements;

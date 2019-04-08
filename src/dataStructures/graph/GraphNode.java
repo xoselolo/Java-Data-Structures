@@ -1,5 +1,7 @@
 package dataStructures.graph;
 
+import dataStructures.array.Array;
+
 import java.util.ArrayList;
 
 /**
@@ -9,16 +11,16 @@ import java.util.ArrayList;
 public class GraphNode <T>{
     // Attributes
     private T element;
-    private ArrayList<GraphNode<T>> next;
+    private Array<GraphNode<T>> next;
 
     // Constructors
     public GraphNode(T element){
         this.element = element;
-        this.next = new ArrayList<GraphNode<T>>();
+        this.next = new Array<GraphNode<T>>();
     }
-    public GraphNode(T element, ArrayList<GraphNode<T>> next){
+    public GraphNode(T element, Array<GraphNode<T>> next){
         this.element = element;
-        this.next = new ArrayList<GraphNode<T>>(next);
+        this.next = new Array<GraphNode<T>>(next);
     }
 
     // Getters & Setters
@@ -28,10 +30,10 @@ public class GraphNode <T>{
     public void setElement(T element) {
         this.element = element;
     }
-    public ArrayList<GraphNode<T>> getNext() {
+    public Array<GraphNode<T>> getNext() {
         return next;
     }
-    public void setNext(ArrayList<GraphNode<T>> next) {
+    public void setNext(Array<GraphNode<T>> next) {
         this.next = next;
     }
 
