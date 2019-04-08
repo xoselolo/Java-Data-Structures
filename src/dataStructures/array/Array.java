@@ -30,10 +30,25 @@ public class Array<T> {
         this.elements[elements.length - 1] = newElement;
     }
 
-    public void remove(T element) {
+    // Returns true if operation is ok
+    public boolean remove(T element) {
+        int size = elements.length;
 
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(element)) {
+                index = i;
+            }
+        }
+        if (index == -1) {
+            return false;
+        }
+        else {
+            return remove(index);
+        }
     }
 
+    // Returns true if operation is ok
     public boolean remove(int index) {
         int newSize = elements.length - 1;
         Object[] newArray = new Object[newSize];
@@ -44,12 +59,8 @@ public class Array<T> {
                 newArray = Arrays.copyOf(elements,elements.length - 1);
             }
             else {
-                for (int i = 0; i < index; i++) {
-                    newArray[i] = elements[i];
-                }
-                for (int i = index + 1; i < newSize; i++) {
-                    newArray[i] = elements[i];
-                }
+                System.arraycopy(elements,0,newArray,0,index);
+                System.arraycopy(elements,index + 1,newArray,index,newSize - index);
             }
             elements = newArray;
             return true;
