@@ -1,6 +1,7 @@
 package model;
 
 import dataStructures.array.Array;
+import dataStructures.hashTable.HashTable;
 
 /**
     2.1 CSV d’Usuaris
@@ -10,7 +11,7 @@ import dataStructures.array.Array;
  * • to follow: array d’usuaris que segueix. Es trobara un array
                 amb els usernames dels usuaris als que segueix.
  */
-public class User {
+public class User implements Hashable{
     // Attributes
     private String username;
     private long creation; // timestamp
@@ -41,6 +42,12 @@ public class User {
     }
     public void setTo_follow(Array<String> to_follow) {
         this.to_follow = to_follow;
+    }
+
+    @Override
+    public int hash() {
+        return hashCode() % HashTable.POSITIONS;
+        //TODO SuperFastHash -> #link: https://github.com/toaler/Hashing/blob/master/org.bpt.hash.provider/src/org/bpt/hash/provider/SuperFastHash.java
     }
 
     // Functions
