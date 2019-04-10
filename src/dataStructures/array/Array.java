@@ -76,4 +76,16 @@ public class Array<T> {
         return elements.length;
     }
 
+    // Return true if element is already inside the array
+    public boolean findElement(T element) {
+        int size = elements.length;
+
+        for(int i = 0; i < size; i++) {
+            if (elements[i].equals(element)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
