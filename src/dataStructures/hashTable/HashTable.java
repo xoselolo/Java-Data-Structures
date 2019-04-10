@@ -4,6 +4,23 @@ import dataStructures.array.Array;
 import model.User;
 
 public class HashTable <T> implements HashTableInterface{
+
+    public static void main(String[] args) {
+        HashTable<User> hashTable = new HashTable<User>();
+
+        User u1 = new User("xoselolo", 123, null);
+        User u2 = new User("adriklk", 123, null);
+        User u3 = new User("oscarfava", 123, null);
+
+        hashTable.add(u1, User.class);
+        hashTable.add(u2, User.class);
+        hashTable.add(u3, User.class);
+
+        User u4 = new User("juanillo", 123, null);
+
+        hashTable.add(u4, User.class);
+    }
+
     // Const Values
     public static final int POSITIONS = 10;
 
@@ -47,5 +64,10 @@ public class HashTable <T> implements HashTableInterface{
         }else{
             return 0;
         }
+    }
+
+    public void add(T element, Class c){
+        int hash = hash(element, c);
+        getRow(hash).add(element);
     }
 }
