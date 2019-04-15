@@ -56,13 +56,13 @@ public class User implements Hashable{
 
 /*
 2.1 CSV d’Usuaris
-Cada usuari tindr`a:
-• username: nom de l’usuari, on aquest ser`a ´unic.
-• creation: data de creaci´o del perfil en format timestamp.
-• to follow: array d’usuaris que segueix. Es trobar`a un array amb els usernames dels usuaris
-als que segueix.
+Cada usuari tindra:
+• username:     nom de l’usuari, on aquest sera unic.
+• creation:     data de creacio del perfil en format timestamp.
+• to follow:    array d’usuaris que segueix. Es trobara un array amb els usernames dels usuaris
+                als que segueix.
 2.2 CSV d’Posts
-Cada post tindr`a:
+Cada post tindra:
 • id: identificador del post
 • liked by: array d’usuaris que han donat m’agrada al post
 • published when: quan es va publicar. Aquesta dada estar`a en format timestamp
