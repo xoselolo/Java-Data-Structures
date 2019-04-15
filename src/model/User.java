@@ -12,7 +12,7 @@ import model.model_interfaces.Hashable;
  * • to follow: array d’usuaris que segueix. Es trobara un array
                 amb els usernames dels usuaris als que segueix.
  */
-public class User implements Hashable {
+public class User implements Hashable{
     // Attributes
     private String username;
     private long creation; // timestamp
@@ -45,12 +45,12 @@ public class User implements Hashable {
         this.to_follow = to_follow;
     }
 
+    // Functions
     @Override
     public int hash() {
         return hashCode() % HashTable.POSITIONS;
         //TODO SuperFastHash -> #link: https://github.com/toaler/Hashing/blob/master/org.bpt.hash.provider/src/org/bpt/hash/provider/SuperFastHash.java
     }
 
-    // Functions
 
 }

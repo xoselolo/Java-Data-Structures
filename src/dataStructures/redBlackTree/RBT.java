@@ -1,12 +1,16 @@
 package dataStructures.redBlackTree;
 
+import java.util.Comparator;
+
 public class RBT <T>{
     // Attributes
     private RBTnode root;
+    private Comparator<T> comparator;
 
     // Constructor
-    public RBT(){
+    public RBT(Comparator<T> comparator){
         this.root = null;
+        this.comparator = comparator;
     }
 
     // Functions
@@ -21,6 +25,7 @@ public class RBT <T>{
 
             this.root.red = true;
         }else{
+            // Buscar sitio para insertar el nuevo nodo
 
         }
     }
