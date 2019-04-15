@@ -2,6 +2,7 @@ package dataStructures.hashTable;
 
 import dataStructures.array.Array;
 import dataStructures.dataStructures_interfaces.HashTableInterface;
+import model.Post;
 import model.User;
 
 public class HashTable <T> implements HashTableInterface {
@@ -45,8 +46,10 @@ public class HashTable <T> implements HashTableInterface {
     public int hash(Object element, Class c) {
         if (c == User.class){
             return ((User)element).hash();
-        }else{
-            // TODO: With Post class
+        }else if (c == Post.class){
+            return ((Post)element).hash();
+        }else {
+            // Nunca debería entrar aquí
             return 0;
         }
     }
