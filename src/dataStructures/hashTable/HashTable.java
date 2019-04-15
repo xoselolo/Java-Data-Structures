@@ -1,9 +1,10 @@
 package dataStructures.hashTable;
 
 import dataStructures.array.Array;
+import dataStructures.dataStructures_interfaces.HashTableInterface;
 import model.User;
 
-public class HashTable <T> implements HashTableInterface{
+public class HashTable <T> implements HashTableInterface {
 
     // Const Values
     public static final int POSITIONS = 10;

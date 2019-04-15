@@ -1,4 +1,4 @@
-package dataStructures.hashTable;
+package dataStructures.dataStructures_interfaces;
 
 import dataStructures.array.Array;
 
