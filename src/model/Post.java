@@ -1,8 +1,10 @@
 package model;
 
 import dataStructures.array.Array;
+import dataStructures.hashTable.HashTable;
+import model.model_interfaces.Hashable;
 
-public class Post {
+public class Post implements Hashable {
 
     // Attributes
     private int id;
@@ -62,5 +64,10 @@ public class Post {
     }
 
     // Functions
+    @Override
+    public int hash() {
+        return hashCode() % HashTable.POSITIONS;
+    }
+
 
 }
