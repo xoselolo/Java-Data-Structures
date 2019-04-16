@@ -52,5 +52,8 @@ public class User implements Hashable{
         //TODO SuperFastHash -> #link: https://github.com/toaler/Hashing/blob/master/org.bpt.hash.provider/src/org/bpt/hash/provider/SuperFastHash.java
     }
 
-
+    @Override
+    public String toString() {
+        return getUsername();
+    }
 }
