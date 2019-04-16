@@ -62,7 +62,7 @@ public class RBT <T>{
         }else{
             if (pointer == null){
                 // Node is null
-                // It's a leaf (or root == null)
+                // It's a leaf
                 pointer = new RBTnode<T>(newNode.element, dad);
                 //pointer.element = newNode.element;
                 //pointer.pare = dad;
