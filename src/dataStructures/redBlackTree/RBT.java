@@ -4,6 +4,32 @@ import model.User;
 
 import java.util.Comparator;
 
+/**
+ * This is our RedBlackTree generic implementation for every class.
+ *
+ * Features:
+ *      - Every node is RED or BLACK
+ *      - ROOT is always BLACK
+ *      - if a node is RED, its sons are BLACK
+ *      - number of black nodes in left = number of black nodes in right
+ *
+ * Operations:
+ *      - Create
+ *      - Insert
+ *      - Delete
+ *      insert and delete use rotations and colorChanging:
+ *          - Rotations:
+ *               - RR
+ *               - LL
+ *      - Search
+ *
+ * Costs:
+ *      - Insert = O (log n)
+ *      - Search = O (log n)
+ *      - Delete = O (log n)
+ *      - Preorder, Inorder, postOrder = O (n)
+ * @param <T> Class of the element we want to store in the tree
+ */
 public class RBT <T>{
     // Attributes
     private RBTnode root;
@@ -24,19 +50,19 @@ public class RBT <T>{
         };
         RBT<User> userRBT = new RBT<User>(userComparator);
 
-        User u1 = new User("luis", 1, null);
-        User u3 = new User("oleksiy", 1, null);
-        User u2 = new User("xose", 1, null);
-        User u4 = new User("sallefest", 1, null);
-        User u5 = new User("baltasar", 1, null);
-        User u6 = new User("gaspar", 1, null);
+        User u1 = new User("oleksiy", 1, null);
+        User u2 = new User("alfredo", 1, null);
+        User u3 = new User("luis", 1, null);
+        //User u4 = new User("sallefest", 1, null);
+        //User u5 = new User("baltasar", 1, null);
+        //User u6 = new User("gaspar", 1, null);
 
         userRBT.insertNode(new RBTnode<User>(u1), userRBT.root, null);
-        userRBT.insertNode(new RBTnode<User>(u2), userRBT.root, null);
         userRBT.insertNode(new RBTnode<User>(u3), userRBT.root, null);
-        userRBT.insertNode(new RBTnode<User>(u4), userRBT.root, null);
-        userRBT.insertNode(new RBTnode<User>(u5), userRBT.root, null);
-        userRBT.insertNode(new RBTnode<User>(u6), userRBT.root, null);
+        userRBT.insertNode(new RBTnode<User>(u2), userRBT.root, null);
+        //userRBT.insertNode(new RBTnode<User>(u4), userRBT.root, null);
+        //userRBT.insertNode(new RBTnode<User>(u5), userRBT.root, null);
+        //userRBT.insertNode(new RBTnode<User>(u6), userRBT.root, null);
 
         String inOrderTOString = userRBT.inOrderToString();
 
@@ -44,10 +70,25 @@ public class RBT <T>{
     }
 
     // Functions
+    // ---------- INSERTION ----------
     /**
      * Inserts the {@code newNode} as pointer if it's possible or make a recursively call
      * to insert it on the lef/right son.
      * First call be me made to (newNode, root, null)
+     *
+     * Rules and rotations:
+     *      - New node is always RED
+     *      - Cas 1: Dad and uncle are RED
+     *          -> ChangeColor between grandpa and dad+uncle
+     *              -> Except when grandpa is the root element
+     *      - Cas 2: LR / RL with dad RED and grandpa BLACK
+     *          LR: -> RR of dad
+     *              -> Cas 3:
+     *                  -> LL of grandpa changing colors
+     *          RL: -> LL of dad
+     *              -> Cas 3:
+     *                  -> RR of grandpa changing colors
+     *
      * @param newNode Node of the red-black tree to be inserted
      * @param pointer Node we under evaluation
      * @param dad Node father of pointer node
@@ -78,7 +119,26 @@ public class RBT <T>{
                     dad.fillD = pointer;
                 }
 
-                // TODO: Make Rotations if necessary
+
+                // TODO: Make Rotations and colorChanging if necessary
+                if (cas1(pointer)){
+                    cas1Rotation(pointer);
+
+                }else if (cas2a(pointer)){
+                    cas2aRotation(pointer);
+                    cas3aRotation(pointer.fillE);
+
+                }else if (cas2b(pointer)){
+                    cas2bRotation(pointer);
+                    cas3bRotation(pointer.fillD);
+
+                }else if (cas3a(pointer)){
+                    cas3aRotation(pointer);
+
+                }else if (cas3b(pointer)){
+                    cas3bRotation(pointer);
+                }
+
             }else{
                 // Go down until not a leaf
                 if (comparator.compare(newNode.element, pointer.element) < 0){
@@ -92,10 +152,251 @@ public class RBT <T>{
         }
     }
 
-    // In ORDRE (to String)
+    // ROTATIONS
+    private boolean cas1(RBTnode<T> pointer) {
+        RBTnode<T> dad, uncle, grandpa;
+        dad = pointer.pare;
+
+        if (dad == null){
+            return false;
+        }
+
+        grandpa = dad.pare;
+
+        if (grandpa == null){
+            return false;
+        }
+
+        if (comparator.compare(dad.element, grandpa.element) < 0){
+            // Dad is left son of grandpa
+            // uncle will be then the right son of grandpa
+            uncle = grandpa.fillD;
+        }else{
+            // Dad is right son of grandpa
+            // uncle will be then the left son of grandpa
+            uncle = grandpa.fillE;
+        }
+
+        if (uncle == null){
+            return false;
+        }
+
+        if (dad.red && uncle.red && !grandpa.red){
+            return true;
+        }
+
+        return false;
+    }
+    private void cas1Rotation(RBTnode<T> pointer) {
+        RBTnode<T> dad, uncle, grandpa;
+        dad = pointer.pare;
+
+        grandpa = dad.pare;
+
+        if (comparator.compare(dad.element, grandpa.element) < 0){
+            // Dad is left son of grandpa
+            // uncle will be then the right son of grandpa
+            uncle = grandpa.fillD;
+        }else{
+            // Dad is right son of grandpa
+            // uncle will be then the left son of grandpa
+            uncle = grandpa.fillE;
+        }
+
+        dad.red = false;
+        uncle.red = false;
+
+        if (!grandpa.equals(root)){
+            grandpa.red = true;
+        }
+    }
+
+    private boolean cas2a(RBTnode<T> pointer) {
+        RBTnode<T> dad, grandpa;
+        dad = pointer.pare;
+
+        if (dad == null){
+            return false;
+        }
+
+        grandpa = dad.pare;
+
+        if (grandpa == null){
+            return false;
+        }
+
+        if (comparator.compare(pointer.element, dad.element) > 0
+                && comparator.compare(dad.element, grandpa.element) < 0){
+            if (pointer.red && dad.red && !grandpa.red){
+                return true;
+            }
+        }
+        return false;
+    }
+    private void cas2aRotation(RBTnode<T> pointer) {
+        RBTnode<T> dad, grandpa;
+        dad = pointer.pare;
+        grandpa = dad.pare;
+
+        pointer.pare = grandpa;
+        dad.fillD = pointer.fillE;
+        dad.pare = pointer;
+        if (dad.fillD != null){
+            dad.fillD.pare = dad;
+        }
+        grandpa.fillE = pointer;
+        pointer.fillE = dad;
+    }
+    private void cas3aRotation(RBTnode<T> grandson){
+        RBTnode<T> pointer, grandpa;
+        pointer = grandson.pare;
+        grandpa = pointer.pare;
+
+        // ColorSwapping
+        boolean auxColor = grandpa.red;
+        grandpa.red = pointer.red;
+        pointer.red = auxColor;
+
+        grandpa.pare = pointer;
+        grandpa.fillE = pointer.fillD;
+        if (grandpa.fillE != null){
+            grandpa.fillE.pare = grandpa;
+        }
+        pointer.fillD = grandpa;
+
+        if (root.element == grandpa.element){
+            root = pointer;
+        }
+    }
+
+    private boolean cas2b(RBTnode<T> pointer) {
+        RBTnode<T> dad, grandpa;
+        dad = pointer.pare;
+
+        if (dad == null){
+            return false;
+        }
+
+        grandpa = dad.pare;
+
+        if (grandpa == null){
+            return false;
+        }
+
+        if (comparator.compare(pointer.element, dad.element) < 0
+                && comparator.compare(dad.element, grandpa.element) > 0){
+            if (pointer.red && dad.red && !grandpa.red){
+                return true;
+            }
+        }
+        return false;
+    }
+    private void cas2bRotation(RBTnode<T> pointer) {
+        RBTnode<T> dad, grandpa;
+        dad = pointer.pare;
+        grandpa = dad.pare;
+
+        pointer.pare = grandpa;
+        dad.fillE = pointer.fillD;
+        dad.pare = pointer;
+        if (dad.fillE != null){
+            dad.fillE.pare = dad;
+        }
+        grandpa.fillD = pointer;
+        pointer.fillD = dad;
+    }
+    private void cas3bRotation(RBTnode<T> grandson){
+        RBTnode<T> pointer, grandpa;
+        pointer = grandson.pare;
+        grandpa = pointer.pare;
+
+        // ColorSwapping
+        boolean auxColor = grandpa.red;
+        grandpa.red = pointer.red;
+        pointer.red = auxColor;
+
+        grandpa.pare = pointer;
+        grandpa.fillD = pointer.fillD;
+        if (grandpa.fillD != null){
+            grandpa.fillD.pare = grandpa;
+        }
+        pointer.fillD = grandpa;
+
+        if (root.element == grandpa.element){
+            root = pointer;
+        }
+    }
+
+    private boolean cas3a(RBTnode<T> pointer) {
+        RBTnode<T> dad = pointer.pare;
+
+        if (dad == null){
+            return false;
+        }
+
+        RBTnode<T> grandpa = dad.pare;
+
+        if (grandpa == null){
+            return false;
+        }
+
+        if (grandpa.fillE == dad && dad.fillE == pointer){
+            if (pointer.red && dad.red && !grandpa.red){
+                return true;
+            }
+        }
+
+        return false;
+    }
+    private boolean cas3b(RBTnode<T> pointer) {
+        RBTnode<T> dad = pointer.pare;
+
+        if (dad == null){
+            return false;
+        }
+
+        RBTnode<T> grandpa = dad.pare;
+
+        if (grandpa == null){
+            return false;
+        }
+
+        if (grandpa.fillD == dad && dad.fillD == pointer){
+            if (pointer.red && dad.red && !grandpa.red){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    // ---------- SEARCH ----------
     /**
-     * First call to root
-     * @return
+     * Searches the specified element in the tree
+     * @param element Element to be searched in the tree
+     * @param pointer Node where we are findind
+     * @return {@code null} when element is not in the tree or the {@code T} element if found
+     */
+    public RBTnode<T> search(T element, RBTnode<T> pointer){
+        if (pointer == null){
+            return null;
+        }else{
+            if (comparator.compare(element, pointer.element) < 0){
+                // Left son search
+                return search(element, pointer.fillE);
+            }else{
+                // Right son search
+                return search(element, pointer.fillD);
+            }
+        }
+    }
+
+
+    // ---------- TOSTRING ----------
+    /**
+     * Returns the string of the inOrder track recursively
+     * @return inOrdre representation starting by the root node
      */
     public String inOrderToString(){
         StringBuilder builder = new StringBuilder();
@@ -104,8 +405,6 @@ public class RBT <T>{
 
         return builder.toString();
     }
-
-
     private void inOrder(RBTnode<T> node, StringBuilder builder){
         if (node != null){
             inOrder(node.fillE, builder);
