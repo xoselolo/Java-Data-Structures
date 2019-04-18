@@ -121,7 +121,6 @@ public class RBT <T>{
                 }
 
 
-                // TODO: Make Rotations and colorChanging if necessary
                 if (cas1(pointer)){
                     cas1Rotation(pointer);
 
