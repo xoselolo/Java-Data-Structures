@@ -1,6 +1,7 @@
 package dataStructures.redBlackTree;
 
 import model.User;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
@@ -153,7 +154,7 @@ public class RBT <T>{
     }
 
     // ROTATIONS
-    private boolean cas1(RBTnode<T> pointer) {
+    private boolean cas1(@NotNull RBTnode<T> pointer) {
         RBTnode<T> dad, uncle, grandpa;
         dad = pointer.pare;
 
@@ -187,7 +188,7 @@ public class RBT <T>{
 
         return false;
     }
-    private void cas1Rotation(RBTnode<T> pointer) {
+    private void cas1Rotation(@NotNull RBTnode<T> pointer) {
         RBTnode<T> dad, uncle, grandpa;
         dad = pointer.pare;
 
@@ -211,7 +212,7 @@ public class RBT <T>{
         }
     }
 
-    private boolean cas2a(RBTnode<T> pointer) {
+    private boolean cas2a(@NotNull RBTnode<T> pointer) {
         RBTnode<T> dad, grandpa;
         dad = pointer.pare;
 
@@ -233,7 +234,7 @@ public class RBT <T>{
         }
         return false;
     }
-    private void cas2aRotation(RBTnode<T> pointer) {
+    private void cas2aRotation(@NotNull RBTnode<T> pointer) {
         RBTnode<T> dad, grandpa;
         dad = pointer.pare;
         grandpa = dad.pare;
@@ -247,7 +248,7 @@ public class RBT <T>{
         grandpa.fillE = pointer;
         pointer.fillE = dad;
     }
-    private void cas3aRotation(RBTnode<T> grandson){
+    private void cas3aRotation(@NotNull RBTnode<T> grandson){
         RBTnode<T> pointer, grandpa;
         pointer = grandson.pare;
         grandpa = pointer.pare;
@@ -269,7 +270,7 @@ public class RBT <T>{
         }
     }
 
-    private boolean cas2b(RBTnode<T> pointer) {
+    private boolean cas2b(@NotNull RBTnode<T> pointer) {
         RBTnode<T> dad, grandpa;
         dad = pointer.pare;
 
@@ -291,7 +292,7 @@ public class RBT <T>{
         }
         return false;
     }
-    private void cas2bRotation(RBTnode<T> pointer) {
+    private void cas2bRotation(@NotNull RBTnode<T> pointer) {
         RBTnode<T> dad, grandpa;
         dad = pointer.pare;
         grandpa = dad.pare;
@@ -305,7 +306,7 @@ public class RBT <T>{
         grandpa.fillD = pointer;
         pointer.fillD = dad;
     }
-    private void cas3bRotation(RBTnode<T> grandson){
+    private void cas3bRotation(@NotNull RBTnode<T> grandson){
         RBTnode<T> pointer, grandpa;
         pointer = grandson.pare;
         grandpa = pointer.pare;
@@ -327,7 +328,7 @@ public class RBT <T>{
         }
     }
 
-    private boolean cas3a(RBTnode<T> pointer) {
+    private boolean cas3a(@NotNull RBTnode<T> pointer) {
         RBTnode<T> dad = pointer.pare;
 
         if (dad == null){
@@ -348,7 +349,7 @@ public class RBT <T>{
 
         return false;
     }
-    private boolean cas3b(RBTnode<T> pointer) {
+    private boolean cas3b(@NotNull RBTnode<T> pointer) {
         RBTnode<T> dad = pointer.pare;
 
         if (dad == null){
