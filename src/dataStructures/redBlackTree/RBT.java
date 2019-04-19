@@ -51,19 +51,21 @@ public class RBT <T>{
         };
         RBT<User> userRBT = new RBT<User>(userComparator);
 
-        User u1 = new User("oleksiy", 1, null);
-        User u2 = new User("alfredo", 1, null);
-        User u3 = new User("luis", 1, null);
-        //User u4 = new User("sallefest", 1, null);
-        //User u5 = new User("baltasar", 1, null);
-        //User u6 = new User("gaspar", 1, null);
+        User u1 = new User("Antonio", 1, null);
+        User u2 = new User("Benjamin", 1, null);
+        User u3 = new User("Claudia", 1, null);
+        User u4 = new User("David", 1, null);
+        User u5 = new User("Eugeni", 1, null);
+        User u6 = new User("Fatima", 1, null);
+        User u7 = new User("Gerard", 1, null);
 
+        userRBT.insertNode(new RBTnode<User>(u4), userRBT.root, null);
+        userRBT.insertNode(new RBTnode<User>(u5), userRBT.root, null);
+        userRBT.insertNode(new RBTnode<User>(u6), userRBT.root, null);
         userRBT.insertNode(new RBTnode<User>(u1), userRBT.root, null);
-        userRBT.insertNode(new RBTnode<User>(u3), userRBT.root, null);
         userRBT.insertNode(new RBTnode<User>(u2), userRBT.root, null);
-        //userRBT.insertNode(new RBTnode<User>(u4), userRBT.root, null);
-        //userRBT.insertNode(new RBTnode<User>(u5), userRBT.root, null);
-        //userRBT.insertNode(new RBTnode<User>(u6), userRBT.root, null);
+        userRBT.insertNode(new RBTnode<User>(u7), userRBT.root, null);
+        userRBT.insertNode(new RBTnode<User>(u3), userRBT.root, null);
 
         String inOrderTOString = userRBT.inOrderToString();
 
@@ -257,6 +259,10 @@ public class RBT <T>{
         grandpa.red = pointer.red;
         pointer.red = auxColor;
 
+        if (grandpa.pare != null){
+            pointer.pare = grandpa.pare;
+            pointer.pare.fillE = pointer;
+        }
         grandpa.pare = pointer;
         grandpa.fillE = pointer.fillD;
         if (grandpa.fillE != null){
@@ -315,12 +321,16 @@ public class RBT <T>{
         grandpa.red = pointer.red;
         pointer.red = auxColor;
 
+        if (grandpa.pare != null){
+            pointer.pare = grandpa.pare;
+            pointer.pare.fillD = pointer;
+        }
         grandpa.pare = pointer;
-        grandpa.fillD = pointer.fillD;
+        grandpa.fillD = pointer.fillE;
         if (grandpa.fillD != null){
             grandpa.fillD.pare = grandpa;
         }
-        pointer.fillD = grandpa;
+        pointer.fillE = grandpa;
 
         if (root.element == grandpa.element){
             root = pointer;
