@@ -1,4 +1,4 @@
-package dataStructures.dataStructures_interfaces;
+package dataStructures.struct_interfaces;
 
 import dataStructures.array.Array;
 

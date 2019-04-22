@@ -1,7 +1,7 @@
 package dataStructures.hashTable;
 
 import dataStructures.array.Array;
-import dataStructures.dataStructures_interfaces.HashTableInterface;
+import dataStructures.struct_interfaces.HashTableInterface;
 import model.Post;
 import model.User;
 
