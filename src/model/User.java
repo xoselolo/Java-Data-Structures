@@ -1,7 +1,10 @@
 package model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import dataStructures.array.Array;
 import dataStructures.hashTable.HashTable;
+import json.ConstValues;
 import model.model_interfaces.Hashable;
 
 /**
@@ -23,6 +26,21 @@ public class User implements Hashable{
         this.username = username;
         this.creation = creation;
         this.to_follow = to_follow;
+    }
+    public User(JsonObject asJsonObject) {
+        this.username = asJsonObject.get(ConstValues.JSON_USERNAME_TAG).getAsString();
+        this.creation = asJsonObject.get(ConstValues.JSON_CREATION_TAG).getAsLong();
+        this.to_follow = extractToFollow(asJsonObject.get(ConstValues.JSON_TO_FOLLOW_TAG).getAsJsonArray());
+    }
+    private Array<String> extractToFollow(JsonArray asJsonArray) {
+        Array<String> toFollow = new Array<String>();
+
+        int size = asJsonArray.size();
+        for (int i = 0; i < size; i++){
+            toFollow.add(asJsonArray.get(i).getAsString());
+        }
+
+        return toFollow;
     }
 
     // Getters & Stters
