@@ -1,0 +1,27 @@
+[
+  {
+    "username" : "xoselolo38",
+    "creation" : 123456,
+    "to_follow" :
+      [
+        "techconsultor",
+        "putilla69"
+      ]
+  },
+  {
+    "username" : "techconsultor",
+    "creation" : 854721,
+    "to_follow" :
+    [
+      "xoselolo38"
+    ]
+  },
+  {
+    "username" : "putilla69",
+    "creation" : 421045,
+    "to_follow" :
+    [
+      "xoselolo38"
+    ]
+  }
+]
