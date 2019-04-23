@@ -12,7 +12,7 @@ import java.io.FileReader;
 public class JsonReader {
 
     // FILENAMES
-    public static String USERS_FILENAME = "files/users";
+    public static String USERS_FILENAME = "files/users.json";
     public static String POSTS_FILENAME = "files/posts";
 
     public static Array<User> readUsers() throws FileNotFoundException {
