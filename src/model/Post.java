@@ -65,8 +65,14 @@ public class Post implements Hashable {
 
     // Functions
     @Override
-    public int hash() {
-        return hashCode() % HashTable.POSITIONS;
+    public int hash(int index) {
+        String hashtag = (String)hashtags.get(index);
+        int length = hashtag.length();
+        int value = 0;
+        for (int i = 0; i < length; i++){
+            value += (int)hashtag.charAt(i);
+        }
+        return value % HashTable.POSITIONS;
     }
 
 

@@ -1,5 +1,5 @@
 package model.model_interfaces;
 
 public interface Hashable {
-    int hash();
+    int hash(int i);
 }

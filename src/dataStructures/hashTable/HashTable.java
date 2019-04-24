@@ -5,6 +5,8 @@ import dataStructures.struct_interfaces.HashTableInterface;
 import model.Post;
 import model.User;
 
+import javax.annotation.processing.Generated;
+
 public class HashTable <T> implements HashTableInterface {
 
     // Const Values
@@ -42,20 +44,29 @@ public class HashTable <T> implements HashTableInterface {
         return (T)getRow(rowY).get(elementX);
     }
 
+    @Generated("Not used")
     @Override
     public int hash(Object element, Class c) {
-        if (c == User.class){
-            return ((User)element).hash();
-        }else if (c == Post.class){
-            return ((Post)element).hash();
-        }else {
-            // Nunca debería entrar aquí
-            return 0;
-        }
+        return 0;
     }
 
+    /**
+     * Method that adds an element (must be a {@code Post} object) to the table if it doesn't exists in such posistion
+     * @param element: Post to be inserted
+     * @param c: Class of the object to be inserted (must be {@code Post}
+     */
     public void add(T element, Class c){
-        int hash = hash(element, c);
-        getRow(hash).add(element);
+        if (c == Post.class){
+            Post post = (Post)element;
+            int numHashtags = post.getHashtags().size();
+            for (int i = 0; i < numHashtags; i++){
+                int hashValue = post.hash(i);
+                // If object does not exist in the array, we insert it
+                if (!getRow(hashValue).hasElement(element)){
+                    getRow(hashValue).add(element);
+                    // TODO : Change for addOrdered method of array
+                }
+            }
+        }
     }
 }
