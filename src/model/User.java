@@ -64,8 +64,9 @@ public class User implements Hashable{
     }
 
     // Functions
+    @Deprecated
     @Override
-    public int hash() {
+    public int hash(int i) {
         return hashCode() % HashTable.POSITIONS;
         //TODO SuperFastHash -> #link: https://github.com/toaler/Hashing/blob/master/org.bpt.hash.provider/src/org/bpt/hash/provider/SuperFastHash.java
     }
