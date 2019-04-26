@@ -1,37 +1,100 @@
 package dataStructures.Trie;
 /** TODO **/
 public class Trie {
-    private TrieNode root;
+    private TrieRoot root;
 
     public Trie(){
-        root = null;
+        this.root = null;
     }
 
     public void insert(char[] word){
-        TrieNode last = root;
-        TrieNode actual = null;
+        int indexWord = 0;
+        int lengthWord = word.length;
 
-        int match = getLongestMatching(word);
-
-        for(int i = match; i < word.length; i++){
-            if (i < word.length-1) {
-                actual = insertI(word[i], false);
+        if (root == null) {
+            root = new TrieRoot();
+            if (lengthWord == 1) {
+                root.addSon(new TrieNode(word[indexWord],true));
             }
             else {
-                //'#' defines where the word ends
-                actual = insertI('#', true);
+                TrieNode fill = new TrieNode(word[indexWord],false);
+                root.addSon(fill);
+                insertI(word,++indexWord,lengthWord,fill);
             }
-            actual.setFather(last);
-            last = actual;
-            last.setSon(actual);
+        }
+        else {
+            int sizeSons = root.getSons().size();
+            for (int i = 0; i < sizeSons; i++) {
+                if (((TrieNode) root.getSons().get(i)).getLetter() == word[indexWord]) {
+                    insertI(word,++indexWord,lengthWord,(TrieNode) root.getSons().get(i));
+                    return;
+                }
+            }
+
+            // Si arriba aquí, vol dir que la lletra de la paraula no es troba emmagatzemada com a fill del TrieNode father
+            if (lengthWord == 1) {
+                root.addSon(new TrieNode(word[indexWord],true));
+            }
+            else {
+                TrieNode newSon = new TrieNode(word[indexWord],false);
+                root.addSon(newSon);
+                insertI(word,++indexWord,lengthWord,newSon);
+            }
         }
     }
 
-    private TrieNode insertI(char letter, boolean endOfWord){
-        TrieNode node = new TrieNode(letter, endOfWord);
-        return node;
+    private void insertI(char[] word, int indexWord, int lengthWord, TrieNode father){
+        if (indexWord < lengthWord) {
+            int sizeSons = father.getSons().size();
+
+            for (int i = 0; i < sizeSons; i++) {
+                if (father.getSons().get(i) instanceof TrieNode) {
+                    if (((TrieNode) father.getSons().get(i)).getLetter() == word[indexWord]) {
+                        insertI(word,++indexWord,lengthWord,(TrieNode) father.getSons().get(i));
+                        return;
+                    }
+                }
+            }
+
+            // Si arriba aquí, vol dir que la lletra de la paraula no es troba emmagatzemada com a fill del TrieNode father
+            for (int i = indexWord; i < lengthWord; i++) {
+                TrieNode newSon;
+                if (i < lengthWord - 1) {
+                    newSon = new TrieNode(word[i],false);
+                }
+                else {
+                    newSon = new TrieNode(word[i],true);
+                }
+                father.addSon(newSon);
+                father = newSon;
+            }
+        }
+        else {
+            father.setEndOfWord(true);
+        }
     }
 
+    private void printStructure() {
+        if (root != null) {
+            int size = root.getSons().size();
+            for (int i = 0; i < size; i++) {
+                if (root.getSons().get(i) instanceof TrieNode) {
+                    System.out.println(((TrieNode) root.getSons().get(i)).getLetter());
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Trie trie = new Trie();
+
+        trie.insert("Luis".toCharArray());
+        trie.insert("Luisinho".toCharArray());
+        trie.insert("Jajajaja".toCharArray());
+
+        trie.printStructure();
+    }
+    /*
     public boolean search(char[] word){
         TrieNode last = root;
         TrieNode actual = null;
@@ -48,6 +111,7 @@ public class Trie {
         return found;
     }
 
+
     private boolean searchI(char letter, TrieNode node){
         return letter == node.letter;
     }
@@ -62,4 +126,5 @@ public class Trie {
 
         return match;
     }
+    */
 }
