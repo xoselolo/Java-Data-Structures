@@ -1,5 +1,6 @@
 package dataStructures.Trie;
-/** TODO **/
+
+
 public class Trie {
     private TrieRoot root;
 
@@ -7,7 +8,8 @@ public class Trie {
         this.root = null;
     }
 
-    public void insert(char[] word){
+    public void insert(String paraula){
+        char[] word = paraula.toCharArray();
         int indexWord = 0;
         int lengthWord = word.length;
 
@@ -74,12 +76,35 @@ public class Trie {
         }
     }
 
-    private void printStructure() {
+    public void printStructure() {
         if (root != null) {
             int size = root.getSons().size();
             for (int i = 0; i < size; i++) {
                 if (root.getSons().get(i) instanceof TrieNode) {
                     System.out.println(((TrieNode) root.getSons().get(i)).getLetter());
+                    printI((TrieNode) root.getSons().get(i));
+                }
+            }
+        }
+    }
+
+    private void printI(TrieNode father) {
+        if (!father.isEndOfWord()) {
+            int numberOfSons = father.getSons().size();
+            for (int i = 0; i < numberOfSons; i++) {
+                TrieNode newFather = (TrieNode) father.getSons().get(i);
+                System.out.println(newFather.getLetter());
+                printI(newFather);
+            }
+        }
+        else {
+            System.out.println("END OF WORD");
+            if (father.getSons().size() > 0) {
+                int numberOfSons = father.getSons().size();
+                for (int i = 0; i < numberOfSons; i++) {
+                    TrieNode newFather = (TrieNode) father.getSons().get(i);
+                    System.out.println(newFather.getLetter());
+                    printI(newFather);
                 }
             }
         }
@@ -88,43 +113,59 @@ public class Trie {
     public static void main(String[] args) {
         Trie trie = new Trie();
 
-        trie.insert("Luis".toCharArray());
-        trie.insert("Luisinho".toCharArray());
-        trie.insert("Jajajaja".toCharArray());
+        trie.insert("Luis");
+        trie.insert("Luisinho");
+        trie.insert("Jajajaja");
 
         trie.printStructure();
-    }
-    /*
-    public boolean search(char[] word){
-        TrieNode last = root;
-        TrieNode actual = null;
-        boolean found = false, match = false;
-        int i = 0;
-        while (i < word.length && match){
-            match = searchI(word[i], last);
-            if (match){
-                actual = last;
-            }
-            i++;
+
+        String word = "Luis";
+        boolean found = trie.search(word);
+        if (found) {
+            System.out.println("S'ha trobat la paraula " + word + " a l'estructura");
         }
-
-        return found;
+        else {
+            System.out.println("No s'ha trobat la paraula " + word + " a l'estructura");
+        }
     }
 
+    public boolean search(String word) {
+        char[] wordArray = word.toCharArray();
 
-    private boolean searchI(char letter, TrieNode node){
-        return letter == node.letter;
+        if (root == null) {
+            return false;
+        }
+        else {
+            int rootSons = root.getSons().size();
+            for (int i = 0; i < rootSons; i++) {
+                if (root.getSons().get(i) instanceof TrieNode) {
+                    if (((TrieNode) root.getSons().get(i)).getLetter() == wordArray[0]) {
+                        return searchI(wordArray,1, (TrieNode) root.getSons().get(i));
+                    }
+                }
+            }
+            return false;
+        }
     }
 
-    public void delete(Trie trie, char[] word){
-        TrieNode node = root;
+    private boolean searchI(char[] word, int indexWord, TrieNode father) {
+        if (indexWord == word.length) {
+            return true;
+        }
+        else {
+            int sonsSize = father.getSons().size();
 
+            for (int i = 0; i < sonsSize; i++) {
+                if (father.getSons().get(i) instanceof TrieNode) {
+                    if (((TrieNode) father.getSons().get(i)).getLetter() == word[indexWord]) {
+                        return searchI(word,++indexWord, (TrieNode) father.getSons().get(i));
+                    }
+                }
+            }
+            return false;
+        }
     }
 
-    public int getLongestMatching (char[] word){
-        int match=0;
+    // TODO: Delete a word, add information about how many words are within a node and auto-complete functionallity
 
-        return match;
-    }
-    */
 }
