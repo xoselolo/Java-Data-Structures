@@ -1,6 +1,9 @@
+import dataStructures.graph.Graph;
 import dataStructures.hashTable.HashTable;
 import dataStructures.redBlackTree.RBT;
+import json.ConstValues;
 import model.Post;
+import model.User;
 
 import java.util.Comparator;
 
@@ -15,6 +18,13 @@ public class InstaSalle {
                 return Integer.compare(o1.getId(), o2.getId());
             }
         });
-        HashTable<Post> hashTable = new HashTable<>();
+        HashTable<Post> hashTable = new HashTable<Post>();
+        Graph<User> graph = new Graph<User>();
+
+        int option = 0;
+        while (option != ConstValues.EXIT){
+            // TODO: mostraMenu();
+            // TODO: option = demanaOpcio();
+        }
     }
 }
