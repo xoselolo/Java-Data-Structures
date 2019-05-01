@@ -80,8 +80,13 @@ public class InstaSalle {
                         break;
 
                     case ConstValues.ERROR9:
-                        // Mostrar missatge d'error
-                        System.out.println(System.lineSeparator() + "Format incorrecte. Valors vàlids numèrics entre 1 i 8 ambdós inclosos" + System.lineSeparator());
+                        // Mostrar missatge d'error (lletres)
+                        System.out.println(System.lineSeparator() + "[ERR] - Format incorrecte. Valors vàlids numèrics entre 1 i 8 ambdós inclosos" + System.lineSeparator());
+                        break;
+
+                    default:
+                        // Mostrar missatge d'error (fora de rang)
+                        System.out.println(System.lineSeparator() + "[ERR] - Valor escollit fora del rang (1, 8)" + System.lineSeparator());
                         break;
                 }
             }
@@ -103,7 +108,7 @@ public class InstaSalle {
     }
 
     private static int demanaOpcio() throws InputMismatchException {
-        System.out.println("Opció escollida?");
+        System.out.println("[IN] - Opció escollida?");
         return new Scanner(System.in).nextInt();
     }
 }
