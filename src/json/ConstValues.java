@@ -8,23 +8,25 @@ public abstract class ConstValues {
     public static final String JSON_TO_FOLLOW_TAG = "to_follow";
 
     // MENU values + Strings
-    public static final int IMPORT = 1;
-    public static final String IMPORT_STRING = "";
-    public static final int EXPORT = 2;
-    public static final String EXPORT_STRING = "";
-    public static final int SHOW = 3;
-    public static final String SHOW_STRING = "";
-    public static final int INSERT = 4;
-    public static final String INSERT_STRING = "";
-    public static final int DELETE = 5;
-    public static final String DELETE_STRING = "";
-    public static final int SEARCH = 6;
-    public static final String SEARCH_STRING = "";
-    public static final int AUTOCOMPLETE = 7;
-    public static final String AUTOCOMPLETE_STRING = "";
-    public static final int LIMIT_MEMORY = 8;
-    public static final String LIMIT_MEMORY_STRING = "";
-    public static final int EXIT = 9;
-    public static final String EXIT_STRING = "";
+    public static final int IMPORT1 = 1;
+    public static final String IMPORT_STRING = "1. Importació de l'estat de les estructures";
+    public static final int EXPORT2 = 2;
+    public static final String EXPORT_STRING = "2. Exportació de l'estat de les estructures";
+    public static final int SHOW3 = 3;
+    public static final String SHOW_STRING = "3. Visualització de l'estat de les estructures";
+    public static final int INSERT4 = 4;
+    public static final String INSERT_STRING = "4. Inserció d'informació";
+    public static final int DELETE5 = 5;
+    public static final String DELETE_STRING = "5. Esborrar informació";
+    public static final int SEARCH6 = 6;
+    public static final String SEARCH_STRING = "6. Cercar informació";
+    //public static final int AUTOCOMPLETE = 7;
+    //public static final String AUTOCOMPLETE_STRING = "7. ";
+    public static final int LIMIT_MEMORY7 = 7;
+    public static final String LIMIT_MEMORY_STRING = "7. Limitar memòria per autocompletar.";
+    public static final int EXIT8 = 8;
+    public static final String EXIT_STRING = "8. Sortir";
+    public static final int ERROR9 = 9;
+    public static final String ERROR_STRING = System.lineSeparator() + "[ERR] - Format incorrecte." + System.lineSeparator() + System.lineSeparator();
 
 }
