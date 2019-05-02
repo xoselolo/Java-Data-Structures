@@ -31,5 +31,42 @@
     "hashtags" : [
       "hot"
     ]
+  },
+  {
+    "id" : 3,
+    "liked_by" : [
+      "xoselolo38",
+      "techconsultor",
+      "putilla69"
+    ],
+    "published_when" : 12345678,
+    "published_by" : "xoselolo38",
+    "location" : {
+      "latitude" : 10.10,
+      "longitude" : 53.30
+    },
+    "hashtags" : [
+      "hot",
+      "rachetas",
+      "lumis",
+      "coca"
+    ]
+  },
+  {
+    "id" : 4,
+    "liked_by" : [
+      "techconsultor",
+      "putilla329"
+    ],
+    "published_when" : 12345678,
+    "published_by" : "albert.pernia",
+    "location" : {
+      "latitude" : 18.71,
+      "longitude" : 49.81
+    },
+    "hashtags" : [
+      "paed",
+      "cern"
+    ]
   }
 ]
