@@ -33,13 +33,18 @@ import java.util.Comparator;
  */
 public class RBT <T>{
     // Attributes
-    private RBTnode root;
+    private RBTnode<T> root;
     private Comparator<T> comparator;
 
     // Constructor
     public RBT(Comparator<T> comparator){
         this.root = null;
         this.comparator = comparator;
+    }
+
+    // Root Getter
+    public RBTnode<T> getRoot(){
+        return root;
     }
 
     public static void main(String[] args) {

@@ -1,0 +1,35 @@
+[
+  {
+    "id" : 1,
+    "liked_by" : [
+      "xoselolo38",
+      "putilla69"
+    ],
+    "published_when" : 12345678,
+    "published_by" : "xoselolo38",
+    "location" : {
+      "latitude" : 22.33,
+      "longitude" : 33.22
+    },
+    "hashtags" : [
+      "love",
+      "trap",
+      "hot"
+    ]
+  },
+  {
+    "id" : 2,
+    "liked_by" : [
+      "xoselolo38"
+    ],
+    "published_when" : 12345678,
+    "published_by" : "techconsultor",
+    "location" : {
+      "latitude" : 22.11,
+      "longitude" : 33.44
+    },
+    "hashtags" : [
+      "hot"
+    ]
+  }
+]

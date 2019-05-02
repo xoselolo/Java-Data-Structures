@@ -6,6 +6,15 @@ public abstract class ConstValues {
     public static final String JSON_USERNAME_TAG = "username";
     public static final String JSON_CREATION_TAG = "creation";
     public static final String JSON_TO_FOLLOW_TAG = "to_follow";
+    // Posts Json File const values
+    public static final String JSON_ID = "id";
+    public static final String JSON_LIKED_BY = "liked_by";
+    public static final String JSON_PUBLISHED_WHEN = "published_when";
+    public static final String JSON_PUBLISHED_BY = "published_by";
+    public static final String JSON_LOCATION = "location";
+        public static final String JSON_LATITUDE = "latitude";
+        public static final String JSON_LONGITUDE = "longitude";
+    public static final String JSON_HASHTAGS = "hashtags";
 
     // MENU values + Strings
     public static final int IMPORT1 = 1;

@@ -1,7 +1,10 @@
 package model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import dataStructures.array.Array;
 import dataStructures.hashTable.HashTable;
+import json.ConstValues;
 import model.model_interfaces.Hashable;
 
 public class Post implements Hashable {
@@ -23,6 +26,27 @@ public class Post implements Hashable {
         this.published = published;
         this.location = location;
         this.hashtags = hashtags;
+    }
+    public Post(JsonObject postJsonObject){
+        this.id = postJsonObject.get(ConstValues.JSON_ID).getAsInt();
+
+        this.liked_by = new Array<String>();
+        JsonArray arrayLikedBy = postJsonObject.get(ConstValues.JSON_LIKED_BY).getAsJsonArray();
+        int size = arrayLikedBy.size();
+        for (int i = 0; i < size; i++){
+            this.liked_by.add(arrayLikedBy.get(i).getAsString());
+        }
+
+        this.published = postJsonObject.get(ConstValues.JSON_PUBLISHED_WHEN).getAsLong();
+        this.published_by = postJsonObject.get(ConstValues.JSON_PUBLISHED_BY).getAsString();
+        this.location = new Location(postJsonObject.get(ConstValues.JSON_LOCATION).getAsJsonObject());
+
+        this.hashtags = new Array<String>();
+        JsonArray arrayHashtags = postJsonObject.get(ConstValues.JSON_HASHTAGS).getAsJsonArray();
+        size = arrayHashtags.size();
+        for (int i = 0; i < size; i++){
+            this.hashtags.add(arrayHashtags.get(i).getAsString());
+        }
     }
 
     // Getters & Setters
