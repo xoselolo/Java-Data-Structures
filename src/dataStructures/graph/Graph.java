@@ -3,12 +3,16 @@ package dataStructures.graph;
 import dataStructures.array.Array;
 import model.User;
 
+import java.util.Comparator;
+
 public class Graph<T> {
     // Attributes
     private Array<GraphNode<T>> adjacencyList;
+    private Comparator<T> comparator;
 
     // Constructor
-    public Graph(){
+    public Graph(Comparator<T> comparator){
+        this.comparator = comparator;
         this.adjacencyList = new Array<GraphNode<T>>();
     }
 
