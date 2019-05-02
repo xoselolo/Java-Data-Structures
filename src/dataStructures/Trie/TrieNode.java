@@ -37,4 +37,8 @@ public class TrieNode {
     public boolean isEndOfWord() {
         return endOfWord;
     }
+
+    public boolean hasSons() {
+        return this.sons.size() > 0;
+    }
 }
