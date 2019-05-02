@@ -13,6 +13,7 @@
     "creation" : 854721,
     "to_follow" :
     [
+      "albert.pernia",
       "xoselolo38"
     ]
   },
@@ -21,6 +22,35 @@
     "creation" : 421045,
     "to_follow" :
     [
+      "xoselolo38"
+    ]
+  },
+  {
+    "username" : "putilla329",
+    "creation" : 45,
+    "to_follow" :
+    [
+      "xoselolo38",
+      "putilla69"
+    ]
+  },
+  {
+    "username" : "albert.pernia",
+    "creation" : 5480472,
+    "to_follow" :
+    [
+      "xoselolo38",
+      "techconsultor"
+    ]
+  },
+  {
+    "username" : "claudia.peiro",
+    "creation" : 1025001,
+    "to_follow" :
+    [
+      "putilla69",
+      "albert.pernia",
+      "techconsultor",
       "xoselolo38"
     ]
   }

@@ -1,30 +1,59 @@
+import dataStructures.array.Array;
 import dataStructures.graph.Graph;
+import dataStructures.graph.GraphNode;
 import dataStructures.hashTable.HashTable;
 import dataStructures.redBlackTree.RBT;
+import dataStructures.redBlackTree.RBTnode;
 import json.ConstValues;
+import json.JsonReader;
 import model.Post;
 import model.User;
 
+import java.io.FileNotFoundException;
 import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InstaSalle {
+    // Estructuras lineales
+    private static Array<User> usersArray;
+    private static Array<Post> postsArray;
+    // Estructuras no lineales
+    private static RBT<Post> RBT;
+    private static HashTable<Post> hashTable;
+    private static Graph<User> graph;
+
     public static void main(String[] args) {
         // Inicialización de las estructuras vacías
+
+        // Array lineal de usuarios
+        usersArray = new Array<User>();
+        // Array lineal de posts
+        postsArray = new Array<Post>();
+
         // TODO: Trie para autocompletar
         // TODO: R-Tree Para indexar posts por LOCALIZACIÓN
 
         // Red Black Tree para indexar posts por ID
-        RBT<Post> RBT = new RBT<Post>(new Comparator<Post>() {
+        RBT = new RBT<Post>(new Comparator<Post>() {
             @Override
             public int compare(Post o1, Post o2) {
                 return Integer.compare(o1.getId(), o2.getId());
             }
         });
-        HashTable<Post> hashTable = new HashTable<Post>();
-        Graph<User> graph = new Graph<User>();
 
+        // Tabla de hash para indexar los posts según los hashtags
+        hashTable = new HashTable<Post>();
+
+        // Grafo para representar la relación entre los usuarios
+        graph = new Graph<User>(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.getUsername().compareTo(o2.getUsername());
+            }
+        });
+
+        // Bucle principal del programa
         int option = 0;
         while (option != ConstValues.EXIT8){
             mostraMenu();
@@ -36,6 +65,7 @@ public class InstaSalle {
                 switch (option){
                     case ConstValues.IMPORT1:
                         // Importació dels JSON a les estructures
+                        importaJson();
 
                         break;
 
@@ -95,6 +125,8 @@ public class InstaSalle {
         }
     }
 
+
+    // --------- MENÚ --------------
     private static void mostraMenu() {
         System.out.println(System.lineSeparator() + "[SYS] - MENU");
         System.out.println("[SYS] - \t" + ConstValues.IMPORT_STRING);
@@ -111,4 +143,61 @@ public class InstaSalle {
         System.out.println("[IN] - Opció escollida?");
         return new Scanner(System.in).nextInt();
     }
+    // --------- MENÚ --------------
+
+    // --------- OPCIÓN 1 --------------
+    private static void importaJson() {
+        int importOK = 0;
+        try {
+            usersArray = JsonReader.readUsers();
+            importIntoGraph();
+            // TODO: Importar los usuarios del array a las estructuras
+        } catch (FileNotFoundException e) {
+            importOK++;
+            System.out.println("Fitxer d'usuaris no trobat");
+            usersArray = new Array<User>();
+        }finally {
+            try {
+                postsArray = JsonReader.readPosts();
+                importIntoRBT();
+                // TODO: Importar los posts del array a las estructuras
+            } catch (FileNotFoundException e) {
+                importOK += 2;
+                System.out.println("Fitxer de posts no trobat");
+                postsArray = new Array<Post>();
+            } finally {
+                switch (importOK){
+                    case 0:
+                        System.out.println("Usuaris i Posts carregats satisfactoriament!");
+                        break;
+                    case 1:
+                        System.out.println("Posts carregats satisfactoriament!");
+                        break;
+                    case 2:
+                        System.out.println("Usuaris carregats satisfactoriament!");
+                        break;
+                    case 3:
+                        System.out.println("No s'han carregat ni usuaris ni posts!");
+                        break;
+                }
+            }
+        }
+    }
+
+    private static void importIntoGraph(){
+        int numUsers = usersArray.size();
+        for (int i = 0; i < numUsers; i++){
+            User user = (User)usersArray.get(i);
+            Array<String> next = user.getTo_follow();
+            graph.add(new GraphNode<User>(user, next));
+        }
+    }
+
+    private static void importIntoRBT(){
+        int numPosts = postsArray.size();
+        for (int i = 0; i < numPosts; i++){
+            RBT.insertNode(new RBTnode<Post>((Post)postsArray.get(i)), RBT.getRoot(), null);
+        }
+    }
+    // --------- OPCIÓN 1 --------------
 }

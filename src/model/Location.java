@@ -1,6 +1,8 @@
 package model;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import json.ConstValues;
 
 public class Location {
     private static final int EARTH_RAD = 6371;
@@ -17,6 +19,11 @@ public class Location {
     public Location(JsonArray jsonLocation){
         this.latitude = jsonLocation.get(0).getAsDouble();
         this.longitude = jsonLocation.get(1).getAsDouble();
+    }
+
+    public Location(JsonObject asJsonObject) {
+        this.latitude = asJsonObject.get(ConstValues.JSON_LATITUDE).getAsDouble();
+        this.longitude = asJsonObject.get(ConstValues.JSON_LONGITUDE).getAsDouble();
     }
 
 

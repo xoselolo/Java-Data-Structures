@@ -11,16 +11,16 @@ import java.util.ArrayList;
 public class GraphNode <T>{
     // Attributes
     private T element;
-    private Array<GraphNode<T>> next;
+    private Array<String> next;
 
     // Constructors
     public GraphNode(T element){
         this.element = element;
-        this.next = new Array<GraphNode<T>>();
+        this.next = new Array<String>();
     }
-    public GraphNode(T element, Array<GraphNode<T>> next){
+    public GraphNode(T element, Array<String> next){
         this.element = element;
-        this.next = new Array<GraphNode<T>>(next);
+        this.next = new Array<String>(next);
     }
 
     // Getters & Setters
@@ -30,10 +30,10 @@ public class GraphNode <T>{
     public void setElement(T element) {
         this.element = element;
     }
-    public Array<GraphNode<T>> getNext() {
+    public Array<String> getNext() {
         return next;
     }
-    public void setNext(Array<GraphNode<T>> next) {
+    public void setNext(Array<String> next) {
         this.next = next;
     }
 

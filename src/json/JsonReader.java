@@ -13,7 +13,7 @@ public class JsonReader {
 
     // FILENAMES
     public static String USERS_FILENAME = "files/users.json";
-    public static String POSTS_FILENAME = "files/posts";
+    public static String POSTS_FILENAME = "files/posts.json";
 
     public static Array<User> readUsers() throws FileNotFoundException {
         Array<User> users = new Array<User>();
@@ -34,7 +34,10 @@ public class JsonReader {
         JsonParser parser = new JsonParser();
         JsonArray postsJsonArray = (JsonArray) parser.parse(new FileReader(POSTS_FILENAME));
 
-        // TODO
+        int jsonSize = postsJsonArray.size();
+        for (int i = 0; i < jsonSize; i++){
+            posts.add(new Post(postsJsonArray.get(i).getAsJsonObject()));
+        }
 
         return posts;
     }
