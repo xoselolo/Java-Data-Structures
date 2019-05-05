@@ -1,6 +1,11 @@
 package dataStructures.Trie;
 
 
+import dataStructures.array.Array;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class Trie {
     private TrieRoot root;
 
@@ -9,7 +14,7 @@ public class Trie {
     }
 
     public void insert(String paraula){
-        char[] word = paraula.toCharArray();
+        char[] word = paraula.toLowerCase().toCharArray();
         int indexWord = 0;
         int lengthWord = word.length;
 
@@ -110,27 +115,68 @@ public class Trie {
         }
     }
 
+
+    /** TESTING **/
     public static void main(String[] args) {
         Trie trie = new Trie();
 
-        trie.insert("Luis");
-        trie.insert("Luisinho");
-        trie.insert("Jajajaja");
+        System.out.println("Testing del Trie");
+        int cas = 0;
+        while (cas != 4) {
+            System.out.println("\t1. Inserir paraula\n\t2. AutoCompletar\n\t3. Buscar paraula\n\t4. Sortir\nOpcio:");
+            Scanner sc = new Scanner(System.in);
+            try {
+                cas = sc.nextInt();
+                switch (cas) {
+                    case 1:
+                        System.out.println("Quina paraula vols afegir? ");
+                        String word = sc.next();
+                        trie.insert(word);
+                        break;
 
-        trie.printStructure();
+                    case 2:
+                        System.out.println("Escriu una paraula: ");
+                        word = sc.next();
+                        Array<String> matchings = trie.getMatchingWords(word);
+                        int trobades = matchings.size();
 
-        String word = "Luis";
-        boolean found = trie.search(word);
-        if (found) {
-            System.out.println("S'ha trobat la paraula " + word + " a l'estructura");
-        }
-        else {
-            System.out.println("No s'ha trobat la paraula " + word + " a l'estructura");
+                        if (trobades == 0) {
+                            System.out.println("No s'han trobat paraules que continguin '" + word + "'");
+                        }
+                        else {
+                            for (int i = 0; i < trobades; i++) {
+                                System.out.println(matchings.get(i));
+                            }
+                        }
+                        break;
+
+                    case 3:
+                        System.out.println("Escriu una paraula: ");
+                        word = sc.next();
+                        boolean found = trie.search(word);
+                        if (found) {
+                            System.out.println("S'ha trobat la paraula");
+                        }
+                        else {
+                            System.out.println("No s'ha trobat la paraula");
+                        }
+                        break;
+
+                    case 4:
+                        break;
+
+                    default:
+                        System.out.println("Opcio invalida!");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Numbers only");
+            }
         }
     }
 
     public boolean search(String word) {
-        char[] wordArray = word.toCharArray();
+        char[] wordArray = word.toLowerCase().toCharArray();
 
         if (root == null) {
             return false;
@@ -149,8 +195,11 @@ public class Trie {
     }
 
     private boolean searchI(char[] word, int indexWord, TrieNode father) {
-        if (indexWord == word.length) {
+        if (indexWord == word.length && father.isEndOfWord()) {
             return true;
+        }
+        else if (indexWord == word.length && !father.isEndOfWord()) {
+            return false;
         }
         else {
             int sonsSize = father.getSons().size();
@@ -166,6 +215,67 @@ public class Trie {
         }
     }
 
-    // TODO: Delete a word, add information about how many words are within a node and auto-complete functionallity
+
+    public Array<String> getMatchingWords(String word) {
+        char[] wordArray = word.toLowerCase().toCharArray();
+        Array<String> matchingWords = new Array<>();
+
+        if (root == null) {
+            return matchingWords;
+        }
+        else {
+            int sonSize = root.getSons().size();
+            for (int i = 0; i < sonSize; i++) {
+                if (root.getSons().get(i) instanceof TrieNode) {
+                    if (((TrieNode) root.getSons().get(i)).getLetter() == wordArray[0]) {
+                        char[] actualWord = new char[1];
+                        actualWord[0] = wordArray[0];
+                        getMatchingWordsI(matchingWords,wordArray,actualWord,1,(TrieNode) root.getSons().get(i));
+                    }
+                }
+            }
+        }
+        return matchingWords;
+    }
+
+    private void getMatchingWordsI(Array<String> matchingWords, char[] word, char[] actualWord, int indexWord, TrieNode father) {
+        if (father.isEndOfWord() && word.length == indexWord) {
+            String newWord = String.copyValueOf(actualWord);
+            matchingWords.add(newWord);
+            // A partir de aquí miramos si hay más combinaciones que tengan como principio de palabra la palabra introducida
+            getMatchingAux(matchingWords,newWord,father);
+        }
+        else if (father.hasSons() && indexWord < word.length) {
+            int sonsSize = father.getSons().size();
+            for (int i = 0; i < sonsSize; i++) {
+                if (father.getSons().get(i) instanceof TrieNode) {
+                    if (((TrieNode) father.getSons().get(i)).getLetter() == word[indexWord]) {
+                        getMatchingWordsI(matchingWords, word, (String.copyValueOf(actualWord) + ((TrieNode) father.getSons().get(i)).getLetter()).toCharArray(), ++indexWord, (TrieNode) father.getSons().get(i));
+                        indexWord--;
+                    }
+                }
+            }
+        }
+        else if (!father.isEndOfWord() && word.length == indexWord) {
+            getMatchingAux(matchingWords,String.copyValueOf(actualWord),father);
+        }
+    }
+
+    private void getMatchingAux(Array<String> matchingWords, String newWord, TrieNode father) {
+        if (father.hasSons()) {
+            int sonsSize = father.getSons().size();
+            for (int i = 0; i < sonsSize; i++) {
+                if (father.getSons().get(i) instanceof TrieNode) {
+                    if (((TrieNode) father.getSons().get(i)).isEndOfWord()) {
+                        matchingWords.add(newWord + ((TrieNode) father.getSons().get(i)).getLetter());
+                    }
+                    if (((TrieNode) father.getSons().get(i)).hasSons()) {
+                        getMatchingAux(matchingWords,newWord + ((TrieNode) father.getSons().get(i)).getLetter(),(TrieNode) father.getSons().get(i));
+                    }
+                }
+            }
+        }
+    }
+    // TODO: Delete a word, add information about how many words are within a node
 
 }
