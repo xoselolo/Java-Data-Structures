@@ -56,12 +56,15 @@ public class InstaSalle {
         // Bucle principal del programa
         int option = 0;
         while (option != ConstValues.EXIT8){
+            // Mostrem menu
             mostraMenu();
             try{
+                // Demanem opcio
                 option = demanaOpcio();
             }catch (InputMismatchException e){
                 option = ConstValues.ERROR9;
             }finally {
+
                 switch (option){
                     case ConstValues.IMPORT1:
                         // Importació dels JSON a les estructures
@@ -151,19 +154,16 @@ public class InstaSalle {
         try {
             usersArray = JsonReader.readUsers();
             importIntoGraph();
-            // TODO: Importar los usuarios del array a las estructuras
         } catch (FileNotFoundException e) {
             importOK++;
-            System.out.println("Fitxer d'usuaris no trobat");
             usersArray = new Array<User>();
         }finally {
             try {
                 postsArray = JsonReader.readPosts();
                 importIntoRBT();
-                // TODO: Importar los posts del array a las estructuras
+                importIntoHashTable();
             } catch (FileNotFoundException e) {
                 importOK += 2;
-                System.out.println("Fitxer de posts no trobat");
                 postsArray = new Array<Post>();
             } finally {
                 switch (importOK){
@@ -181,6 +181,14 @@ public class InstaSalle {
                         break;
                 }
             }
+        }
+    }
+
+    private static void importIntoHashTable() {
+        int numPosts = postsArray.size();
+        for (int i = 0; i < numPosts; i++){
+            Post post = (Post)postsArray.get(i);
+            hashTable.add(post, Post.class);
         }
     }
 

@@ -3,9 +3,6 @@ package dataStructures.hashTable;
 import dataStructures.array.Array;
 import dataStructures.struct_interfaces.HashTableInterface;
 import model.Post;
-import model.User;
-
-import javax.annotation.processing.Generated;
 
 public class HashTable <T> implements HashTableInterface {
 
@@ -29,6 +26,10 @@ public class HashTable <T> implements HashTableInterface {
         return POSITIONS;
     }
 
+    private boolean existsElement(T element, int hash){
+        return ((Array<T>)hashTable.get(hash)).hasElement(element);
+    }
+
     @Override
     public int rowSize(int indexRow){
         return ((Array<T>)hashTable.get(indexRow)).size();
@@ -44,7 +45,7 @@ public class HashTable <T> implements HashTableInterface {
         return (T)getRow(rowY).get(elementX);
     }
 
-    @Generated("Not used")
+    @Deprecated
     @Override
     public int hash(Object element, Class c) {
         return 0;
@@ -69,4 +70,6 @@ public class HashTable <T> implements HashTableInterface {
             }
         }
     }
+
+
 }
