@@ -80,6 +80,25 @@ public class NodeFulla {
         }
     }
 
+    public Array<Post> searchPoints (double coord_x, double coord_y){
+        Array<Post> posts = new Array<>();
+        if (regions.size() == 0){
+            posts = points;
+        }else{
+            for (int i = 0; i < regions.size(); i++) {
+                if (isInRegion(coord_x, coord_y, (NodeFulla) regions.get(i))){
+                    NodeFulla n = (NodeFulla) regions.get(i);
+                    posts = n.searchPoints(coord_x, coord_y);
+                }
+            }
+        }
+        return posts;
+    }
+
+    private boolean isInRegion(double coord_x, double coord_y, NodeFulla node) {
+        return (node.getTop_point()[0] <= coord_x && node.getBottom_point()[0] >= coord_x && node.getTop_point()[1] <= coord_y && node.getBottom_point()[1] >= coord_y);
+    }
+
     private void insertInNearRegion(Post info) {
         int indexRegio = 0;
         double distancia = 999999999;
