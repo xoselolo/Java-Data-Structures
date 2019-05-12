@@ -4,11 +4,9 @@ import dataStructures.array.Array;
 
 public class RTree {
 
-    private Array<NodeIntern> root;
+    private NodeFulla root;
 
     public RTree() {
-        root = null;
+        root = new NodeFulla();
     }
-
-
 }
