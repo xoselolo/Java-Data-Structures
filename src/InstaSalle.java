@@ -1,3 +1,6 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.graph.GraphNode;
@@ -10,6 +13,8 @@ import model.Post;
 import model.User;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -74,7 +79,7 @@ public class InstaSalle {
 
                     case ConstValues.EXPORT2:
                         // Exportació de les estructures a arxius JSON
-
+                        exportaJson();
                         break;
 
                     case ConstValues.SHOW3:
@@ -150,7 +155,9 @@ public class InstaSalle {
 
     // --------- OPCIÓN 1 --------------
     private static void importaJson() {
+        System.out.println("[OPT1] - Importació de fitxers!");
         int importOK = 0;
+        System.out.println("[OPT1] - Carregant informació...");
         try {
             usersArray = JsonReader.readUsers();
             importIntoGraph();
@@ -168,16 +175,16 @@ public class InstaSalle {
             } finally {
                 switch (importOK){
                     case 0:
-                        System.out.println("Usuaris i Posts carregats satisfactoriament!");
+                        System.out.println("[OPT1] - Usuaris i Posts carregats satisfactoriament!");
                         break;
                     case 1:
-                        System.out.println("Posts carregats satisfactoriament!");
+                        System.out.println("[OPT1] - Posts carregats satisfactoriament!");
                         break;
                     case 2:
-                        System.out.println("Usuaris carregats satisfactoriament!");
+                        System.out.println("[OPT1] - Usuaris carregats satisfactoriament!");
                         break;
                     case 3:
-                        System.out.println("No s'han carregat ni usuaris ni posts!");
+                        System.out.println("[OPT1] - No s'han carregat ni usuaris ni posts!");
                         break;
                 }
             }
@@ -208,4 +215,45 @@ public class InstaSalle {
         }
     }
     // --------- OPCIÓN 1 --------------
+
+    // --------- OPCIÓN 2 --------------
+    private static void exportaJson(){
+        System.out.println("[OPT2] - Exportació de fitxers");
+        System.out.println("[OPT2] - \t1. Exportació de fitxers en format usuaris i posts");
+        System.out.println("[OPT2] - \t2. Exportació de fitxers en format de totes les estructures");
+
+        try {
+            int opcio = (new Scanner(System.in)).nextInt();
+            switch (opcio){
+                case 1:
+                    // Cas usuaris + posts
+                    System.out.println("[IN] - Especifiqui la ruta del fitxer a exportar corresponent a usuaris:");
+                    String pathUsers = (new Scanner(System.in)).nextLine();
+                    System.out.println("[IN] - Especifiqui la ruta del fitxer a exportar corresponent a posts:");
+                    String pathPosts = (new Scanner(System.in)).nextLine();
+
+                    // ----- Users -----
+                    Writer writer = new FileWriter("files/usersOut.json");
+                    Gson gson = new GsonBuilder().create();
+                    //gson.toJson(usersArray);
+
+                    User user = (User) usersArray.get(0);
+                    gson.toJson(user, writer);
+
+                    int numUsers = usersArray.size();
+
+                    break;
+
+                case 2:
+                    break;
+
+                default:
+                    System.out.println("[OPT2] - Opció no vàlida");
+                    break;
+            }
+        }catch (Exception e){
+            System.out.println("[OPT2] - Opció no vàlida");
+        }
+    }
+    // --------- OPCIÓN 2 --------------
 }
