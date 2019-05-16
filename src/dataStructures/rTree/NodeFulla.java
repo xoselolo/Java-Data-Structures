@@ -95,6 +95,25 @@ public class NodeFulla {
         return posts;
     }
 
+    public void deletaPoint (double coord_x, double coord_y){
+        if (regions.size() == 0){
+            for (int i = 0; i < points.size(); i++){
+                Post p = (Post) points.get(i);
+                if(p.getLocation().getLatitude() == coord_x && p.getLocation().getLongitude() == coord_y){
+                    points.remove(i);
+                    i--;
+                }
+            }
+        }else{
+            for (int i = 0; i < regions.size(); i++) {
+                if (isInRegion(coord_x, coord_y, (NodeFulla) regions.get(i))){
+                    NodeFulla n = (NodeFulla) regions.get(i);
+                    n.deletaPoint(coord_x, coord_y);
+                }
+            }
+        }
+    }
+
     private boolean isInRegion(double coord_x, double coord_y, NodeFulla node) {
         return (node.getTop_point()[0] <= coord_x && node.getBottom_point()[0] >= coord_x && node.getTop_point()[1] <= coord_y && node.getBottom_point()[1] >= coord_y);
     }
