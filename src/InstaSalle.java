@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import dataStructures.Trie.Trie;
 import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.graph.GraphNode;
@@ -15,6 +16,7 @@ import model.User;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -27,6 +29,7 @@ public class InstaSalle {
     private static RBT<Post> RBT;
     private static HashTable<Post> hashTable;
     private static Graph<User> graph;
+    private static Trie trie;
 
     public static void main(String[] args) {
         // Inicialización de las estructuras vacías
@@ -57,6 +60,8 @@ public class InstaSalle {
                 return o1.getUsername().compareTo(o2.getUsername());
             }
         });
+
+        trie = new Trie();
 
         // Bucle principal del programa
         int option = 0;
@@ -102,10 +107,13 @@ public class InstaSalle {
                     case ConstValues.SEARCH6:
                         // Usuari escull quin tipus de informació cercar
                         // Cercar la dada escollida i mostrar-la
+                        showInfo();
 
                         break;
 
                     case ConstValues.LIMIT_MEMORY7:
+                        System.out.println("\tQuin limit de paraules vols?\n");
+                        trie.setNumWords(new Scanner(System.in).nextInt());
                         // Limitar els tries per a guardar un màxim de paraules
                         // En cas de ser inferior al nombre de paraules ja guardades anteriorment
                         // eliminar aquelles paraules
@@ -161,6 +169,7 @@ public class InstaSalle {
         try {
             usersArray = JsonReader.readUsers();
             importIntoGraph();
+            importIntoTrie();
         } catch (FileNotFoundException e) {
             importOK++;
             usersArray = new Array<User>();
@@ -214,6 +223,15 @@ public class InstaSalle {
             RBT.insertNode(new RBTnode<Post>((Post)postsArray.get(i)), RBT.getRoot(), null);
         }
     }
+
+    private static void importIntoTrie() {
+        int numUsers = usersArray.size();
+        for (int i = 0; i < numUsers; i++) {
+            if (usersArray.get(i) instanceof User) {
+                trie.insert(((User) usersArray.get(i)).getUsername());
+            }
+        }
+    }
     // --------- OPCIÓN 1 --------------
 
     // --------- OPCIÓN 2 --------------
@@ -256,4 +274,31 @@ public class InstaSalle {
         }
     }
     // --------- OPCIÓN 2 --------------
+
+
+
+    // --------- OPCIÓN 6 --------------
+    private static void showInfo() {
+        System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t\t1. Visualitza usuaris");
+        int option = new Scanner(System.in).nextInt();
+        switch (option) {
+            case 1:
+                System.out.println("[USERS] Introdueix username: ");
+                String username = new Scanner(System.in).next();
+                Array<String> usernames = trie.getMatchingWords(username);
+                int foundSize = usernames.size();
+                for (int i = 0; i < foundSize; i++) {
+                    System.out.println(usernames.get(i));
+                }
+                break;
+
+            case  2:
+
+                break;
+
+            case 3:
+
+                break;
+        }
+    }
 }

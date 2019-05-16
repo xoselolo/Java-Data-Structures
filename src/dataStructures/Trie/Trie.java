@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Trie {
     private TrieRoot root;
+    private int numWords = 2;
 
     public Trie(){
         this.root = null;
@@ -268,6 +269,9 @@ public class Trie {
                 if (father.getSons().get(i) instanceof TrieNode) {
                     if (((TrieNode) father.getSons().get(i)).isEndOfWord()) {
                         matchingWords.add(newWord + ((TrieNode) father.getSons().get(i)).getLetter());
+                        if (matchingWords.size() == numWords) {
+                            return;
+                        }
                     }
                     if (((TrieNode) father.getSons().get(i)).hasSons()) {
                         getMatchingAux(matchingWords,newWord + ((TrieNode) father.getSons().get(i)).getLetter(),(TrieNode) father.getSons().get(i));
@@ -276,6 +280,10 @@ public class Trie {
             }
         }
     }
+
     // TODO: Delete a word, add information about how many words are within a node
 
+    public void setNumWords(int numWords) {
+        this.numWords = numWords;
+    }
 }
