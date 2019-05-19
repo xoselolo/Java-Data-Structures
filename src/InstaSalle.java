@@ -1,6 +1,5 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import dataStructures.Trie.Trie;
 import dataStructures.array.Array;
 import dataStructures.graph.Graph;
@@ -9,14 +8,13 @@ import dataStructures.hashTable.HashTable;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import json.ConstValues;
-import json.JsonReader;
+import json.JsonFileReader;
 import model.Post;
 import model.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -114,6 +112,7 @@ public class InstaSalle {
                     case ConstValues.LIMIT_MEMORY7:
                         System.out.println("\tQuin limit de paraules vols?\n");
                         trie.setNumWords(new Scanner(System.in).nextInt());
+                        System.out.println("\tLimit de paraules canviat a " + trie.getNumWords());
                         // Limitar els tries per a guardar un màxim de paraules
                         // En cas de ser inferior al nombre de paraules ja guardades anteriorment
                         // eliminar aquelles paraules
@@ -167,7 +166,7 @@ public class InstaSalle {
         int importOK = 0;
         System.out.println("[OPT1] - Carregant informació...");
         try {
-            usersArray = JsonReader.readUsers();
+            usersArray = JsonFileReader.readUsers();
             importIntoGraph();
             importIntoTrie();
         } catch (FileNotFoundException e) {
@@ -175,7 +174,7 @@ public class InstaSalle {
             usersArray = new Array<User>();
         }finally {
             try {
-                postsArray = JsonReader.readPosts();
+                postsArray = JsonFileReader.readPosts();
                 importIntoRBT();
                 importIntoHashTable();
             } catch (FileNotFoundException e) {
@@ -279,26 +278,36 @@ public class InstaSalle {
 
     // --------- OPCIÓN 6 --------------
     private static void showInfo() {
-        System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t\t1. Visualitza usuaris");
-        int option = new Scanner(System.in).nextInt();
-        switch (option) {
-            case 1:
-                System.out.println("[USERS] Introdueix username: ");
-                String username = new Scanner(System.in).next();
-                Array<String> usernames = trie.getMatchingWords(username);
-                int foundSize = usernames.size();
-                for (int i = 0; i < foundSize; i++) {
-                    System.out.println(usernames.get(i));
+        int error;
+        do {
+            System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t\t\t1. Visualitza usuaris");
+            try {
+                error = 0;
+                int option = new Scanner(System.in).nextInt();
+                switch (option) {
+                    case 1:
+                        System.out.println("[USERS] Introdueix username: ");
+                        String username = new Scanner(System.in).next();
+                        Array<String> usernames = trie.getMatchingWords(username);
+                        int foundSize = usernames.size();
+                        for (int i = 0; i < foundSize; i++) {
+                            System.out.println(usernames.get(i));
+                        }
+
+                        break;
+
+                    case  2:
+
+                        break;
+
+                    case 3:
+
+                        break;
                 }
-                break;
-
-            case  2:
-
-                break;
-
-            case 3:
-
-                break;
-        }
+            } catch (InputMismatchException e) {
+                error = 1;
+                System.out.println("[ERR] - Format incorrecte");
+            }
+        } while (error == 1);
     }
 }

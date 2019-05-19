@@ -16,6 +16,10 @@ public class Array<T> {
         this.elements = prevArray.getElements();
     }
 
+    public Array(Object[] prevArray) {
+        this.elements = prevArray;
+    }
+
     // Getters & Setters
     public Object[] getElements() {
         return elements;
@@ -92,6 +96,7 @@ public class Array<T> {
         }
         return false;
     }
+
 
 
     @Deprecated

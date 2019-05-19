@@ -16,6 +16,7 @@ import model.model_interfaces.Hashable;
                 amb els usernames dels usuaris als que segueix.
  */
 public class User implements Hashable{
+
     // Attributes
     private String username;
     private long creation; // timestamp
@@ -73,6 +74,18 @@ public class User implements Hashable{
 
     @Override
     public String toString() {
+        /*
+        int sizeToFollow = to_follow.size();
+        StringBuilder sb = new StringBuilder();
+        sb.append("User{" + "username='" + username + '\'' + ", creation=" + creation + ", to_follow= [");
+        for (int i = 0; i < sizeToFollow; i++) {
+            sb.append("'");
+            sb.append(to_follow.get(i));
+            sb.append("',");
+        }
+        sb.append("]}");
+        return sb.toString();
+        */
         return getUsername();
     }
 }
