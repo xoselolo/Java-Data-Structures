@@ -12,7 +12,7 @@ public class NodeFulla {
     private Array<Post> points;
 
     public NodeFulla(){
-        max_entries = 5;
+        max_entries = 10;
         top_point = new double[2];
         top_point[0] = 0.0;
         top_point[1] = 0.0;
@@ -23,8 +23,8 @@ public class NodeFulla {
         points = new Array<>();
     }
 
-    public NodeFulla(Post post){
-        max_entries = 5;
+    public NodeFulla(Post post, int entries){
+        max_entries = entries;
         top_point = new double[2];
         top_point[0] = post.getLocation().getLatitude();
         top_point[1] = post.getLocation().getLongitude();
@@ -52,22 +52,6 @@ public class NodeFulla {
         this.bottom_point = bottom_point;
     }
 
-    public Array<NodeFulla> getRegions() {
-        return regions;
-    }
-
-    public void setRegions(Array<NodeFulla> regions) {
-        this.regions = regions;
-    }
-
-    public Array<Post> getPoints() {
-        return points;
-    }
-
-    public void setPoints(Array<Post> points) {
-        this.points = points;
-    }
-
     public void insertPoint (Post info, double coord_x, double coord_y){
         if (regions.size() == 0){
             if (points.size() == max_entries){
@@ -77,6 +61,8 @@ public class NodeFulla {
                 expandRegion(coord_x, coord_y);
                 points.add(info);
             }
+        }else{
+            insertInNearRegion(info);
         }
     }
 
@@ -144,16 +130,17 @@ public class NodeFulla {
 
         for (int i = 0; i < points.size(); i++){
             for (int j = i + 1; j < points.size(); j++){
-                if (calcularDistancia((Post)points.get(i),(Post)points.get(i)) > distancia){
-                    distancia = calcularDistancia((Post)points.get(i),(Post)points.get(i));
+                double dist = calcularDistancia((Post)points.get(i),(Post)points.get(j));
+                if (dist > distancia){
+                    distancia = calcularDistancia((Post)points.get(i),(Post)points.get(j));
                     index1 = i;
                     index2 = j;
                 }
             }
         }
 
-        nodeFulla1 = new NodeFulla((Post)points.get(index1));
-        nodeFulla2 = new NodeFulla((Post)points.get(index2));
+        nodeFulla1 = new NodeFulla((Post)points.get(index1), max_entries);
+        nodeFulla2 = new NodeFulla((Post)points.get(index2), max_entries);
 
         for(int i = 0; i < points.size(); i++){
             if (i != index1 && i != index2){
@@ -174,13 +161,19 @@ public class NodeFulla {
     }
 
     private double calcularDistancia(Post post1, Post post2) {
-        return Math.sqrt((post2.getLocation().getLatitude()-post1.getLocation().getLatitude())*(post2.getLocation().getLatitude()-post1.getLocation().getLatitude()) + (post2.getLocation().getLongitude()-post1.getLocation().getLongitude())*(post2.getLocation().getLongitude()-post1.getLocation().getLongitude()));
+        double x2 = post2.getLocation().getLatitude();
+        double x1 = post1.getLocation().getLatitude();
+        double y2 = post2.getLocation().getLongitude();
+        double y1 = post1.getLocation().getLongitude();
+        return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
     }
 
     private double calcularDistancia(Post post1,NodeFulla nf) {
-        double center_x = nf.getBottom_point()[0] - nf.getTop_point()[0];
-        double center_y = nf.getBottom_point()[1] - nf.getTop_point()[1];
-        return Math.sqrt(center_x-post1.getLocation().getLatitude())*(center_x-post1.getLocation().getLatitude()) + (center_y-post1.getLocation().getLongitude())*(center_y-post1.getLocation().getLongitude());
+        double center_x = nf.getTop_point()[0] + (nf.getBottom_point()[0] - nf.getTop_point()[0]) / 2;
+        double center_y = nf.getTop_point()[1] + (nf.getBottom_point()[1] - nf.getTop_point()[1]) / 2;
+        double x1 = post1.getLocation().getLatitude();
+        double y1 = post1.getLocation().getLongitude();
+        return Math.sqrt((center_x-x1)*(center_x-x1) + (center_y-y1)*(center_y-y1));
     }
 
     private void expandRegion(double coord_x, double coord_y) {

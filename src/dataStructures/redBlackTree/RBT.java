@@ -1,7 +1,7 @@
 package dataStructures.redBlackTree;
 
+import com.sun.istack.internal.NotNull;
 import model.User;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 

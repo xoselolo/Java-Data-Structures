@@ -19,6 +19,11 @@ public class Post implements Hashable {
     private Array<String> hashtags;
 
     // Constructor
+
+    public Post (double x, double y){
+        this.location = new Location(x, y);
+    }
+
     public Post(int id, Array<String> liked_by, long published, String published_by,
                 Location location, Array<String> hashtags){
         this.id = id;
