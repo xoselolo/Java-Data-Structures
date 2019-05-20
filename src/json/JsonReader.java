@@ -13,6 +13,7 @@ public class JsonReader {
 
     // FILENAMES
     public static String USERS_FILENAME = "files/users.json";
+    //public static String USERS_FILENAME = "files/usersOut.json";
     public static String POSTS_FILENAME = "files/posts.json";
 
     public static Array<User> readUsers() throws FileNotFoundException {

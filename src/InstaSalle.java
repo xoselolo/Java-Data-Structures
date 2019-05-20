@@ -14,7 +14,11 @@ import model.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -233,14 +237,21 @@ public class InstaSalle {
                     String pathPosts = (new Scanner(System.in)).nextLine();
 
                     // ----- Users -----
-                    Writer writer = new FileWriter("files/usersOut.json");
+                    Gson gson = new Gson();
+                    String jsonToString = gson.toJson(usersArray);
+                    try{
+                        Files.write(Paths.get("files/usersOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    /*Writer writer = new FileWriter("files/usersOut.json");
                     Gson gson = new GsonBuilder().create();
                     //gson.toJson(usersArray);
 
                     User user = (User) usersArray.get(0);
                     gson.toJson(user, writer);
 
-                    int numUsers = usersArray.size();
+                    int numUsers = usersArray.size();*/
 
                     break;
 
