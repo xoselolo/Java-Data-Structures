@@ -1,6 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import dataStructures.Trie.Trie;
 import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.graph.GraphNode;
@@ -8,7 +8,7 @@ import dataStructures.hashTable.HashTable;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import json.ConstValues;
-import json.JsonReader;
+import json.JsonFileReader;
 import model.Post;
 import model.User;
 
@@ -31,6 +31,7 @@ public class InstaSalle {
     private static RBT<Post> RBT;
     private static HashTable<Post> hashTable;
     private static Graph<User> graph;
+    private static Trie trie;
 
     public static void main(String[] args) {
         // Inicialización de las estructuras vacías
@@ -61,6 +62,8 @@ public class InstaSalle {
                 return o1.getUsername().compareTo(o2.getUsername());
             }
         });
+
+        trie = new Trie();
 
         // Bucle principal del programa
         int option = 0;
@@ -106,10 +109,14 @@ public class InstaSalle {
                     case ConstValues.SEARCH6:
                         // Usuari escull quin tipus de informació cercar
                         // Cercar la dada escollida i mostrar-la
+                        showInfo();
 
                         break;
 
                     case ConstValues.LIMIT_MEMORY7:
+                        System.out.println("\tQuin limit de paraules vols?\n");
+                        trie.setNumWords(new Scanner(System.in).nextInt());
+                        System.out.println("\tLimit de paraules canviat a " + trie.getNumWords());
                         // Limitar els tries per a guardar un màxim de paraules
                         // En cas de ser inferior al nombre de paraules ja guardades anteriorment
                         // eliminar aquelles paraules
@@ -163,14 +170,15 @@ public class InstaSalle {
         int importOK = 0;
         System.out.println("[OPT1] - Carregant informació...");
         try {
-            usersArray = JsonReader.readUsers();
+            usersArray = JsonFileReader.readUsers();
             importIntoGraph();
+            importIntoTrie();
         } catch (FileNotFoundException e) {
             importOK++;
             usersArray = new Array<User>();
         }finally {
             try {
-                postsArray = JsonReader.readPosts();
+                postsArray = JsonFileReader.readPosts();
                 importIntoRBT();
                 importIntoHashTable();
             } catch (FileNotFoundException e) {
@@ -216,6 +224,15 @@ public class InstaSalle {
         int numPosts = postsArray.size();
         for (int i = 0; i < numPosts; i++){
             RBT.insertNode(new RBTnode<Post>((Post)postsArray.get(i)), RBT.getRoot(), null);
+        }
+    }
+
+    private static void importIntoTrie() {
+        int numUsers = usersArray.size();
+        for (int i = 0; i < numUsers; i++) {
+            if (usersArray.get(i) instanceof User) {
+                trie.insert(((User) usersArray.get(i)).getUsername());
+            }
         }
     }
     // --------- OPCIÓN 1 --------------
@@ -267,4 +284,41 @@ public class InstaSalle {
         }
     }
     // --------- OPCIÓN 2 --------------
+
+
+
+    // --------- OPCIÓN 6 --------------
+    private static void showInfo() {
+        int error;
+        do {
+            System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t\t\t1. Visualitza usuaris");
+            try {
+                error = 0;
+                int option = new Scanner(System.in).nextInt();
+                switch (option) {
+                    case 1:
+                        System.out.println("[USERS] Introdueix username: ");
+                        String username = new Scanner(System.in).next();
+                        Array<String> usernames = trie.getMatchingWords(username);
+                        int foundSize = usernames.size();
+                        for (int i = 0; i < foundSize; i++) {
+                            System.out.println(usernames.get(i));
+                        }
+
+                        break;
+
+                    case  2:
+
+                        break;
+
+                    case 3:
+
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                error = 1;
+                System.out.println("[ERR] - Format incorrecte");
+            }
+        } while (error == 1);
+    }
 }

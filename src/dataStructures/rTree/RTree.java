@@ -1,6 +1,5 @@
 package dataStructures.rTree;
 
-import dataStructures.array.Array;
 
 public class RTree {
 
@@ -9,4 +8,9 @@ public class RTree {
     public RTree() {
         root = new NodeFulla();
     }
+
+    public NodeFulla getRoot() {
+        return root;
+    }
+
 }

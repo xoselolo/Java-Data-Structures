@@ -19,6 +19,11 @@ public class Post implements Hashable {
     private Array<String> hashtags;
 
     // Constructor
+
+    public Post (double x, double y){
+        this.location = new Location(x, y);
+    }
+
     public Post(int id, Array<String> liked_by, long published, String published_by,
                 Location location, Array<String> hashtags){
         this.id = id;
@@ -39,7 +44,7 @@ public class Post implements Hashable {
 
         this.published = postJsonObject.get(ConstValues.JSON_PUBLISHED_WHEN).getAsLong();
         this.published_by = postJsonObject.get(ConstValues.JSON_PUBLISHED_BY).getAsString();
-        this.location = new Location(postJsonObject.get(ConstValues.JSON_LOCATION).getAsJsonObject());
+        this.location = new Location(postJsonObject.get(ConstValues.JSON_LOCATION).getAsJsonArray());
 
         this.hashtags = new Array<String>();
         JsonArray arrayHashtags = postJsonObject.get(ConstValues.JSON_HASHTAGS).getAsJsonArray();

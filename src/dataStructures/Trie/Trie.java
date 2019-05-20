@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Trie {
     private TrieRoot root;
+    private int numWords = 2;
 
     public Trie(){
         this.root = null;
@@ -257,14 +258,18 @@ public class Trie {
             }
         }
         else if (!father.isEndOfWord() && word.length == indexWord) {
-            getMatchingAux(matchingWords,String.copyValueOf(actualWord),father);
+            if (matchingWords.size() < numWords) {
+                getMatchingAux(matchingWords,String.copyValueOf(actualWord),father);
+            }
         }
     }
 
     private void getMatchingAux(Array<String> matchingWords, String newWord, TrieNode father) {
+        boolean end = false;
         if (father.hasSons()) {
             int sonsSize = father.getSons().size();
-            for (int i = 0; i < sonsSize; i++) {
+            int i = 0;
+            while (i < sonsSize && !end)  {
                 if (father.getSons().get(i) instanceof TrieNode) {
                     if (((TrieNode) father.getSons().get(i)).isEndOfWord()) {
                         matchingWords.add(newWord + ((TrieNode) father.getSons().get(i)).getLetter());
@@ -272,10 +277,22 @@ public class Trie {
                     if (((TrieNode) father.getSons().get(i)).hasSons()) {
                         getMatchingAux(matchingWords,newWord + ((TrieNode) father.getSons().get(i)).getLetter(),(TrieNode) father.getSons().get(i));
                     }
+                    if (matchingWords.size() == numWords) {
+                        end = true;
+                    }
+                    i++;
                 }
             }
         }
     }
+
     // TODO: Delete a word, add information about how many words are within a node
 
+    public void setNumWords(int numWords) {
+        this.numWords = numWords;
+    }
+
+    public int getNumWords() {
+        return numWords;
+    }
 }
