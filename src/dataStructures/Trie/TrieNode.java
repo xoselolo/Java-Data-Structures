@@ -41,4 +41,20 @@ public class TrieNode {
     public boolean hasSons() {
         return this.sons.size() > 0;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        if (isEndOfWord()){
+            builder.append("End of word" + System.lineSeparator());
+        }else{
+            builder.append("Letter " + letter + ":" + System.lineSeparator());
+            int size = sons.size();
+            for (int i = 0; i < size; i++){
+                builder.append(((TrieNode)sons.get(i)).toString());
+            }
+        }
+
+        return builder.toString();
+    }
 }

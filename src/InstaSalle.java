@@ -24,6 +24,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InstaSalle {
+    // Constantes de estructuras para opcion 3 del menu
+    private static final int ERROR = 0;
+    private static final int TRIE = 1;
+    private static final int RTREE = 2;
+    private static final int REDBLACKTREE = 3;
+    private static final int HASHTABLE = 4;
+    private static final int GRAPH = 5;
     // Estructuras lineales
     private static Array<User> usersArray;
     private static Array<Post> postsArray;
@@ -81,7 +88,6 @@ public class InstaSalle {
                     case ConstValues.IMPORT1:
                         // Importació dels JSON a les estructures
                         importaJson();
-
                         break;
 
                     case ConstValues.EXPORT2:
@@ -91,6 +97,8 @@ public class InstaSalle {
 
                     case ConstValues.SHOW3:
                         // Usuari escull quina estructura
+                        int estructura = mostraMenuEstructures();
+                        showStruct(estructura);
                         // Mostrar l'estructura
 
                         break;
@@ -141,6 +149,50 @@ public class InstaSalle {
             }
 
             // TODO: option = demanaOpcio();
+        }
+    }
+
+    private static void showStruct(int estructura) {
+        String output = "--";
+        switch (estructura){
+            case TRIE:
+                output = "Opció escollida: Trie" + System.lineSeparator();
+                //output = output + trie.toString();//todo
+                break;
+            case RTREE:
+                output = "Opció escollida: R-Tree" + System.lineSeparator();
+                // TODO
+                break;
+            case REDBLACKTREE:
+                output = "Opció escollida: RedBlackTree" + System.lineSeparator();
+                output = output + RBT.toString(); //todo
+                break;
+            case HASHTABLE:
+                output = "Opció escollida: Taula de Hash" + System.lineSeparator();
+                output = output + hashTable.toString();//TODO
+                break;
+            case GRAPH:
+                output = "Opció escollida: Graf" + System.lineSeparator();
+                output = output + graph.toString();//TODO
+                break;
+            default:
+                output = "Opció no vàlida!" + System.lineSeparator();
+                break;
+        }
+        System.out.println(output);
+    }
+
+    private static int mostraMenuEstructures() {
+        System.out.println("Quina estructura vols visualitzar?");
+        System.out.println("\t1 - Trie");
+        System.out.println("\t2 - R-Tree");
+        System.out.println("\t3 - Red Black Tree");
+        System.out.println("\t4 - Taula de Hash");
+        System.out.println("\t5 - Graf");
+        try{
+            return (new Scanner(System.in)).nextInt();
+        }catch (Exception e){
+            return 0;
         }
     }
 

@@ -295,4 +295,9 @@ public class Trie {
     public int getNumWords() {
         return numWords;
     }
+
+    @Override
+    public String toString() {
+        return root.toString();
+    }
 }
