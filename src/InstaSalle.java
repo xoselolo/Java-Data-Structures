@@ -107,7 +107,7 @@ public class InstaSalle {
                     case ConstValues.INSERT4:
                         // Usuari escull quin tipus de dades inserir
                         // Inserir la nova dada a les estructures que pertoquin
-
+                        insertInfo();
                         break;
 
                     case ConstValues.DELETE5:
@@ -421,5 +421,82 @@ public class InstaSalle {
                 System.out.println("[ERR] - Format incorrecte");
             }
         } while (error == 1);
+    }
+
+    private static void insertInfo() {
+        System.out.println("Quin tipus d'informació vol inserir?");
+        System.out.print("\t1. Nou Usuari\n\t2. Nou Post\n> ");
+        int option = new Scanner(System.in).nextInt();
+        try {
+            switch (option) {
+                case 1:
+                    insertUser();
+                    break;
+
+                case 2:
+                    insertPost();
+                    break;
+
+                default:
+                    System.out.println("[ERR] - Aquesta opció no és vàlida\n");
+                    break;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("[ERR] - Aquesta opció no és vàlida\n");
+        }
+    }
+
+    private static void insertUser() {
+        boolean error;
+        System.out.print("Nom d'usuari:\n> ");
+        String nomUser = new Scanner(System.in).next();
+        long dataCreacio = -1;
+        do {
+            try {
+                System.out.println("Data de creació:");
+                dataCreacio = new Scanner(System.in).nextLong();
+                error = false;
+            } catch (InputMismatchException e) {
+                System.out.println("[ERR] - Has d'introduir un valor numèric");
+                error = true;
+            }
+        } while (error);
+        char aux = 'Y';
+        Array<String> usersFollowed = new Array<>();
+        do {
+            do {
+                try {
+                    System.out.println("Segueix a algun usuari? [Y/N]");
+                    String input = new Scanner(System.in).next();
+                    if (input.length() > 1) {
+                        error = true;
+                    }
+                    else {
+                        aux = input.charAt(0);
+                        if (aux == 'Y' || aux == 'y') {
+                            System.out.print("> ");
+                            String userFollowed = new Scanner(System.in).next();
+                            usersFollowed.add(userFollowed);
+                        } else if (aux != 'n' && aux != 'N') {
+                            error = true;
+                        } else {
+                            error = false;
+                        }
+                    }
+                } catch (InputMismatchException e) {
+                    error = true;
+                }
+                if (error) {
+                    System.out.println("[ERR] - Has d'introduir Y/y o N/n");
+                }
+            } while (error);
+        } while (aux == 'Y' || aux == 'y');
+        graph.add(new GraphNode<>(new User(nomUser, dataCreacio, usersFollowed)));
+        trie.insert(nomUser);
+        System.out.println("[SYS] - Inserció realitzada amb èxit!\n");
+    }
+
+    private static void insertPost() {
+
     }
 }
