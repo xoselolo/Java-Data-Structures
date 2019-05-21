@@ -50,9 +50,6 @@ public class InstaSalle {
         // Array lineal de posts
         postsArray = new Array<Post>();
 
-        // TODO: Trie para autocompletar
-        // TODO: R-Tree Para indexar posts por LOCALIZACIÓN
-
         // Red Black Tree para indexar posts por ID
         RBT = new RBT<Post>(new Comparator<Post>() {
             @Override
@@ -126,9 +123,14 @@ public class InstaSalle {
                         break;
 
                     case ConstValues.LIMIT_MEMORY7:
-                        System.out.println("\tQuin limit de paraules vols?\n");
-                        trie.setNumWords(new Scanner(System.in).nextInt());
-                        System.out.println("\tLimit de paraules canviat a " + trie.getNumWords());
+                        System.out.print("Quin limit de paraules vols?\n> ");
+                        try {
+                            int numParaules = new Scanner(System.in).nextInt();
+                            trie.setNumWords(numParaules);
+                            System.out.println("Limit de paraules canviat a " + trie.getNumWords());
+                        } catch (InputMismatchException e) {
+                            System.out.println("[ERR] - Valor invàlid");
+                        }
                         // Limitar els tries per a guardar un màxim de paraules
                         // En cas de ser inferior al nombre de paraules ja guardades anteriorment
                         // eliminar aquelles paraules
@@ -151,8 +153,6 @@ public class InstaSalle {
                         break;
                 }
             }
-
-            // TODO: option = demanaOpcio();
         }
     }
 
@@ -430,8 +430,13 @@ public class InstaSalle {
                         String username = new Scanner(System.in).next();
                         Array<String> usernames = trie.getMatchingWords(username);
                         int foundSize = usernames.size();
-                        for (int i = 0; i < foundSize; i++) {
-                            System.out.println(usernames.get(i));
+                        if (foundSize == 0) {
+                            System.out.println("No hi ha cap usuari que coincideixi amb la teva búsqueda");
+                        }
+                        else {
+                            for (int i = 0; i < foundSize; i++) {
+                                System.out.println(usernames.get(i));
+                            }
                         }
 
                         break;

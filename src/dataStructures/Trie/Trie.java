@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Trie {
     private TrieRoot root;
-    private int numWords = 2;
+    private int numWords = 3;
 
     public Trie(){
         this.root = null;
@@ -295,7 +295,7 @@ public class Trie {
                     if (((TrieNode) father.getSons().get(i)).hasSons()) {
                         getMatchingAux(matchingWords,newWord + ((TrieNode) father.getSons().get(i)).getLetter(),(TrieNode) father.getSons().get(i));
                     }
-                    if (matchingWords.size() == numWords) {
+                    if (matchingWords.size() >= numWords) {
                         end = true;
                     }
                     i++;

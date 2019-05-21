@@ -51,6 +51,7 @@ public class Graph<T> {
                 }
             }
         }
+        System.out.println();
     }
 
 }
