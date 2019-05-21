@@ -15,7 +15,6 @@ public class Post implements Hashable {
     private long published; //timestamp
     private String published_by;
     private Location location;
-    // Todo: Atribut hastags (array de hashtags) , de momento lo pondremos como array de Strings
     private Array<String> hashtags;
 
     // Constructor
@@ -104,5 +103,50 @@ public class Post implements Hashable {
         return value % HashTable.POSITIONS;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
 
+        builder.append("Informació del post:");
+        builder.append(System.lineSeparator());
+        builder.append("\tId: ").append(this.id);
+        builder.append(System.lineSeparator());
+        builder.append("\tLiked by:");
+        builder.append(System.lineSeparator());
+        if (this.liked_by.size() == 0){
+            builder.append("\t\tNobody");
+            builder.append(System.lineSeparator());
+        }else{
+            int likedBySize = this.liked_by.size();
+            for (int i = 0; i < likedBySize; i++){
+                builder.append("\t\t").append((String)this.liked_by.get(i));
+                builder.append(System.lineSeparator());
+            }
+        }
+        builder.append("\tPublished: ").append(this.published);
+        builder.append(System.lineSeparator());
+        builder.append("\tPublished by: ").append(this.published_by);
+        builder.append(System.lineSeparator());
+        builder.append("\tLocation:");
+        builder.append(System.lineSeparator());
+        builder.append("\t\tLatitude: ").append(this.location.getLatitude());
+        builder.append(System.lineSeparator());
+        builder.append("\t\tLongitude: ").append(this.location.getLongitude());
+        builder.append(System.lineSeparator());
+        builder.append("\tHashtags:");
+        builder.append(System.lineSeparator());
+        if (this.hashtags.size() == 0){
+            builder.append("\t\tAny");
+            builder.append(System.lineSeparator());
+        }else{
+            int sizeHashtags = this.hashtags.size();
+            for (int i = 0; i < sizeHashtags; i++){
+                builder.append("\t\t").append((String)this.hashtags.get(i));
+                builder.append(System.lineSeparator());
+            }
+        }
+
+
+        return builder.toString();
+    }
 }

@@ -17,7 +17,8 @@ public class JsonFileReader {
     // FILENAMES
     public static String USERS_FILENAME = "files/users.json";
     //public static String USERS_FILENAME = "files/datasets/small/users.json";
-    public static String POSTS_FILENAME = "files/datasets/small/posts.json";
+    public static String POSTS_FILENAME = "files/posts.json";
+    //public static String POSTS_FILENAME = "files/datasets/small/posts.json";
 
     public static Array<User> readUsers() throws FileNotFoundException {
         Array<User> users = new Array<>();

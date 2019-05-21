@@ -1,5 +1,6 @@
 package dataStructures.redBlackTree;
 
+import model.Post;
 import model.User;
 import org.jetbrains.annotations.NotNull;
 
@@ -393,16 +394,18 @@ public class RBT <T>{
      * @param pointer Node where we are findind
      * @return {@code null} when element is not in the tree or the {@code T} element if found
      */
-    public RBTnode<T> search(T element, RBTnode<T> pointer){
+    public T search(T element, RBTnode<T> pointer){
         if (pointer == null){
             return null;
         }else{
             if (comparator.compare(element, pointer.element) < 0){
                 // Left son search
                 return search(element, pointer.fillE);
-            }else{
+            }else if (comparator.compare(element, pointer.element) > 0){
                 // Right son search
                 return search(element, pointer.fillD);
+            }else{
+                return pointer.element;
             }
         }
     }

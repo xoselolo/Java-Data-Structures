@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dataStructures.Trie.Trie;
 import dataStructures.array.Array;
 import dataStructures.graph.Graph;
@@ -13,9 +12,7 @@ import model.Post;
 import model.User;
 
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -117,7 +114,7 @@ public class InstaSalle {
                     case ConstValues.SEARCH6:
                         // Usuari escull quin tipus de informació cercar
                         // Cercar la dada escollida i mostrar-la
-                        showInfo();
+                        searchInfo();
 
                         break;
 
@@ -340,7 +337,7 @@ public class InstaSalle {
 
 
     // --------- OPCIÓN 6 --------------
-    private static void showInfo() {
+    private static void searchInfo() {
         int error;
         do {
             System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t\t\t1. Visualitza usuaris");
@@ -360,6 +357,20 @@ public class InstaSalle {
                         break;
 
                     case  2:
+                        System.out.println("[POSTS] Introdueix id: ");
+                        try{
+                            int postId = new Scanner(System.in).nextInt();
+                            Post found = (Post)RBT.search(new Post(postId, null, 0, null, null, null), RBT.getRoot());
+                            if (found == null){
+                                System.out.println("[POSTS] - Post no trobat :(");
+                            }else{
+                                System.out.println("[POSTS] - Post trobat!");
+                                System.out.println(found.toString());
+                            }
+                        }catch (Exception e){
+                            System.out.println("[SYS] - Valor no vàlid. Només són vàlids valors numèrics enters superiors a 0.");
+                        }
+
 
                         break;
 
