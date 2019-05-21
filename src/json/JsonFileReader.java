@@ -111,9 +111,9 @@ public class JsonFileReader {
                             while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                 hashtags.add(jsonParser.getText());
                             }
+                            posts.add(new Post(id,likedBy,publishedWhen,publishedBy,
+                                    new Location(location[0],location[1]),hashtags));
                         }
-                        posts.add(new Post(id,likedBy,publishedWhen,publishedBy,
-                                new Location(location[0],location[1]),hashtags));
                     }
                 }
             }
