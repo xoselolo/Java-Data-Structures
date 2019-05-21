@@ -7,9 +7,11 @@ import dataStructures.hashTable.HashTable;
 import dataStructures.rTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
+import javafx.geometry.Pos;
 import json.ConstValues;
 import json.JsonFileReader;
 import json.JsonWriter;
+import model.Location;
 import model.Post;
 import model.User;
 
@@ -113,7 +115,7 @@ public class InstaSalle {
                     case ConstValues.DELETE5:
                         // Usuari escull quin tipus de dades esborrar
                         // Esborrar la dada de les estructures que pertoquin
-
+                        deleteInfo();
                         break;
 
                     case ConstValues.SEARCH6:
@@ -376,8 +378,8 @@ public class InstaSalle {
                 int option = new Scanner(System.in).nextInt();
                 switch (option) {
                     case 1:
-                        System.out.println("Saps la localitzacio del Post? [y/n]");
-                        String ubi = new Scanner(System.in).next();
+                        System.out.println("Saps la localitzacio del Post? [Y/N]");
+                        String ubi = new Scanner(System.in).next().toLowerCase();
                         if (ubi.equals("y") || ubi.equals("n")){
                             if (ubi.equals("y")){
                                 System.out.println("Latitude:");
@@ -398,6 +400,10 @@ public class InstaSalle {
                         }
 
                         break;
+
+                    case 2:
+                        // TODO: Delete an user of the structure
+                        break;
                 }
 
 
@@ -414,7 +420,7 @@ public class InstaSalle {
     private static void searchInfo() {
         int error;
         do {
-            System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t\t\t1. Visualitza usuaris");
+            System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t1. Visualitza usuaris per username\n[SYS] - \t2. Visualitza post per id\n[SYS] - \t3. Visualitza posts per coordenades");
             try {
                 error = 0;
                 int option = new Scanner(System.in).nextInt();
@@ -449,18 +455,19 @@ public class InstaSalle {
                         break;
 
                     case 3:
-                        System.out.println("[POSTS] Introdueix latitud: ");
+                        System.out.print("[POSTS] Introdueix latitud: \n> ");
                         double latitud = new Scanner(System.in).nextDouble();
+                        System.out.print("[POSTS] Introdueix longitud: \n> ");
                         double longitud = new Scanner(System.in).nextDouble();
                         try{
                             Array<Post> posts = rTree.getRoot().searchPoints(new Array<>(), latitud, longitud);
-                            System.out.println("Shan trobat "+posts.size()+" posts a prop d'aquesta localitzacio:");
+                            System.out.println("Shan trobat " + posts.size() + " posts a prop d'aquesta localitzacio:");
                             for(int i = 0; i < posts.size(); i++){
                                 Post print_post = (Post) posts.get(i);
                                 print_post.toString();
                             }
                         }catch (Exception e){
-                            System.out.println("[SYS] - Valors de localitzacio no vàlids.");
+                            System.out.println("[SYS] - Coordenades invàlides");
                         }
                         break;
                 }
@@ -501,7 +508,7 @@ public class InstaSalle {
         long dataCreacio = -1;
         do {
             try {
-                System.out.println("Data de creació:");
+                System.out.print("Data de creació:\n> ");
                 dataCreacio = new Scanner(System.in).nextLong();
                 error = false;
             } catch (InputMismatchException e) {
@@ -539,12 +546,119 @@ public class InstaSalle {
                 }
             } while (error);
         } while (aux == 'Y' || aux == 'y');
+        usersArray.add(new User(nomUser,dataCreacio,usersFollowed));
         graph.add(new GraphNode<>(new User(nomUser, dataCreacio, usersFollowed),usersFollowed));
         trie.insert(nomUser);
         System.out.println("[SYS] - Inserció realitzada amb èxit!\n");
     }
 
     private static void insertPost() {
-
+        boolean error = false;
+        int idPost = -1;
+        do {
+            try {
+                System.out.print("ID del post:\n> ");
+                idPost = new Scanner(System.in).nextInt();
+                error = false;
+            } catch (InputMismatchException e) {
+                System.out.println("[ERR] - Has d'introduir un valor numèric");
+                error = true;
+            }
+        } while (error);
+        char aux = 'Y';
+        Array<String> likedBy = new Array<>();
+        do {
+            do {
+                try {
+                    System.out.println("Té likes? [Y/N]");
+                    String input = new Scanner(System.in).next();
+                    if (input.length() > 1) {
+                        error = true;
+                    }
+                    else {
+                        aux = input.charAt(0);
+                        if (aux == 'Y' || aux == 'y') {
+                            System.out.print("> ");
+                            String userLiked = new Scanner(System.in).next();
+                            likedBy.add(userLiked);
+                        } else if (aux != 'n' && aux != 'N') {
+                            error = true;
+                        } else {
+                            error = false;
+                        }
+                    }
+                } catch (InputMismatchException e) {
+                    error = true;
+                }
+                if (error) {
+                    System.out.println("[ERR] - Has d'introduir Y/y o N/n");
+                }
+            } while (error);
+        } while (aux == 'Y' || aux == 'y');
+        long dataPublished = -1;
+        do {
+            try {
+                System.out.print("Data de publicació:\n> ");
+                dataPublished = new Scanner(System.in).nextLong();
+                error = false;
+            } catch (InputMismatchException e) {
+                System.out.println("[ERR] - Has d'introduir un valor numèric");
+                error = true;
+            }
+        } while (error);
+        System.out.print("Qui és l'autor?\n> ");
+        String publishedBy = new Scanner(System.in).next();
+        Location location = new Location(-1, -1);
+        do {
+            try {
+                System.out.print("Coordenada longitud:\n> ");
+                double longitud = new Scanner(System.in).nextDouble();
+                System.out.print("Coordenada latitud:\n> ");
+                double latitud = new Scanner(System.in).nextDouble();
+                location = new Location(latitud, longitud);
+                error = false;
+            } catch (InputMismatchException e) {
+                System.out.println("[ERR] - Has d'introduir un valor numèric");
+                error = true;
+            }
+        } while (error);
+        aux = 'Y';
+        Array<String> hashtags = new Array<>();
+        do {
+            try {
+                System.out.println("Té hashtags? [Y/N]");
+                String input = new Scanner(System.in).next();
+                if (input.length() > 1) {
+                    error = true;
+                }
+                else {
+                    aux = input.charAt(0);
+                    if (aux == 'Y' || aux == 'y') {
+                        System.out.println("Introdueix tots els hashtags separats per un espai:");
+                        System.out.print("> ");
+                        String[] hashtagsAux = new Scanner(System.in).next().split(" ");
+                        int size = hashtagsAux.length;
+                        for (int i = 0; i < size; i++) {
+                            hashtags.add(hashtagsAux[i]);
+                        }
+                        error = false;
+                    } else if (aux != 'n' && aux != 'N') {
+                        error = true;
+                    } else {
+                        error = false;
+                    }
+                }
+            } catch (InputMismatchException e) {
+                error = true;
+            }
+            if (error) {
+                System.out.println("[ERR] - Has d'introduir Y/y o N/n");
+            }
+        } while (error);
+        postsArray.add(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags));
+        // TODO Insert in post RBT
+        hashTable.add(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), Post.class);
+        rTree.getRoot().insertPoint(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), location.getLongitude(), location.getLatitude());
+        System.out.println("[SYS] - Inserció realitzada amb èxit!\n");
     }
 }
