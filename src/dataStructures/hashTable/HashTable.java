@@ -71,5 +71,7 @@ public class HashTable <T> implements HashTableInterface {
         }
     }
 
-
+    public Array<Array<T>> getHashTable() {
+        return hashTable;
+    }
 }

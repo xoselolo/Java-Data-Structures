@@ -84,6 +84,7 @@ public class Trie {
 
     public void printStructure() {
         if (root != null) {
+            System.out.print("[Root]: , [Childs]: ");
             int size = root.getSons().size();
             for (int i = 0; i < size; i++) {
                 if (root.getSons().get(i) instanceof TrieNode) {
@@ -95,23 +96,35 @@ public class Trie {
     }
 
     private void printI(TrieNode father) {
+        System.out.print("[Father]: " + father.getLetter() + ", [Childs]: ");
         if (!father.isEndOfWord()) {
             int numberOfSons = father.getSons().size();
             for (int i = 0; i < numberOfSons; i++) {
                 TrieNode newFather = (TrieNode) father.getSons().get(i);
-                System.out.println(newFather.getLetter());
+                System.out.print(newFather.getLetter() + " ");
+            }
+            System.out.println();
+            for (int i = 0; i < numberOfSons; i++) {
+                TrieNode newFather = (TrieNode) father.getSons().get(i);
                 printI(newFather);
             }
         }
         else {
-            System.out.println("END OF WORD");
             if (father.getSons().size() > 0) {
                 int numberOfSons = father.getSons().size();
                 for (int i = 0; i < numberOfSons; i++) {
                     TrieNode newFather = (TrieNode) father.getSons().get(i);
-                    System.out.println(newFather.getLetter());
+                    System.out.print(newFather.getLetter() + " ");
+                }
+                System.out.println();
+                for (int i = 0; i < numberOfSons; i++) {
+                    TrieNode newFather = (TrieNode) father.getSons().get(i);
                     printI(newFather);
                 }
+            }
+            else {
+                System.out.print("-");
+                System.out.println();
             }
         }
     }

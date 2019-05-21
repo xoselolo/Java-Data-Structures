@@ -38,7 +38,7 @@ public class InstaSalle {
     private static HashTable<Post> hashTable;
     private static Graph<User> graph;
     private static Trie trie;
-    private static RTree rtree;
+    private static RTree rTree;
 
     public static void main(String[] args) {
         // Inicialización de las estructuras vacías
@@ -72,7 +72,7 @@ public class InstaSalle {
 
         trie = new Trie();
 
-        rtree = new RTree();
+        rTree = new RTree();
 
         // Bucle principal del programa
         int option = 0;
@@ -158,8 +158,8 @@ public class InstaSalle {
         String output = "--";
         switch (estructura){
             case TRIE:
-                output = "Opció escollida: Trie" + System.lineSeparator();
-                //output = output + trie.toString();//todo
+                //output = "Opció escollida: Trie" + System.lineSeparator();
+                trie.printStructure();
                 break;
             case RTREE:
                 output = "Opció escollida: R-Tree" + System.lineSeparator();
@@ -232,7 +232,7 @@ public class InstaSalle {
             usersArray = new Array<User>();
         }finally {
             try {
-                JsonFileReader.readPosts(postsArray, RBT, hashTable, rtree);
+                JsonFileReader.readPosts(postsArray, RBT, hashTable, rTree);
                 //importIntoRBT();
                 //importIntoHashTable();
             } catch (FileNotFoundException e) {
@@ -343,11 +343,11 @@ public class InstaSalle {
                                 break;
 
                             case 3:
-
+                                correct = JsonWriter.writeHashTable(hashTable);
                                 break;
 
                             case 4:
-
+                                correct = JsonWriter.writeRTree(rTree);
                                 break;
 
                         }
