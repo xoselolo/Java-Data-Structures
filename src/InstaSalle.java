@@ -373,6 +373,31 @@ public class InstaSalle {
     // --------- OPCIÓN 2 --------------
 
 
+    // --------- OPCIÓN 5 --------------
+    private static void deleteInfo() {
+        int error;
+        do {
+            System.out.println("[SYS] - Quina informació vols eliminar?\n[SYS] - \t\t\t1. Post");
+            try {
+                error = 0;
+                int option = new Scanner(System.in).nextInt();
+                switch (option) {
+                    case 1:
+                        System.out.println();
+
+
+                        break;
+                }
+
+
+            }catch (InputMismatchException e){
+                error = 1;
+                System.out.println("[ERR] - Format incorrecte");
+            }
+
+        }while (error == 1);
+    }
+
 
     // --------- OPCIÓN 6 --------------
     private static void searchInfo() {
@@ -417,7 +442,7 @@ public class InstaSalle {
                         double latitud = new Scanner(System.in).nextDouble();
                         double longitud = new Scanner(System.in).nextDouble();
                         try{
-                            Array<Post> posts = rtree.getRoot().searchPoints(new Array<>(), latitud, longitud);
+                            Array<Post> posts = rTree.getRoot().searchPoints(new Array<>(), latitud, longitud);
                             System.out.println("Shan trobat "+posts.size()+" posts a prop d'aquesta localitzacio:");
                             for(int i = 0; i < posts.size(); i++){
                                 Post print_post = (Post) posts.get(i);
