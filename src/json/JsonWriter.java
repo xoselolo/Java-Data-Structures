@@ -3,7 +3,9 @@ package json;
 import com.google.gson.Gson;
 import dataStructures.Trie.Trie;
 import dataStructures.hashTable.HashTable;
+import dataStructures.rTree.RTree;
 import dataStructures.redBlackTree.RBT;
+import model.Post;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,9 +42,30 @@ public class JsonWriter {
         return correct;
     }
 
-    /*
-    public static boolean writeHashTable(HashTable<> hashTable) {
-
+    public static boolean writeHashTable(HashTable<Post> hashTable) {
+        boolean correct;
+        Gson gson = new Gson();
+        String jsonToString = gson.toJson(hashTable.getHashTable());
+        try {
+            Files.write(Paths.get("files/TrieOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
+            correct = true;
+        } catch (IOException e){
+            correct = false;
+        }
+        return correct;
     }
-    */
+
+    public static boolean writeRTree(RTree rTree) {
+        boolean correct;
+        Gson gson = new Gson();
+        String jsonToString = gson.toJson(rTree.getRoot());
+        try {
+            Files.write(Paths.get("files/TrieOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
+            correct = true;
+        } catch (IOException e){
+            correct = false;
+        }
+        return correct;
+    }
+
 }

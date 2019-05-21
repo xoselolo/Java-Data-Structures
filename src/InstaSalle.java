@@ -4,6 +4,7 @@ import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.graph.GraphNode;
 import dataStructures.hashTable.HashTable;
+import dataStructures.rTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import json.ConstValues;
@@ -37,6 +38,7 @@ public class InstaSalle {
     private static HashTable<Post> hashTable;
     private static Graph<User> graph;
     private static Trie trie;
+    private static RTree rTree;
 
     public static void main(String[] args) {
         // Inicialización de las estructuras vacías
@@ -339,11 +341,11 @@ public class InstaSalle {
                                 break;
 
                             case 3:
-
+                                correct = JsonWriter.writeHashTable(hashTable);
                                 break;
 
                             case 4:
-
+                                //correct = JsonWriter.writeRTree()
                                 break;
 
                         }
