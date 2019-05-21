@@ -82,11 +82,11 @@ public class NodeFulla {
         return posts;
     }
 
-    public void deletePoint (Post post, double coord_x, double coord_y){
+    public void deletePoint (int id, double coord_x, double coord_y){
         if (regions.size() == 0){
             for (int i = 0; i < points.size(); i++){
                 Post p = (Post) points.get(i);
-                if(p.getLocation().getLatitude() == coord_x && p.getLocation().getLongitude() == coord_y && post.getId() == p.getId()){
+                if(p.getLocation().getLatitude() == coord_x && p.getLocation().getLongitude() == coord_y && id == p.getId()){
                     points.remove(i);
                     i--;
                 }
@@ -95,8 +95,25 @@ public class NodeFulla {
             for (int i = 0; i < regions.size(); i++) {
                 if (isInRegion(coord_x, coord_y, (NodeFulla) regions.get(i))){
                     NodeFulla n = (NodeFulla) regions.get(i);
-                    n.deletePoint(post, coord_x, coord_y);
+                    n.deletePoint(id, coord_x, coord_y);
                 }
+            }
+        }
+    }
+
+    public void deletePoint(int id) {
+        if (regions.size() == 0){
+            for (int i = 0; i < points.size(); i++){
+                Post p = (Post) points.get(i);
+                if(id == p.getId()){
+                    points.remove(i);
+                    i--;
+                }
+            }
+        }else{
+            for (int i = 0; i < regions.size(); i++) {
+                NodeFulla n = (NodeFulla) regions.get(i);
+                n.deletePoint(id);
             }
         }
     }

@@ -383,8 +383,26 @@ public class InstaSalle {
                 int option = new Scanner(System.in).nextInt();
                 switch (option) {
                     case 1:
-                        System.out.println();
+                        System.out.println("Saps la localitzacio del Post? [y/n]");
+                        String ubi = new Scanner(System.in).next();
+                        if (ubi.equals("y") || ubi.equals("n")){
+                            if (ubi.equals("y")){
+                                System.out.println("Latitude:");
+                                double latitude = new Scanner(System.in).nextDouble();
+                                System.out.println("Longitud:");
+                                double longitud = new Scanner(System.in).nextDouble();
+                                System.out.println("id:");
+                                int id = new Scanner(System.in).nextInt();
+                                rTree.getRoot().deletePoint(id, latitude, longitud);
+                            }else{
+                                System.out.println("id:");
+                                int id = new Scanner(System.in).nextInt();
+                                rTree.getRoot().deletePoint(id);
+                            }
 
+                        }else{
+                            System.out.println("[ERR] - Format incorrecte");
+                        }
 
                         break;
                 }
