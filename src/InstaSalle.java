@@ -1,5 +1,3 @@
-package main;
-
 import com.google.gson.Gson;
 import dataStructures.Trie.Trie;
 import dataStructures.array.Array;
@@ -10,6 +8,7 @@ import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import json.ConstValues;
 import json.JsonFileReader;
+import json.JsonWriter;
 import model.Post;
 import model.User;
 
@@ -310,8 +309,9 @@ public class InstaSalle {
                     try {
                         Files.write(Paths.get("files/usersOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
                     } catch (IOException e){
-                        e.printStackTrace();
+                        System.out.println("[OPT2] - Opció no vàlida");
                     }
+
                     /*Writer writer = new FileWriter("files/usersOut.json");
                     Gson gson = new GsonBuilder().create();
                     //gson.toJson(usersArray);
@@ -324,6 +324,38 @@ public class InstaSalle {
                     break;
 
                 case 2:
+                    System.out.println("[IN] - Especifiqui l'estructura que desitja exportar:");
+                    System.out.println("\t\t1. Trie\n\t\t2. Red-Black Tree\n\t\t3. Hashtable\n\t\t4. RTree");
+                    try {
+                        int option = (new Scanner(System.in)).nextInt();
+                        boolean correct = false;
+                        switch (option) {
+                            case 1:
+                                correct = JsonWriter.writeTrie(trie);
+                                break;
+
+                            case 2:
+                                correct = JsonWriter.writeRBT(RBT);
+                                break;
+
+                            case 3:
+
+                                break;
+
+                            case 4:
+
+                                break;
+
+                        }
+                        if (!correct) {
+                            System.out.println("[ERR] - No s'ha pogut exportar el JSON d'aquesta estructura");
+                        }
+                        else {
+                            System.out.println("[OK] - S'ha realitzat correctament la exportació");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("[OPT2] - Opció no vàlida");
+                    }
                     break;
 
                 default:
