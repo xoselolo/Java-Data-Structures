@@ -66,15 +66,16 @@ public class NodeFulla {
         }
     }
 
-    public Array<Post> searchPoints (double coord_x, double coord_y){
-        Array<Post> posts = new Array<>();
+    public Array<Post> searchPoints (Array<Post> posts, double coord_x, double coord_y){
         if (regions.size() == 0){
-            posts = points;
+            for (int i = 0; i < points.size(); i++) {
+                posts.add((Post) points.get(i));
+            }
         }else{
             for (int i = 0; i < regions.size(); i++) {
                 if (isInRegion(coord_x, coord_y, (NodeFulla) regions.get(i))){
                     NodeFulla n = (NodeFulla) regions.get(i);
-                    posts = n.searchPoints(coord_x, coord_y);
+                    posts = n.searchPoints(posts, coord_x, coord_y);
                 }
             }
         }
