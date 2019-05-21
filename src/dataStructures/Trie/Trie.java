@@ -84,11 +84,16 @@ public class Trie {
 
     public void printStructure() {
         if (root != null) {
-            System.out.print("[Root]: , [Childs]: ");
+            System.out.print("[Root]: null, [Childs]: ");
             int size = root.getSons().size();
             for (int i = 0; i < size; i++) {
                 if (root.getSons().get(i) instanceof TrieNode) {
-                    System.out.println(((TrieNode) root.getSons().get(i)).getLetter());
+                    System.out.print(((TrieNode) root.getSons().get(i)).getLetter() + " ");
+                }
+            }
+            System.out.println();
+            for (int i = 0; i < size; i++) {
+                if (root.getSons().get(i) instanceof TrieNode) {
                     printI((TrieNode) root.getSons().get(i));
                 }
             }
