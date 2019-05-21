@@ -98,7 +98,6 @@ public class JsonFileReader {
                         if (token.equals("id")) {
                             jsonParser.nextToken();
                             id = jsonParser.getIntValue();
-                            //System.out.println(id);
                         } else if (token.equals("liked_by")) {
                             likedBy = new Array<>();
                             jsonParser.nextToken();

@@ -100,8 +100,8 @@ public class InstaSalle {
                     case ConstValues.SHOW3:
                         // Usuari escull quina estructura
                         int estructura = mostraMenuEstructures();
-                        showStruct(estructura);
                         // Mostrar l'estructura
+                        showStruct(estructura);
 
                         break;
                     case ConstValues.INSERT4:
@@ -155,33 +155,26 @@ public class InstaSalle {
     }
 
     private static void showStruct(int estructura) {
-        String output = "--";
         switch (estructura){
             case TRIE:
-                //output = "Opció escollida: Trie" + System.lineSeparator();
                 trie.printStructure();
                 break;
             case RTREE:
-                output = "Opció escollida: R-Tree" + System.lineSeparator();
                 // TODO
                 break;
             case REDBLACKTREE:
-                output = "Opció escollida: RedBlackTree" + System.lineSeparator();
-                output = output + RBT.toString(); //todo
+                // TODO
                 break;
             case HASHTABLE:
-                output = "Opció escollida: Taula de Hash" + System.lineSeparator();
-                output = output + hashTable.toString();//TODO
+                hashTable.printStructure();
                 break;
             case GRAPH:
-                //output = "Opció escollida: Graf" + System.lineSeparator();
                 graph.printStructure();
                 break;
             default:
-                output = "Opció no vàlida!" + System.lineSeparator();
+                // TODO
                 break;
         }
-        System.out.println(output);
     }
 
     private static int mostraMenuEstructures() {
@@ -201,7 +194,7 @@ public class InstaSalle {
 
     // --------- MENÚ --------------
     private static void mostraMenu() {
-        System.out.println(System.lineSeparator() + "[SYS] - MENU");
+        System.out.println("\n[SYS] - MENU");
         System.out.println("[SYS] - \t" + ConstValues.IMPORT_STRING);
         System.out.println("[SYS] - \t" + ConstValues.EXPORT_STRING);
         System.out.println("[SYS] - \t" + ConstValues.SHOW_STRING);
