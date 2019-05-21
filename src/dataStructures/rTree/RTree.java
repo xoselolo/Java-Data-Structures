@@ -18,7 +18,7 @@ public class RTree {
         return root;
     }
 
-    public static void main (String[] args){
+    /*public static void main (String[] args){
         RTree rt = new RTree();
 
         try {
@@ -34,6 +34,6 @@ public class RTree {
         }
 
         System.out.println("funciona?");
-    }
+    }*/
 
 }

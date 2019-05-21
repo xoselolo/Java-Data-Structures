@@ -1,3 +1,5 @@
+package main;
+
 import com.google.gson.Gson;
 import dataStructures.Trie.Trie;
 import dataStructures.array.Array;
@@ -219,17 +221,17 @@ public class InstaSalle {
         int importOK = 0;
         System.out.println("[OPT1] - Carregant informació...");
         try {
-            usersArray = JsonFileReader.readUsers();
-            importIntoGraph();
-            importIntoTrie();
+            JsonFileReader.readUsers(usersArray, graph, trie);
+            //importIntoGraph();
+            //importIntoTrie();
         } catch (FileNotFoundException e) {
             importOK++;
             usersArray = new Array<User>();
         }finally {
             try {
-                postsArray = JsonFileReader.readPosts();
-                importIntoRBT();
-                importIntoHashTable();
+                JsonFileReader.readPosts(postsArray, RBT, hashTable);
+                //importIntoRBT();
+                //importIntoHashTable();
             } catch (FileNotFoundException e) {
                 importOK += 2;
                 postsArray = new Array<Post>();
@@ -304,10 +306,10 @@ public class InstaSalle {
 
                     // ----- Users -----
                     Gson gson = new Gson();
-                    String jsonToString = gson.toJson(usersArray);
-                    try{
+                    String jsonToString = gson.toJson(usersArray.toArray());
+                    try {
                         Files.write(Paths.get("files/usersOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
-                    }catch (IOException e){
+                    } catch (IOException e){
                         e.printStackTrace();
                     }
                     /*Writer writer = new FileWriter("files/usersOut.json");

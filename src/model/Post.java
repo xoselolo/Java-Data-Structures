@@ -28,6 +28,7 @@ public class Post implements Hashable {
         this.id = id;
         this.liked_by = liked_by;
         this.published = published;
+        this.published_by = published_by;
         this.location = location;
         this.hashtags = hashtags;
     }

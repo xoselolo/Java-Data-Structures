@@ -5,24 +5,34 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import dataStructures.Trie.Trie;
 import dataStructures.array.Array;
+import dataStructures.graph.Graph;
+import dataStructures.graph.GraphNode;
+import dataStructures.hashTable.HashTable;
+import dataStructures.redBlackTree.RBT;
+import dataStructures.redBlackTree.RBTnode;
 import model.Location;
 import model.Post;
 import model.User;
 
 import java.io.*;
+import main.InstaSalle;
 
 public class JsonFileReader {
 
     // FILENAMES
-    public static String USERS_FILENAME = "files/users.json";
+    //public static String USERS_FILENAME = "files/users.json";
     //public static String USERS_FILENAME = "files/datasets/small/users.json";
-    public static String POSTS_FILENAME = "files/posts.json";
+    //public static String USERS_FILENAME = "files/datasets/medium/users.json";
+    public static String USERS_FILENAME = "files/datasets/large/users.json";
+
+    //public static String POSTS_FILENAME = "files/posts.json";
     //public static String POSTS_FILENAME = "files/datasets/small/posts.json";
+    //public static String POSTS_FILENAME = "files/datasets/medium/posts.json";
+    public static String POSTS_FILENAME = "files/datasets/large/posts.json";
 
-    public static Array<User> readUsers() throws FileNotFoundException {
-        Array<User> users = new Array<>();
-
+    public static void readUsers(Array<User> userArray, Graph<User> graph, Trie trie) throws FileNotFoundException {
         try {
             JsonFactory jsonFactory = new JsonFactory();
             JsonParser jsonParser = jsonFactory.createJsonParser(new File(USERS_FILENAME));
@@ -38,7 +48,7 @@ public class JsonFileReader {
                         if (token.equals("username")) {
                             jsonParser.nextToken();
                             username = jsonParser.getText();
-                            System.out.println(username);
+                            //System.out.println(username);
                         } else if (token.equals("creation")) {
                             jsonParser.nextToken();
                             creation = jsonParser.getLongValue();
@@ -48,8 +58,13 @@ public class JsonFileReader {
                             while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                 toFollow.add(jsonParser.getText());
                             }
+
+                            User actualUser = new User(username,creation,toFollow);
+                            userArray.add(actualUser);
+                            graph.add(new GraphNode<User>(actualUser, toFollow));
+                            trie.insert(username);
                         }
-                        users.add(new User(username,creation,toFollow));
+
                     }
                 }
             }
@@ -61,10 +76,9 @@ public class JsonFileReader {
             e.printStackTrace();
         }
 
-        return users;
     }
-    public static Array<Post> readPosts() throws FileNotFoundException {
-        Array<Post> posts = new Array<>();
+    public static void readPosts(Array<Post> postArray, RBT<Post> RBT, HashTable<Post> hashTable) throws FileNotFoundException {
+        //Array<Post> posts = new Array<>();
 
         try {
             JsonFactory jsonFactory = new JsonFactory();
@@ -84,7 +98,7 @@ public class JsonFileReader {
                         if (token.equals("id")) {
                             jsonParser.nextToken();
                             id = jsonParser.getIntValue();
-                            System.out.println(id);
+                            //System.out.println(id);
                         } else if (token.equals("liked_by")) {
                             likedBy = new Array<>();
                             jsonParser.nextToken();
@@ -111,8 +125,12 @@ public class JsonFileReader {
                             while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                                 hashtags.add(jsonParser.getText());
                             }
-                            posts.add(new Post(id,likedBy,publishedWhen,publishedBy,
-                                    new Location(location[0],location[1]),hashtags));
+                            Post actualPost = new Post(id,likedBy,publishedWhen,publishedBy,
+                                    new Location(location[0],location[1]),hashtags);
+
+                            postArray.add(actualPost);
+                            RBT.insertNode(new RBTnode<Post>(actualPost), RBT.getRoot(), null);
+                            hashTable.add(actualPost, Post.class);
                         }
                     }
                 }
@@ -124,6 +142,5 @@ public class JsonFileReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return posts;
     }
 }

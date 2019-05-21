@@ -1,5 +1,6 @@
 package dataStructures.array;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -95,6 +96,11 @@ public class Array<T> {
             }
         }
         return false;
+    }
+
+
+    public Object[] toArray() {
+        return this.elements;
     }
 
 
