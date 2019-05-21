@@ -343,7 +343,6 @@ public class RBT <T>{
         if (root.element == grandpa.element){
             root = pointer;
         }
-        System.out.println();
     }
 
     private boolean cas3a(@NotNull RBTnode<T> pointer) {
