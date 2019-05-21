@@ -72,6 +72,8 @@ public class InstaSalle {
 
         trie = new Trie();
 
+        rTree = new RTree();
+
         // Bucle principal del programa
         int option = 0;
         while (option != ConstValues.EXIT8){
@@ -230,7 +232,7 @@ public class InstaSalle {
             usersArray = new Array<User>();
         }finally {
             try {
-                JsonFileReader.readPosts(postsArray, RBT, hashTable);
+                JsonFileReader.readPosts(postsArray, RBT, hashTable, rTree);
                 //importIntoRBT();
                 //importIntoHashTable();
             } catch (FileNotFoundException e) {
@@ -345,7 +347,7 @@ public class InstaSalle {
                                 break;
 
                             case 4:
-                                //correct = JsonWriter.writeRTree()
+                                //correct = JsonWriter.writeRTree(rTree);
                                 break;
 
                         }

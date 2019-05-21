@@ -12,7 +12,7 @@ public class NodeFulla {
     private Array<Post> points;
 
     public NodeFulla(){
-        max_entries = 10;
+        max_entries = 200;
         top_point = new double[2];
         top_point[0] = 0.0;
         top_point[1] = 0.0;
@@ -81,11 +81,11 @@ public class NodeFulla {
         return posts;
     }
 
-    public void deletaPoint (double coord_x, double coord_y){
+    public void deletePoint (Post post, double coord_x, double coord_y){
         if (regions.size() == 0){
             for (int i = 0; i < points.size(); i++){
                 Post p = (Post) points.get(i);
-                if(p.getLocation().getLatitude() == coord_x && p.getLocation().getLongitude() == coord_y){
+                if(p.getLocation().getLatitude() == coord_x && p.getLocation().getLongitude() == coord_y && post.getId() == p.getId()){
                     points.remove(i);
                     i--;
                 }
@@ -94,7 +94,7 @@ public class NodeFulla {
             for (int i = 0; i < regions.size(); i++) {
                 if (isInRegion(coord_x, coord_y, (NodeFulla) regions.get(i))){
                     NodeFulla n = (NodeFulla) regions.get(i);
-                    n.deletaPoint(coord_x, coord_y);
+                    n.deletePoint(post, coord_x, coord_y);
                 }
             }
         }
