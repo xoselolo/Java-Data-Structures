@@ -21,7 +21,7 @@ public class JsonWriter {
         Gson gson = new Gson();
         String jsonToString = gson.toJson(rbt.getRoot());
         try {
-            Files.write(Paths.get("files/RBTOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
+            Files.write(Paths.get("files/export/RBTOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
             correct = true;
         } catch (IOException e){
             correct = false;
@@ -34,7 +34,7 @@ public class JsonWriter {
         Gson gson = new Gson();
         String jsonToString = gson.toJson(trie.getRoot());
         try {
-            Files.write(Paths.get("files/TrieOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
+            Files.write(Paths.get("files/export/TrieOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
             correct = true;
         } catch (IOException e){
             correct = false;
@@ -47,7 +47,7 @@ public class JsonWriter {
         Gson gson = new Gson();
         String jsonToString = gson.toJson(hashTable.getHashTable());
         try {
-            Files.write(Paths.get("files/TrieOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
+            Files.write(Paths.get("files/export/HashtableOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
             correct = true;
         } catch (IOException e){
             correct = false;
@@ -60,7 +60,7 @@ public class JsonWriter {
         Gson gson = new Gson();
         String jsonToString = gson.toJson(rTree.getRoot());
         try {
-            Files.write(Paths.get("files/TrieOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
+            Files.write(Paths.get("files/export/RTreeOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
             correct = true;
         } catch (IOException e){
             correct = false;

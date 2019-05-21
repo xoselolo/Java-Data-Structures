@@ -347,7 +347,7 @@ public class InstaSalle {
                                 break;
 
                             case 4:
-                                //correct = JsonWriter.writeRTree(rTree);
+                                correct = JsonWriter.writeRTree(rTree);
                                 break;
 
                         }
