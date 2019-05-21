@@ -158,8 +158,8 @@ public class InstaSalle {
         String output = "--";
         switch (estructura){
             case TRIE:
-                output = "Opció escollida: Trie" + System.lineSeparator();
-                //output = output + trie.toString();//todo
+                //output = "Opció escollida: Trie" + System.lineSeparator();
+                trie.printStructure();
                 break;
             case RTREE:
                 output = "Opció escollida: R-Tree" + System.lineSeparator();
