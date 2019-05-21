@@ -15,8 +15,8 @@ public class RBTnode <T> {
         this.element = element;
         this.red = true;
     }
-    public RBTnode(T element, RBTnode pare){
-        this(element);
+    public <Post> RBTnode(T element, RBTnode pare){
+        this.element = element;
         this.pare = pare;
     }
 }

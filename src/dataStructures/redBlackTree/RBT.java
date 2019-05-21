@@ -65,13 +65,13 @@ public class RBT <T>{
         User u6 = new User("Fatima", 1, null);
         User u7 = new User("Gerard", 1, null);
 
+        userRBT.insertNode(new RBTnode<User>(u1), userRBT.root, null);
+        userRBT.insertNode(new RBTnode<User>(u2), userRBT.root, null);
+        userRBT.insertNode(new RBTnode<User>(u3), userRBT.root, null);
         userRBT.insertNode(new RBTnode<User>(u4), userRBT.root, null);
         userRBT.insertNode(new RBTnode<User>(u5), userRBT.root, null);
         userRBT.insertNode(new RBTnode<User>(u6), userRBT.root, null);
-        userRBT.insertNode(new RBTnode<User>(u1), userRBT.root, null);
-        userRBT.insertNode(new RBTnode<User>(u2), userRBT.root, null);
         userRBT.insertNode(new RBTnode<User>(u7), userRBT.root, null);
-        userRBT.insertNode(new RBTnode<User>(u3), userRBT.root, null);
 
         String inOrderTOString = userRBT.inOrderToString();
 
@@ -104,12 +104,11 @@ public class RBT <T>{
      */
     public void insertNode(RBTnode<T> newNode, RBTnode<T> pointer, RBTnode<T> dad){
         if (root == null){
-            root = new RBTnode(newNode.element, null);
+            root = new RBTnode<T>(newNode.element, null);
             root.red = false;
             root.fillE = null;
             root.fillD = null;
-            return;
-        }else{
+        } else {
             if (pointer == null){
                 // Node is null
                 // It's a leaf
@@ -147,7 +146,7 @@ public class RBT <T>{
                     cas3bRotation(pointer);
                 }
 
-            }else{
+            } else {
                 // Go down until not a leaf
                 if (comparator.compare(newNode.element, pointer.element) < 0){
                     // Down to left son
@@ -331,6 +330,9 @@ public class RBT <T>{
             pointer.pare = grandpa.pare;
             pointer.pare.fillD = pointer;
         }
+        else {
+            pointer.pare = null;
+        }
         grandpa.pare = pointer;
         grandpa.fillD = pointer.fillE;
         if (grandpa.fillD != null){
@@ -341,6 +343,7 @@ public class RBT <T>{
         if (root.element == grandpa.element){
             root = pointer;
         }
+        System.out.println();
     }
 
     private boolean cas3a(@NotNull RBTnode<T> pointer) {
