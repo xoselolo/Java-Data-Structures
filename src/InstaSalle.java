@@ -4,6 +4,7 @@ import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.graph.GraphNode;
 import dataStructures.hashTable.HashTable;
+import dataStructures.rTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import json.ConstValues;
@@ -37,6 +38,7 @@ public class InstaSalle {
     private static HashTable<Post> hashTable;
     private static Graph<User> graph;
     private static Trie trie;
+    private static RTree rtree;
 
     public static void main(String[] args) {
         // Inicialización de las estructuras vacías
@@ -69,6 +71,8 @@ public class InstaSalle {
         });
 
         trie = new Trie();
+
+        rtree = new RTree();
 
         // Bucle principal del programa
         int option = 0;
@@ -228,7 +232,7 @@ public class InstaSalle {
             usersArray = new Array<User>();
         }finally {
             try {
-                JsonFileReader.readPosts(postsArray, RBT, hashTable);
+                JsonFileReader.readPosts(postsArray, RBT, hashTable, rtree);
                 //importIntoRBT();
                 //importIntoHashTable();
             } catch (FileNotFoundException e) {
