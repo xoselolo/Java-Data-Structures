@@ -307,10 +307,10 @@ public class InstaSalle {
 
                     // ----- Users -----
                     Gson gson = new Gson();
-                    String jsonToString = gson.toJson(usersArray);
-                    try{
+                    String jsonToString = gson.toJson(usersArray.toArray());
+                    try {
                         Files.write(Paths.get("files/usersOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
-                    }catch (IOException e){
+                    } catch (IOException e){
                         e.printStackTrace();
                     }
                     /*Writer writer = new FileWriter("files/usersOut.json");
