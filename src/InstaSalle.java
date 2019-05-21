@@ -174,8 +174,8 @@ public class InstaSalle {
                 output = output + hashTable.toString();//TODO
                 break;
             case GRAPH:
-                output = "Opció escollida: Graf" + System.lineSeparator();
-                output = output + graph.toString();//TODO
+                //output = "Opció escollida: Graf" + System.lineSeparator();
+                graph.printStructure();
                 break;
             default:
                 output = "Opció no vàlida!" + System.lineSeparator();
@@ -528,7 +528,7 @@ public class InstaSalle {
                 }
             } while (error);
         } while (aux == 'Y' || aux == 'y');
-        graph.add(new GraphNode<>(new User(nomUser, dataCreacio, usersFollowed)));
+        graph.add(new GraphNode<>(new User(nomUser, dataCreacio, usersFollowed),usersFollowed));
         trie.insert(nomUser);
         System.out.println("[SYS] - Inserció realitzada amb èxit!\n");
     }
