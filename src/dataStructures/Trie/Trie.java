@@ -296,6 +296,10 @@ public class Trie {
         return numWords;
     }
 
+    public TrieRoot getRoot() {
+        return this.root;
+    }
+
     @Override
     public String toString() {
         return root.toString();
