@@ -410,6 +410,7 @@ public class InstaSalle {
                         if (trie.search(username)) {
                             // Si existeix aquest usuari dins l'estructura
                             trie.deleteWord(username);
+                            usersArray.remove(username);
                         }
                         else {
                             System.out.println("[ERR] - Aquest usuari no existeix al nostre sistema");
