@@ -4,14 +4,16 @@ import dataStructures.array.Array;
 
 public class TrieNode {
     private boolean endOfWord;
+    private int numOfWords;
     private char letter;
     private TrieNode ant;
     private Array<TrieNode> sons;
 
-    public TrieNode(char letter, boolean endOfWord){
+    public TrieNode(char letter, boolean endOfWord, int numOfWords){
         this.endOfWord = endOfWord;
         this.letter = letter;
         sons = new Array<>();
+        this.numOfWords = numOfWords;
     }
 
     public void setFather(TrieNode father) {
@@ -40,6 +42,18 @@ public class TrieNode {
 
     public boolean hasSons() {
         return this.sons.size() > 0;
+    }
+
+    public void addNumOfWords() {
+        this.numOfWords++;
+    }
+
+    public void lessNumOfWords() {
+        this.numOfWords--;
+    }
+
+    public int getNumOfWords() {
+        return this.numOfWords;
     }
 
     @Override

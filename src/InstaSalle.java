@@ -370,11 +370,11 @@ public class InstaSalle {
 
     // --------- OPCIÓN 5 --------------
     private static void deleteInfo() {
-        int error;
+        boolean error;
         do {
-            System.out.println("[SYS] - Quina informació vols eliminar?\n[SYS] - \t\t\t1. Post");
+            System.out.println("[SYS] - Quina informació vols eliminar?\n[SYS] - \t1. Post\n[SYS] - \t2. Usuari");
             try {
-                error = 0;
+                error = false;
                 int option = new Scanner(System.in).nextInt();
                 switch (option) {
                     case 1:
@@ -382,37 +382,48 @@ public class InstaSalle {
                         String ubi = new Scanner(System.in).next().toLowerCase();
                         if (ubi.equals("y") || ubi.equals("n")){
                             if (ubi.equals("y")){
-                                System.out.println("Latitude:");
+                                System.out.println("Latitude:\n> ");
                                 double latitude = new Scanner(System.in).nextDouble();
-                                System.out.println("Longitud:");
+                                System.out.print("Longitud:\n> ");
                                 double longitud = new Scanner(System.in).nextDouble();
-                                System.out.println("id:");
+                                System.out.print("Id:\n> ");
                                 int id = new Scanner(System.in).nextInt();
                                 rTree.getRoot().deletePoint(id, latitude, longitud);
-                            }else{
-                                System.out.println("id:");
+                            }
+                            else {
+                                System.out.println("Id:");
                                 int id = new Scanner(System.in).nextInt();
                                 rTree.getRoot().deletePoint(id);
                             }
-
-                        }else{
+                            // TODO: delete from hashtable and RBT
+                            System.out.println("Post borrat del sistema amb èxit!");
+                        }
+                        else {
                             System.out.println("[ERR] - Format incorrecte");
                         }
 
                         break;
 
                     case 2:
-                        // TODO: Delete an user of the structure
+                        System.out.print("Quin username té l'usuari que vols eliminar?\n> ");
+                        String username = new Scanner(System.in).next();
+                        if (trie.search(username)) {
+                            // Si existeix aquest usuari dins l'estructura
+                            trie.deleteWord(username);
+                        }
+                        else {
+                            System.out.println("[ERR] - Aquest usuari no existeix al nostre sistema");
+                        }
                         break;
                 }
 
 
             }catch (InputMismatchException e){
-                error = 1;
+                error = true;
                 System.out.println("[ERR] - Format incorrecte");
             }
 
-        }while (error == 1);
+        }while (error);
     }
 
 

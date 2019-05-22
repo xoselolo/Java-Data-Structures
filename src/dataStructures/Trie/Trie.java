@@ -22,10 +22,10 @@ public class Trie {
         if (root == null) {
             root = new TrieRoot();
             if (lengthWord == 1) {
-                root.addSon(new TrieNode(word[indexWord],true));
+                root.addSon(new TrieNode(word[indexWord],true,1));
             }
             else {
-                TrieNode fill = new TrieNode(word[indexWord],false);
+                TrieNode fill = new TrieNode(word[indexWord],false,1);
                 root.addSon(fill);
                 insertI(word,++indexWord,lengthWord,fill);
             }
@@ -34,6 +34,7 @@ public class Trie {
             int sizeSons = root.getSons().size();
             for (int i = 0; i < sizeSons; i++) {
                 if (((TrieNode) root.getSons().get(i)).getLetter() == word[indexWord]) {
+                    ((TrieNode) root.getSons().get(i)).addNumOfWords();
                     insertI(word,++indexWord,lengthWord,(TrieNode) root.getSons().get(i));
                     return;
                 }
@@ -41,10 +42,10 @@ public class Trie {
 
             // Si arriba aquí, vol dir que la lletra de la paraula no es troba emmagatzemada com a fill del TrieNode father
             if (lengthWord == 1) {
-                root.addSon(new TrieNode(word[indexWord],true));
+                root.addSon(new TrieNode(word[indexWord],true,1));
             }
             else {
-                TrieNode newSon = new TrieNode(word[indexWord],false);
+                TrieNode newSon = new TrieNode(word[indexWord],false,1);
                 root.addSon(newSon);
                 insertI(word,++indexWord,lengthWord,newSon);
             }
@@ -58,6 +59,7 @@ public class Trie {
             for (int i = 0; i < sizeSons; i++) {
                 if (father.getSons().get(i) instanceof TrieNode) {
                     if (((TrieNode) father.getSons().get(i)).getLetter() == word[indexWord]) {
+                        ((TrieNode) father.getSons().get(i)).addNumOfWords();
                         insertI(word,++indexWord,lengthWord,(TrieNode) father.getSons().get(i));
                         return;
                     }
@@ -68,10 +70,10 @@ public class Trie {
             for (int i = indexWord; i < lengthWord; i++) {
                 TrieNode newSon;
                 if (i < lengthWord - 1) {
-                    newSon = new TrieNode(word[i],false);
+                    newSon = new TrieNode(word[i],false,1);
                 }
                 else {
-                    newSon = new TrieNode(word[i],true);
+                    newSon = new TrieNode(word[i],true,1);
                 }
                 father.addSon(newSon);
                 father = newSon;
@@ -141,8 +143,8 @@ public class Trie {
 
         System.out.println("Testing del Trie");
         int cas = 0;
-        while (cas != 4) {
-            System.out.println("\t1. Inserir paraula\n\t2. AutoCompletar\n\t3. Buscar paraula\n\t4. Sortir\nOpcio:");
+        while (cas != 5) {
+            System.out.println("\t1. Inserir paraula\n\t2. AutoCompletar\n\t3. Buscar paraula\n\t4. Eliminar paraula\n\t5. Sortir\nOpcio: ");
             Scanner sc = new Scanner(System.in);
             try {
                 cas = sc.nextInt();
@@ -182,6 +184,13 @@ public class Trie {
                         break;
 
                     case 4:
+                        System.out.println("Escriu una paraula: ");
+                        word = sc.next();
+                        trie.deleteWord(word);
+                        System.out.println("S'ha eliminat satisfactoriament!");
+                        break;
+
+                    case 5:
                         break;
 
                     default:
@@ -299,6 +308,59 @@ public class Trie {
                         end = true;
                     }
                     i++;
+                }
+            }
+        }
+    }
+
+    public void deleteWord(String word) {
+        boolean found = search(word);
+        if (found) {
+            int sonsSize = root.getSons().size();
+            int i = 0;
+            while (i < sonsSize) {
+                if (word.charAt(0) == ((TrieNode)root.getSons().get(i)).getLetter() && ((TrieNode)root.getSons().get(i)).getNumOfWords() < 2) {
+                    deleteI(word.toCharArray(), 1, (TrieNode) root.getSons().get(i), true);
+                    root.getSons().remove(i);
+                } else if (word.charAt(0) == ((TrieNode)root.getSons().get(i)).getLetter() && ((TrieNode)root.getSons().get(i)).getNumOfWords() > 1) {
+                    ((TrieNode) root.getSons().get(i)).lessNumOfWords();
+                    deleteI(word.toCharArray(), 1, (TrieNode) root.getSons().get(i), false);
+                }
+                i++;
+            }
+        }
+        else {
+            System.out.println("[ERR] - No s'ha trobat l'usuari amb username " + word + " a l'estructura");
+        }
+    }
+
+    private void deleteI(char[] word, int indexWord, TrieNode father, boolean delete) {
+        // Quiere decir que se tienen que borrar todos los nodos de la estructura hasta llegar al final de la palabra
+        if (delete) {
+            if (indexWord < word.length) {
+                // Al entrar en este if ya se ha comprovado que solo tiene un hijo porque el padre solo tiene una palabra
+                deleteI(word, ++indexWord, (TrieNode) father.getSons().get(0), delete);
+                father.getSons().remove(0);
+            }
+        }
+        else {
+            if (indexWord == word.length) {
+                if (father.isEndOfWord() && father.hasSons()) {
+                    father.setEndOfWord(false);
+                }
+            }
+            else {
+                int sonsSize = father.getSons().size();
+                for (int i = 0; i < sonsSize; i++) {
+                    if (((TrieNode)father.getSons().get(i)).getLetter() == word[indexWord]) {
+                        ((TrieNode) father.getSons().get(i)).lessNumOfWords();
+                        if (((TrieNode) father.getSons().get(i)).getNumOfWords() == 0) {
+                            father.getSons().remove(i);
+                        }
+                        else {
+                            deleteI(word, ++indexWord, (TrieNode) father.getSons().get(i), false);
+                        }
+                    }
                 }
             }
         }
