@@ -411,6 +411,7 @@ public class InstaSalle {
                             // Si existeix aquest usuari dins l'estructura
                             trie.deleteWord(username);
                             usersArray.remove(username);
+                            graph.remove(username);
                         }
                         else {
                             System.out.println("[ERR] - Aquest usuari no existeix al nostre sistema");
