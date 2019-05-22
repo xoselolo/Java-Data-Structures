@@ -7,7 +7,7 @@ import model.Post;
 public class HashTable <T> implements HashTableInterface {
 
     // Const Values
-    public static final int POSITIONS = 10;
+    public static final int POSITIONS = 100;
 
     // Attributes
     private Array<Array<T>> hashTable;
@@ -86,5 +86,19 @@ public class HashTable <T> implements HashTableInterface {
             }
             System.out.println();
         }
+    }
+
+    public boolean deletePost(Post post) {
+        int numHashtags = post.getHashtags().size();
+        for (int i = 0; i < numHashtags; i++) {
+            int hashValue = post.hash(i);
+            if (getRow(hashValue).hasElement((T) post)){
+                int deletePos = getRow(hashValue).getElementPosition((T) post);
+                getRow(hashValue).remove(deletePos);
+                return true;
+                // TODO : Change for addOrdered method of array
+            }
+        }
+        return false;
     }
 }

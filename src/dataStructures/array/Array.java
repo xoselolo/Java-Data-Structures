@@ -100,6 +100,17 @@ public class Array<T> {
         return false;
     }
 
+    public int getElementPosition(T element) {
+        int size = elements.length;
+
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(element)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     public Object[] toArray() {
         return this.elements;

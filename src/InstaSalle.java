@@ -380,6 +380,7 @@ public class InstaSalle {
             try {
                 error = false;
                 int option = new Scanner(System.in).nextInt();
+                int id = -1;
                 switch (option) {
                     case 1:
                         System.out.println("Saps la localitzacio del Post? [Y/N]");
@@ -391,16 +392,31 @@ public class InstaSalle {
                                 System.out.print("Longitud:\n> ");
                                 double longitud = new Scanner(System.in).nextDouble();
                                 System.out.print("Id:\n> ");
-                                int id = new Scanner(System.in).nextInt();
+                                id = new Scanner(System.in).nextInt();
                                 rTree.getRoot().deletePoint(id, latitude, longitud);
                             }
                             else {
-                                System.out.println("Id:");
-                                int id = new Scanner(System.in).nextInt();
+                                System.out.println("Id:\n> ");
+                                id = new Scanner(System.in).nextInt();
                                 rTree.getRoot().deletePoint(id);
                             }
-                            // TODO: delete from hashtable and RBT
-                            System.out.println("Post borrat del sistema amb èxit!");
+                            int postsSize = postsArray.size();
+                            int indexPost = -1;
+                            for (int i = 0; i < postsSize; i++) {
+                                if (((Post)(postsArray.get(i))).getId() == id) {
+                                    indexPost = i;
+                                    break;
+                                }
+                            }
+                            if (indexPost == -1) {
+                                System.out.println("[ERR] - Error eliminació RTree");
+                            }
+                            else {
+                                Post post = (Post) postsArray.get(indexPost);
+                                // TODO: delete from RBT
+                                hashTable.deletePost(post);
+                                System.out.println("Post borrat del sistema amb èxit!");
+                            }
                         }
                         else {
                             System.out.println("[ERR] - Format incorrecte");
@@ -416,6 +432,7 @@ public class InstaSalle {
                             trie.deleteWord(username);
                             usersArray.remove(username);
                             graph.remove(username);
+                            System.out.println("Usuari borrat del sistema amb èxit!");
                         }
                         else {
                             System.out.println("[ERR] - Aquest usuari no existeix al nostre sistema");
@@ -429,8 +446,7 @@ public class InstaSalle {
                 System.out.println("[ERR] - Format incorrecte");
             }
 
-        }while (error);
-        System.out.println("S'ha eliminat amb èxit!");
+        } while (error);
     }
 
 
