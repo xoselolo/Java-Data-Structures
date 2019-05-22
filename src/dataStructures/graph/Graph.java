@@ -58,8 +58,7 @@ public class Graph<T> {
     }
 
     public void remove(String username) {
-        int size = adjacencyList.size();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < adjacencyList.size(); i++) {
             if (adjacencyList.get(i) instanceof GraphNode) {
                 if (((User)((GraphNode) adjacencyList.get(i)).getElement()).getUsername().equals(username)) {
                     adjacencyList.remove(i);

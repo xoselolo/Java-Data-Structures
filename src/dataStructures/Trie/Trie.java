@@ -350,8 +350,7 @@ public class Trie {
                 }
             }
             else {
-                int sonsSize = father.getSons().size();
-                for (int i = 0; i < sonsSize; i++) {
+                for (int i = 0; i < father.getSons().size(); i++) {
                     if (((TrieNode)father.getSons().get(i)).getLetter() == word[indexWord]) {
                         ((TrieNode) father.getSons().get(i)).lessNumOfWords();
                         if (((TrieNode) father.getSons().get(i)).getNumOfWords() == 0) {

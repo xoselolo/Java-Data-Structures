@@ -426,6 +426,7 @@ public class InstaSalle {
             }
 
         }while (error);
+        System.out.println("S'ha eliminat amb èxit!");
     }
 
 
