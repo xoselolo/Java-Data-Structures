@@ -138,7 +138,8 @@ public class InstaSalle {
                         break;
 
                     case ConstValues.EXIT8:
-                        // Sortir (mostrar missatge d'acumiadament)
+                        // Sortir
+                        System.out.println("Fins aviat!");
 
                         break;
 
@@ -162,10 +163,10 @@ public class InstaSalle {
                 trie.printStructure();
                 break;
             case RTREE:
-                // TODO
+                // TODO: R-Tree visualization
                 break;
             case REDBLACKTREE:
-                // TODO
+                // TODO: RBT visualization
                 break;
             case HASHTABLE:
                 hashTable.printStructure();
@@ -174,7 +175,7 @@ public class InstaSalle {
                 graph.printStructure();
                 break;
             default:
-                // TODO
+                System.out.println("[ERR] - Opcio invàlida");
                 break;
         }
     }
@@ -297,28 +298,28 @@ public class InstaSalle {
             switch (opcio){
                 case 1:
                     // Cas usuaris + posts
-                    System.out.println("[IN] - Especifiqui la ruta del fitxer a exportar corresponent a usuaris:");
+                    System.out.println("[IN] - Especifiqui la ruta del fitxer a exportar corresponent a usuaris (Recomanació: files/___.json): ");
                     String pathUsers = (new Scanner(System.in)).nextLine();
-                    System.out.println("[IN] - Especifiqui la ruta del fitxer a exportar corresponent a posts:");
+                    System.out.println("[IN] - Especifiqui la ruta del fitxer a exportar corresponent a posts (Recomanació: files/___.json): ");
                     String pathPosts = (new Scanner(System.in)).nextLine();
 
                     // ----- Users -----
                     Gson gson = new Gson();
                     String jsonToString = gson.toJson(usersArray.toArray());
                     try {
-                        Files.write(Paths.get("files/usersOut.json"), jsonToString.getBytes(), StandardOpenOption.CREATE);
+                        Files.write(Paths.get(pathUsers), jsonToString.getBytes(), StandardOpenOption.CREATE);
                     } catch (IOException e){
                         System.out.println("[OPT2] - Opció no vàlida");
                     }
 
-                    /*Writer writer = new FileWriter("files/usersOut.json");
-                    Gson gson = new GsonBuilder().create();
-                    //gson.toJson(usersArray);
-
-                    User user = (User) usersArray.get(0);
-                    gson.toJson(user, writer);
-
-                    int numUsers = usersArray.size();*/
+                    // ----- Posts -----
+                    gson = new Gson();
+                    jsonToString = gson.toJson(postsArray.toArray());
+                    try {
+                        Files.write(Paths.get(pathPosts), jsonToString.getBytes(), StandardOpenOption.CREATE);
+                    } catch (IOException e){
+                        System.out.println("[OPT2] - Opció no vàlida");
+                    }
 
                     break;
 
@@ -334,7 +335,8 @@ public class InstaSalle {
                                 break;
 
                             case 2:
-                                correct = JsonWriter.writeRBT(RBT);
+                                // TODO: export from RBT to Json
+                                //correct = JsonWriter.writeRBT(RBT);
                                 break;
 
                             case 3:
@@ -364,6 +366,8 @@ public class InstaSalle {
         }catch (Exception e){
             System.out.println("[OPT2] - Opció no vàlida");
         }
+
+        System.out.println("Exportació realitzada amb èxit!");
     }
     // --------- OPCIÓN 2 --------------
 
@@ -675,7 +679,7 @@ public class InstaSalle {
             }
         } while (error);
         postsArray.add(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags));
-        // TODO Insert in post RBT
+        // TODO: insert in post RBT
         hashTable.add(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), Post.class);
         rTree.getRoot().insertPoint(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), location.getLongitude(), location.getLatitude());
         System.out.println("[SYS] - Inserció realitzada amb èxit!\n");

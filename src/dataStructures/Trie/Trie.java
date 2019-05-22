@@ -365,8 +365,6 @@ public class Trie {
         }
     }
 
-    // TODO: Delete a word, add information about how many words are within a node
-
     public void setNumWords(int numWords) {
         this.numWords = numWords;
     }
