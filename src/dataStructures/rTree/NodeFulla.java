@@ -12,7 +12,7 @@ public class NodeFulla {
     private Array<Post> points;
 
     public NodeFulla(){
-        max_entries = 10;
+        max_entries = 200;
         top_point = new double[2];
         top_point[0] = 0.0;
         top_point[1] = 0.0;
@@ -66,26 +66,27 @@ public class NodeFulla {
         }
     }
 
-    public Array<Post> searchPoints (double coord_x, double coord_y){
-        Array<Post> posts = new Array<>();
+    public Array<Post> searchPoints (Array<Post> posts, double coord_x, double coord_y){
         if (regions.size() == 0){
-            posts = points;
+            for (int i = 0; i < points.size(); i++) {
+                posts.add((Post) points.get(i));
+            }
         }else{
             for (int i = 0; i < regions.size(); i++) {
                 if (isInRegion(coord_x, coord_y, (NodeFulla) regions.get(i))){
                     NodeFulla n = (NodeFulla) regions.get(i);
-                    posts = n.searchPoints(coord_x, coord_y);
+                    posts = n.searchPoints(posts, coord_x, coord_y);
                 }
             }
         }
         return posts;
     }
 
-    public void deletaPoint (double coord_x, double coord_y){
+    public void deletePoint (int id, double coord_x, double coord_y){
         if (regions.size() == 0){
             for (int i = 0; i < points.size(); i++){
                 Post p = (Post) points.get(i);
-                if(p.getLocation().getLatitude() == coord_x && p.getLocation().getLongitude() == coord_y){
+                if(p.getLocation().getLatitude() == coord_x && p.getLocation().getLongitude() == coord_y && id == p.getId()){
                     points.remove(i);
                     i--;
                 }
@@ -94,8 +95,25 @@ public class NodeFulla {
             for (int i = 0; i < regions.size(); i++) {
                 if (isInRegion(coord_x, coord_y, (NodeFulla) regions.get(i))){
                     NodeFulla n = (NodeFulla) regions.get(i);
-                    n.deletaPoint(coord_x, coord_y);
+                    n.deletePoint(id, coord_x, coord_y);
                 }
+            }
+        }
+    }
+
+    public void deletePoint(int id) {
+        if (regions.size() == 0){
+            for (int i = 0; i < points.size(); i++){
+                Post p = (Post) points.get(i);
+                if(id == p.getId()){
+                    points.remove(i);
+                    i--;
+                }
+            }
+        }else{
+            for (int i = 0; i < regions.size(); i++) {
+                NodeFulla n = (NodeFulla) regions.get(i);
+                n.deletePoint(id);
             }
         }
     }

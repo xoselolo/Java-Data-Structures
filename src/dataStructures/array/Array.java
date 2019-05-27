@@ -1,5 +1,7 @@
 package dataStructures.array;
 
+import model.User;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -98,11 +100,21 @@ public class Array<T> {
         return false;
     }
 
+    public int getElementPosition(T element) {
+        int size = elements.length;
+
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(element)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     public Object[] toArray() {
         return this.elements;
     }
-
 
 
     @Deprecated
@@ -113,6 +125,24 @@ public class Array<T> {
         int index = -1;
         for (int i = 0; i < size; i++) {
             if (elements[i].equals(element)) {
+                index = i;
+            }
+        }
+        if (index == -1) {
+            return false;
+        }
+        else {
+            return remove(index);
+        }
+    }
+
+    //Returns true if operation is ok
+    public boolean remove(String username) {
+        int size = elements.length;
+
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (((User)elements[i]).getUsername().equals(username)) {
                 index = i;
             }
         }

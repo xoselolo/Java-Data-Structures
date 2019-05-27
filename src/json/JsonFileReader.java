@@ -10,6 +10,7 @@ import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.graph.GraphNode;
 import dataStructures.hashTable.HashTable;
+import dataStructures.rTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import model.Location;
@@ -26,11 +27,15 @@ public class JsonFileReader {
     //public static String USERS_FILENAME = "files/datasets/small/users.json";
     public static String USERS_FILENAME = "files/datasets/medium/users.json";
     //public static String USERS_FILENAME = "files/datasets/large/users.json";
+    //public static String USERS_FILENAME = "files/datasets/medium/users.json";
+    public static String USERS_FILENAME = "files/datasets/small/users.json";
 
     //public static String POSTS_FILENAME = "files/posts.json";
     //public static String POSTS_FILENAME = "files/datasets/small/posts.json";
     public static String POSTS_FILENAME = "files/datasets/medium/posts.json";
     //public static String POSTS_FILENAME = "files/datasets/large/posts.json";
+    //public static String POSTS_FILENAME = "files/datasets/medium/posts.json";
+    public static String POSTS_FILENAME = "files/datasets/small/posts.json";
 
     public static void readUsers(Array<User> userArray, Graph<User> graph, Trie trie) throws FileNotFoundException {
         try {
@@ -77,7 +82,7 @@ public class JsonFileReader {
         }
 
     }
-    public static void readPosts(Array<Post> postArray, RBT<Post> RBT, HashTable<Post> hashTable) throws FileNotFoundException {
+    public static void readPosts(Array<Post> postArray, RBT<Post> RBT, HashTable<Post> hashTable, RTree rTree) throws FileNotFoundException {
         //Array<Post> posts = new Array<>();
 
         try {
@@ -98,7 +103,6 @@ public class JsonFileReader {
                         if (token.equals("id")) {
                             jsonParser.nextToken();
                             id = jsonParser.getIntValue();
-                            //System.out.println(id);
                         } else if (token.equals("liked_by")) {
                             likedBy = new Array<>();
                             jsonParser.nextToken();
@@ -131,6 +135,7 @@ public class JsonFileReader {
                             postArray.add(actualPost);
                             RBT.insertNode(new RBTnode<Post>(actualPost), RBT.getRoot(), null);
                             hashTable.add(actualPost, Post.class);
+                            rTree.getRoot().insertPoint(actualPost, actualPost.getLocation().getLatitude(), actualPost.getLocation().getLongitude());
                         }
                     }
                 }
