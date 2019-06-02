@@ -7,7 +7,6 @@ import dataStructures.hashTable.HashTable;
 import dataStructures.rTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
-import javafx.geometry.Pos;
 import json.ConstValues;
 import json.JsonFileReader;
 import json.JsonWriter;
