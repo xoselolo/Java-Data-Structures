@@ -19,4 +19,14 @@ public class RBTnode <T> {
         this.element = element;
         this.pare = pare;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "red=" + red +
+                ",\nelement=" + element +
+                ",\nfillE=" + fillE +
+                ",\nfillD=" + fillD +
+                '}';
+    }
 }

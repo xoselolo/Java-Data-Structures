@@ -400,8 +400,6 @@ public class InstaSalle {
                                 break;
 
                             case 2:
-                                // TODO: export from RBT to Json
-                                System.out.println(RBT.inOrderToString());
                                 correct = JsonWriter.writeRBT(RBT);
                                 break;
 
