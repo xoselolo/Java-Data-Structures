@@ -153,4 +153,11 @@ public class Array<T> {
             return remove(index);
         }
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "" + (elements == null ? null : Arrays.asList(elements)) +
+                '}';
+    }
 }

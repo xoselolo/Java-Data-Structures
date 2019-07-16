@@ -425,6 +425,7 @@ public class RBT <T>{
 
         return builder.toString();
     }
+
     private void inOrder(RBTnode<T> node, StringBuilder builder){
         if (node != null){
             inOrder(node.fillE, builder);

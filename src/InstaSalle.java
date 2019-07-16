@@ -218,39 +218,104 @@ public class InstaSalle {
     private static void importaJson() {
         System.out.println("[OPT1] - Importació de fitxers!");
         int importOK = 0;
-        System.out.println("[OPT1] - Carregant informació...");
-        try {
-            JsonFileReader.readUsers(usersArray, graph, trie);
-            //importIntoGraph();
-            //importIntoTrie();
-        } catch (FileNotFoundException e) {
-            importOK++;
-            usersArray = new Array<User>();
-        }finally {
+        int error;
+        do {
+            System.out.println("[OPT1] - De quin fitxer vol importar les dades?");
+            System.out.println("[OPT1] - 1. Datasets");
+            System.out.println("[OPT1] - 2. Estructura exportada");
             try {
-                JsonFileReader.readPosts(postsArray, RBT, hashTable, rTree);
-                //importIntoRBT();
-                //importIntoHashTable();
-            } catch (FileNotFoundException e) {
-                importOK += 2;
-                postsArray = new Array<Post>();
-            } finally {
-                switch (importOK){
-                    case 0:
-                        System.out.println("[OPT1] - Usuaris i Posts carregats satisfactoriament!");
-                        break;
+                error = 0;
+                int opcio = new Scanner(System.in).nextInt();
+                switch (opcio) {
                     case 1:
-                        System.out.println("[OPT1] - Posts carregats satisfactoriament!");
+                        System.out.println("[OPT1] - Carregant informació...");
+                        try {
+                            JsonFileReader.readUsers(usersArray, graph, trie);
+                            //importIntoGraph();
+                            //importIntoTrie();
+                        } catch (FileNotFoundException e) {
+                            importOK++;
+                            usersArray = new Array<User>();
+                        } finally {
+                            try {
+                                JsonFileReader.readPosts(postsArray, RBT, hashTable, rTree);
+                                //importIntoRBT();
+                                //importIntoHashTable();
+                            } catch (FileNotFoundException e) {
+                                importOK += 2;
+                                postsArray = new Array<Post>();
+                            } finally {
+                                switch (importOK) {
+                                    case 0:
+                                        System.out.println("[OPT1] - Usuaris i Posts carregats satisfactoriament!");
+                                        break;
+                                    case 1:
+                                        System.out.println("[OPT1] - Posts carregats satisfactoriament!");
+                                        break;
+                                    case 2:
+                                        System.out.println("[OPT1] - Usuaris carregats satisfactoriament!");
+                                        break;
+                                    case 3:
+                                        System.out.println("[OPT1] - No s'han carregat ni usuaris ni posts!");
+                                        break;
+                                }
+                            }
+                        }
+
                         break;
+
                     case 2:
-                        System.out.println("[OPT1] - Usuaris carregats satisfactoriament!");
+                        do {
+                            error = 0;
+                            System.out.println("\n[OPT1] - De quina estructura vols importar les dades?");
+                            System.out.println("[OPT1] - 1. Trie");
+                            System.out.println("[OPT1] - 2. Red-Black Tree");
+                            System.out.println("[OPT1] - 3. Hashtable");
+                            System.out.println("[OPT1] - 4. RTree");
+                            try {
+                                int opcio2 = new Scanner(System.in).nextInt();
+                                switch (opcio2) {
+                                    case 1:
+                                        // TODO: Trie JSON importation
+                                        break;
+
+                                    case 2:
+                                        // TODO: RBT JSON importation
+                                        break;
+
+                                    case 3:
+                                        // TODO: Hashtable JSON importation
+                                        break;
+
+                                    case 4:
+                                        // TODO: RTree JSON importation
+                                        break;
+
+                                    default:
+                                        System.out.println("[ERR] - Aquesta es una opcio no vàlida.");
+                                        error = 1;
+                                        break;
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("[ERR] - Aquesta es una opcio no vàlida.");
+                                error = 1;
+                            }
+                        } while (error == 1);
+
+
                         break;
-                    case 3:
-                        System.out.println("[OPT1] - No s'han carregat ni usuaris ni posts!");
+
+                    default:
+                        System.out.println("[ERR] - Aquesta es una opcio no vàlida.");
+                        error = 1;
                         break;
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("[ERR] - Aquesta es una opcio no vàlida.");
+                error = 1;
             }
-        }
+        } while (error == 1);
+
     }
 
     private static void importIntoHashTable() {
@@ -336,7 +401,8 @@ public class InstaSalle {
 
                             case 2:
                                 // TODO: export from RBT to Json
-                                //correct = JsonWriter.writeRBT(RBT);
+                                System.out.println(RBT.inOrderToString());
+                                correct = JsonWriter.writeRBT(RBT);
                                 break;
 
                             case 3:
@@ -367,7 +433,6 @@ public class InstaSalle {
             System.out.println("[OPT2] - Opció no vàlida");
         }
 
-        System.out.println("Exportació realitzada amb èxit!");
     }
     // --------- OPCIÓN 2 --------------
 

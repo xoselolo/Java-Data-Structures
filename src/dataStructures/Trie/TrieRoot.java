@@ -19,8 +19,10 @@ public class TrieRoot {
         sons.add(son);
     }
 
+    /*
     @Override
     public String toString() {
+
         StringBuilder builder = new StringBuilder();
 
         int size = sons.size();
@@ -29,5 +31,15 @@ public class TrieRoot {
         }
 
         return builder.toString();
+
+
+    }
+    */
+
+    @Override
+    public String toString() {
+        return "TrieRoot{" +
+                "sons=" + sons +
+                '}';
     }
 }

@@ -7,6 +7,7 @@ import dataStructures.rTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import model.Post;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,7 +31,8 @@ public class JsonWriter {
     }
 
     public static boolean writeTrie(Trie trie) {
-        boolean correct;
+        boolean correct = true;
+
         Gson gson = new Gson();
         String jsonToString = gson.toJson(trie.getRoot());
         try {
@@ -39,6 +41,8 @@ public class JsonWriter {
         } catch (IOException e){
             correct = false;
         }
+
+
         return correct;
     }
 
