@@ -292,7 +292,8 @@ public class InstaSalle {
 
                                     case 3:
                                         // TODO: Hashtable JSON importation (LUIS)
-                                        ok = JsonReader.importFromHashtable(JsonWriter.HASH_PATH);
+                                        hashTable = new HashTable<>();
+                                        ok = JsonReader.importFromHashtable(JsonWriter.HASH_PATH,hashTable);
                                         break;
 
                                     case 4:
@@ -757,7 +758,8 @@ public class InstaSalle {
                     if (aux == 'Y' || aux == 'y') {
                         System.out.println("Introdueix tots els hashtags separats per un espai:");
                         System.out.print("> ");
-                        String[] hashtagsAux = new Scanner(System.in).next().split(" ");
+                        String hashtgs = new Scanner(System.in).nextLine();
+                        String[] hashtagsAux = hashtgs.split(" ");
                         int size = hashtagsAux.length;
                         for (int i = 0; i < size; i++) {
                             hashtags.add(hashtagsAux[i]);

@@ -19,7 +19,7 @@ public class JsonWriter {
     public static final String TRIE_PATH = "files/export/TrieOut.json";
     public static final String RBT_PATH = "files/export/RBTOut.json";
     public static final String RTREE_PATH = "files/export/RTree.json";
-    public static final String HASH_PATH = "files/export/HashOut.json";
+    public static final String HASH_PATH = "files/export/HashtableOut.json";
 
 
     public static boolean writeRBT(RBT rbt) {
