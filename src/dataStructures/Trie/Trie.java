@@ -427,6 +427,33 @@ public class Trie {
         this.root = root;
     }
 
+    public static TrieRoot setImportedInfo(TrieRoot rootOld) {
+        int sonsSize = rootOld.getSons().size();
+        TrieRoot rootNew = new TrieRoot();
+        for (int i = 0; i < sonsSize; i++) {
+            boolean endOfWord = (boolean)((LinkedTreeMap)rootOld.getSons().get(i)).get("endOfWord");
+            int numOfWords = (int)Math.round((double)((LinkedTreeMap)rootOld.getSons().get(i)).get("numOfWords"));
+            char letter = ((String)((LinkedTreeMap)rootOld.getSons().get(i)).get("letter")).charAt(0);
+            TrieNode newNode = new TrieNode(letter, endOfWord, numOfWords);
+            newNode = setImportedInfoI(newNode,(ArrayList)((LinkedTreeMap)((LinkedTreeMap)rootOld.getSons().get(i)).get("sons")).get("elements"));
+            rootNew.addSon(newNode);
+        }
+        return rootNew;
+    }
+
+    private static TrieNode setImportedInfoI(TrieNode father, ArrayList sons) {
+        int sonsSize = sons.size();
+        for (int i = 0; i < sonsSize; i++) {
+            boolean endOfWord = (boolean)((LinkedTreeMap)sons.get(i)).get("endOfWord");
+            int numOfWords = (int)Math.round((double)((LinkedTreeMap)sons.get(i)).get("numOfWords"));
+            char letter = ((String)((LinkedTreeMap)sons.get(i)).get("letter")).charAt(0);
+            TrieNode newNode = new TrieNode(letter, endOfWord, numOfWords);
+            newNode = setImportedInfoI(newNode, (ArrayList)((LinkedTreeMap)((LinkedTreeMap)sons.get(i)).get("sons")).get("elements"));
+            father.addSon(newNode);
+        }
+        return father;
+    }
+
     @Override
     public String toString() {
         return root.toString();
