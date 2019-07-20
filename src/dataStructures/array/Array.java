@@ -1,5 +1,7 @@
 package dataStructures.array;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import model.User;
 
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.Arrays;
 
 public class Array<T> {
     // Attributes
+    @SerializedName("elements")
+    @Expose
     private Object[] elements;
 
     // Constructor

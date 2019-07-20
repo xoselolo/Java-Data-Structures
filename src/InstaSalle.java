@@ -10,6 +10,7 @@ import dataStructures.redBlackTree.RBTnode;
 import javafx.geometry.Pos;
 import json.ConstValues;
 import json.JsonFileReader;
+import json.JsonReader;
 import json.JsonWriter;
 import model.Location;
 import model.Post;
@@ -166,7 +167,7 @@ public class InstaSalle {
                 // TODO: R-Tree visualization
                 break;
             case REDBLACKTREE:
-                // TODO: RBT visualization
+                RBT.printStructure();
                 break;
             case HASHTABLE:
                 hashTable.printStructure();
@@ -221,8 +222,8 @@ public class InstaSalle {
         int error;
         do {
             System.out.println("[OPT1] - De quin fitxer vol importar les dades?");
-            System.out.println("[OPT1] - 1. Datasets");
-            System.out.println("[OPT1] - 2. Estructura exportada");
+            System.out.println("[OPT1] - \t1. Datasets");
+            System.out.println("[OPT1] - \t2. Estructura exportada");
             try {
                 error = 0;
                 int opcio = new Scanner(System.in).nextInt();
@@ -230,6 +231,7 @@ public class InstaSalle {
                     case 1:
                         System.out.println("[OPT1] - Carregant informació...");
                         try {
+                            trie = new Trie();
                             JsonFileReader.readUsers(usersArray, graph, trie);
                             //importIntoGraph();
                             //importIntoTrie();
@@ -265,30 +267,37 @@ public class InstaSalle {
                         break;
 
                     case 2:
+                        boolean ok;
                         do {
+                            ok = false;
                             error = 0;
                             System.out.println("\n[OPT1] - De quina estructura vols importar les dades?");
-                            System.out.println("[OPT1] - 1. Trie");
-                            System.out.println("[OPT1] - 2. Red-Black Tree");
-                            System.out.println("[OPT1] - 3. Hashtable");
-                            System.out.println("[OPT1] - 4. RTree");
+                            System.out.println("[OPT1] - \t1. Trie");
+                            System.out.println("[OPT1] - \t2. Red-Black Tree");
+                            System.out.println("[OPT1] - \t3. Hashtable");
+                            System.out.println("[OPT1] - \t4. RTree");
                             try {
                                 int opcio2 = new Scanner(System.in).nextInt();
                                 switch (opcio2) {
                                     case 1:
-                                        // TODO: Trie JSON importation
+                                        trie = new Trie();
+                                        ok = JsonReader.importFromTrie(JsonWriter.TRIE_PATH,trie);
+                                        //System.out.println(trie.getRoot().toString());
                                         break;
 
                                     case 2:
-                                        // TODO: RBT JSON importation
+                                        // TODO: RBT JSON importation (LUIS)
+                                        ok = JsonReader.importFromRBT(JsonWriter.RBT_PATH);
                                         break;
 
                                     case 3:
-                                        // TODO: Hashtable JSON importation
+                                        // TODO: Hashtable JSON importation (LUIS)
+                                        ok = JsonReader.importFromHashtable(JsonWriter.HASH_PATH);
                                         break;
 
                                     case 4:
                                         // TODO: RTree JSON importation
+                                        ok = JsonReader.importFromRTree(JsonWriter.RTREE_PATH);
                                         break;
 
                                     default:
@@ -301,6 +310,13 @@ public class InstaSalle {
                                 error = 1;
                             }
                         } while (error == 1);
+
+                        if (!ok) {
+                            System.out.println("[ERR] - No s'ha pogut fer la importació de l'estructura");
+                        }
+                        else {
+                            System.out.println("[OK] - S'ha realitzat la importació amb èxit!");
+                        }
 
 
                         break;
@@ -318,6 +334,7 @@ public class InstaSalle {
 
     }
 
+    /*
     private static void importIntoHashTable() {
         int numPosts = postsArray.size();
         for (int i = 0; i < numPosts; i++){
@@ -350,6 +367,8 @@ public class InstaSalle {
             }
         }
     }
+    */
+
     // --------- OPCIÓN 1 --------------
 
     // --------- OPCIÓN 2 --------------

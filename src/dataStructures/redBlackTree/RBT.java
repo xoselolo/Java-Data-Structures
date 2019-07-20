@@ -433,4 +433,10 @@ public class RBT <T>{
             inOrder(node.fillD, builder);
         }
     }
+
+
+    public void printStructure() {
+        // TODO: PRINT RBT STRUCTURE... Ahora muestra Posts ordenados por ID?
+        System.out.println(inOrderToString());
+    }
 }

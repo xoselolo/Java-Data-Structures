@@ -1,12 +1,24 @@
 package dataStructures.Trie;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import dataStructures.array.Array;
 
 public class TrieNode {
+    @SerializedName("endOfWord")
+    @Expose
     private boolean endOfWord;
+
+    @SerializedName("numOfWords")
+    @Expose
     private int numOfWords;
+
+    @SerializedName("letter")
+    @Expose
     private char letter;
-    private TrieNode ant;
+
+    @SerializedName("sons")
+    @Expose
     private Array<TrieNode> sons;
 
     public TrieNode(char letter, boolean endOfWord, int numOfWords){
@@ -16,9 +28,6 @@ public class TrieNode {
         this.numOfWords = numOfWords;
     }
 
-    public void setFather(TrieNode father) {
-        ant = father;
-    }
 
     public void addSon(TrieNode son) {
         sons.add(son);
@@ -56,6 +65,7 @@ public class TrieNode {
         return this.numOfWords;
     }
 
+    /*
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -70,5 +80,16 @@ public class TrieNode {
         }
 
         return builder.toString();
+    }
+    */
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"endOfWord\": " + endOfWord +
+                ", \"numOfWords\": " + numOfWords +
+                ", \"letter\": \"" + letter + "\"" +
+                ", \"sons\": " + sons +
+                '}';
     }
 }
