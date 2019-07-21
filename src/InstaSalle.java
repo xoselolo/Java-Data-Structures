@@ -276,6 +276,7 @@ public class InstaSalle {
                             System.out.println("[OPT1] - \t2. Red-Black Tree");
                             System.out.println("[OPT1] - \t3. Hashtable");
                             System.out.println("[OPT1] - \t4. RTree");
+                            System.out.println("[OPT1] - \t5. Graph");
                             try {
                                 int opcio2 = new Scanner(System.in).nextInt();
                                 switch (opcio2) {
@@ -299,6 +300,16 @@ public class InstaSalle {
                                     case 4:
                                         // TODO: RTree JSON importation
                                         ok = JsonReader.importFromRTree(JsonWriter.RTREE_PATH);
+                                        break;
+
+                                    case 5:
+                                        graph = new Graph<>(new Comparator<User>() {
+                                            @Override
+                                            public int compare(User o1, User o2) {
+                                                return o1.getUsername().compareTo(o2.getUsername());
+                                            }
+                                        });
+                                        ok = JsonReader.importFromGraph(JsonWriter.GRAPH_PATH,graph);
                                         break;
 
                                     default:
@@ -410,7 +421,7 @@ public class InstaSalle {
 
                 case 2:
                     System.out.println("[IN] - Especifiqui l'estructura que desitja exportar:");
-                    System.out.println("\t\t1. Trie\n\t\t2. Red-Black Tree\n\t\t3. Hashtable\n\t\t4. RTree");
+                    System.out.println("\t\t1. Trie\n\t\t2. Red-Black Tree\n\t\t3. Hashtable\n\t\t4. RTree\n\t\t5. Graph");
                     try {
                         int option = (new Scanner(System.in)).nextInt();
                         boolean correct = false;
@@ -429,6 +440,10 @@ public class InstaSalle {
 
                             case 4:
                                 correct = JsonWriter.writeRTree(rTree);
+                                break;
+
+                            case 5:
+                                correct = JsonWriter.writeGraph(graph);
                                 break;
 
                         }
