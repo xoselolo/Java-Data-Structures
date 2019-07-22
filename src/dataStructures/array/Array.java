@@ -160,8 +160,23 @@ public class Array<T> {
 
     @Override
     public String toString() {
-        return "{" +
-                "" + (elements == null ? null : Arrays.asList(elements)) +
-                '}';
+        try {
+            if (elements.length > 0) {
+                if (elements[0].getClass().equals(String.class)) {
+                    String result = "[";
+                    for (int i = 0; i < elements.length; i++) {
+                        result += "\"" + elements[i] + "\",";
+                    }
+                    return result + " ]";
+                }
+            }
+            return "{" +
+                    "" + (Arrays.asList(elements)) +
+                    '}';
+        } catch (NullPointerException e) {
+            return "{" +
+                    "" + (elements == null ? null : Arrays.asList(elements)) +
+                    '}';
+        }
     }
 }

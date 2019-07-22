@@ -25,6 +25,7 @@ public class JsonWriter {
     public static boolean writeRBT(RBT rbt) {
         boolean correct;
 
+        /*
         Gson gson = new Gson();
         String jsonToString = gson.toJson(rbt.getRoot());
         try {
@@ -34,8 +35,9 @@ public class JsonWriter {
         } catch (IOException e){
             correct = false;
         }
+        */
 
-        /*
+
         try {
             FileWriter fileWriter = new FileWriter(RBT_PATH);
             fileWriter.write(rbt.getRoot().toString());
@@ -45,7 +47,7 @@ public class JsonWriter {
             e.printStackTrace();
             correct = false;
         }
-        */
+
         return correct;
     }
 
