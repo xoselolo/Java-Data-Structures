@@ -26,6 +26,11 @@ public class Location {
         this.longitude = asJsonObject.get(ConstValues.JSON_LONGITUDE).getAsDouble();
     }
 
+    public Location(Location location){
+        this.latitude = location.latitude;
+        this.longitude = location.longitude;
+    }
+
 
     //Getters & Setters
     public double getLatitude() {
@@ -63,5 +68,14 @@ public class Location {
     }
     private Double aRadians(Double d){
         return (d * Math.PI) / 180;
+    }
+
+    public boolean isInside(Location downLeftCorner, Location upRightCorner) {
+        return this.latitude > downLeftCorner.getLatitude() && this.longitude > downLeftCorner.getLongitude()
+                && this.latitude < upRightCorner.getLatitude() && this.longitude < upRightCorner.getLongitude();
+    }
+
+    public Location clone(){
+        return new Location(getLatitude(), getLongitude());
     }
 }
