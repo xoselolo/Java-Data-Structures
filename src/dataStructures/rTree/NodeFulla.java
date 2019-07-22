@@ -12,7 +12,7 @@ public class NodeFulla {
     private Array<Post> points;
 
     public NodeFulla(){
-        max_entries = 200;
+        max_entries = 50;
         top_point = new double[2];
         top_point[0] = 0.0;
         top_point[1] = 0.0;
@@ -88,7 +88,7 @@ public class NodeFulla {
                 Post p = (Post) points.get(i);
                 if(p.getLocation().getLatitude() == coord_x && p.getLocation().getLongitude() == coord_y && id == p.getId()){
                     points.remove(i);
-                    i--;
+                    return;
                 }
             }
         }else{

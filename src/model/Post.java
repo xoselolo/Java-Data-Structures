@@ -150,4 +150,12 @@ public class Post implements Hashable {
 
         return builder.toString();
     }
+
+    public String toStringExport() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\"id\": " + id + ",\n\"liked_by\": " + liked_by + ",\n\"published\": " + published + "\"published_by\": " + published_by + ",\n\"location\": " + location + ",\n\"hashtags\": " + hashtags+ "");
+
+        return sb.toString();
+    }
 }

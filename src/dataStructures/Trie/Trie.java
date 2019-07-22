@@ -1,8 +1,10 @@
 package dataStructures.Trie;
 
 
+import com.google.gson.internal.LinkedTreeMap;
 import dataStructures.array.Array;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -92,11 +94,21 @@ public class Trie {
                 if (root.getSons().get(i) instanceof TrieNode) {
                     System.out.print(((TrieNode) root.getSons().get(i)).getLetter() + " ");
                 }
+                else {
+                    if (root.getSons().get(i) instanceof LinkedTreeMap) {
+                        System.out.println(((LinkedTreeMap) root.getSons().get(i)).get("letter"));
+                    }
+                }
             }
             System.out.println();
             for (int i = 0; i < size; i++) {
                 if (root.getSons().get(i) instanceof TrieNode) {
                     printI((TrieNode) root.getSons().get(i));
+                }
+                else {
+                    if (root.getSons().get(i) instanceof LinkedTreeMap) {
+                        printI2(((LinkedTreeMap) root.getSons().get(i)));
+                    }
                 }
             }
         }
@@ -127,6 +139,40 @@ public class Trie {
                 for (int i = 0; i < numberOfSons; i++) {
                     TrieNode newFather = (TrieNode) father.getSons().get(i);
                     printI(newFather);
+                }
+            }
+            else {
+                System.out.print("-");
+                System.out.println();
+            }
+        }
+    }
+
+    private void printI2(LinkedTreeMap map) {
+        System.out.print("[Father]: " + map.get("letter") + ", [Childs]: ");
+        if (!(boolean)map.get("endOfWord")) {
+            int numberOfSons = ((ArrayList)((LinkedTreeMap)map.get("sons")).get("elements")).size();
+            for (int i = 0; i < numberOfSons; i++) {
+                LinkedTreeMap newFather = (LinkedTreeMap) ((ArrayList)((LinkedTreeMap)map.get("sons")).get("elements")).get(i);
+                System.out.print(newFather.get("letter") + " ");
+            }
+            System.out.println();
+            for (int i = 0; i < numberOfSons; i++) {
+                LinkedTreeMap newFather = (LinkedTreeMap) ((ArrayList)((LinkedTreeMap)map.get("sons")).get("elements")).get(i);
+                printI2(newFather);
+            }
+        }
+        else {
+            if (((LinkedTreeMap)map.get("sons")).size() > 0) {
+                int numberOfSons = ((ArrayList)((LinkedTreeMap)map.get("sons")).get("elements")).size();
+                for (int i = 0; i < numberOfSons; i++) {
+                    LinkedTreeMap newFather = (LinkedTreeMap) ((ArrayList)((LinkedTreeMap)map.get("sons")).get("elements")).get(i);
+                    System.out.print(newFather.get("letter") + " ");
+                }
+                System.out.println();
+                for (int i = 0; i < numberOfSons; i++) {
+                    LinkedTreeMap newFather = (LinkedTreeMap) ((ArrayList)((LinkedTreeMap)map.get("sons")).get("elements")).get(i);
+                    printI2(newFather);
                 }
             }
             else {
@@ -375,6 +421,37 @@ public class Trie {
 
     public TrieRoot getRoot() {
         return this.root;
+    }
+
+    public void setRoot(TrieRoot root) {
+        this.root = root;
+    }
+
+    public static TrieRoot setImportedInfo(TrieRoot rootOld) {
+        int sonsSize = rootOld.getSons().size();
+        TrieRoot rootNew = new TrieRoot();
+        for (int i = 0; i < sonsSize; i++) {
+            boolean endOfWord = (boolean)((LinkedTreeMap)rootOld.getSons().get(i)).get("endOfWord");
+            int numOfWords = (int)Math.round((double)((LinkedTreeMap)rootOld.getSons().get(i)).get("numOfWords"));
+            char letter = ((String)((LinkedTreeMap)rootOld.getSons().get(i)).get("letter")).charAt(0);
+            TrieNode newNode = new TrieNode(letter, endOfWord, numOfWords);
+            newNode = setImportedInfoI(newNode,(ArrayList)((LinkedTreeMap)((LinkedTreeMap)rootOld.getSons().get(i)).get("sons")).get("elements"));
+            rootNew.addSon(newNode);
+        }
+        return rootNew;
+    }
+
+    private static TrieNode setImportedInfoI(TrieNode father, ArrayList sons) {
+        int sonsSize = sons.size();
+        for (int i = 0; i < sonsSize; i++) {
+            boolean endOfWord = (boolean)((LinkedTreeMap)sons.get(i)).get("endOfWord");
+            int numOfWords = (int)Math.round((double)((LinkedTreeMap)sons.get(i)).get("numOfWords"));
+            char letter = ((String)((LinkedTreeMap)sons.get(i)).get("letter")).charAt(0);
+            TrieNode newNode = new TrieNode(letter, endOfWord, numOfWords);
+            newNode = setImportedInfoI(newNode, (ArrayList)((LinkedTreeMap)((LinkedTreeMap)sons.get(i)).get("sons")).get("elements"));
+            father.addSon(newNode);
+        }
+        return father;
     }
 
     @Override

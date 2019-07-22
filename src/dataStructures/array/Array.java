@@ -1,5 +1,7 @@
 package dataStructures.array;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import model.User;
 
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.Arrays;
 
 public class Array<T> {
     // Attributes
+    @SerializedName("elements")
+    @Expose
     private Object[] elements;
 
     // Constructor
@@ -151,6 +155,28 @@ public class Array<T> {
         }
         else {
             return remove(index);
+        }
+    }
+
+    @Override
+    public String toString() {
+        try {
+            if (elements.length > 0) {
+                if (elements[0].getClass().equals(String.class)) {
+                    String result = "[";
+                    for (int i = 0; i < elements.length; i++) {
+                        result += "\"" + elements[i] + "\",";
+                    }
+                    return result + " ]";
+                }
+            }
+            return "{" +
+                    "" + (Arrays.asList(elements)) +
+                    '}';
+        } catch (NullPointerException e) {
+            return "{" +
+                    "" + (elements == null ? null : Arrays.asList(elements)) +
+                    '}';
         }
     }
 }

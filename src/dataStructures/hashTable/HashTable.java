@@ -1,8 +1,14 @@
 package dataStructures.hashTable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.internal.LinkedTreeMap;
 import dataStructures.array.Array;
 import dataStructures.struct_interfaces.HashTableInterface;
+import model.Location;
 import model.Post;
+
+import java.util.ArrayList;
 
 public class HashTable <T> implements HashTableInterface {
 
@@ -10,6 +16,8 @@ public class HashTable <T> implements HashTableInterface {
     public static final int POSITIONS = 100;
 
     // Attributes
+    @SerializedName("hashTable")
+    @Expose
     private Array<Array<T>> hashTable;
 
     // Constructor
@@ -80,11 +88,22 @@ public class HashTable <T> implements HashTableInterface {
         int size = hashTable.size();
         for (int i = 0; i < size; i++) {
             System.out.print("Position " + i + ": ");
-            int rowSize = ((Array)hashTable.get(i)).size();
-            for (int j = 0; j < rowSize; j++) {
-                System.out.print(((Post)((Array)hashTable.get(i)).get(j)).getId() + " ");
+            if (hashTable.get(i) instanceof Array) {
+                int rowSize = ((Array) hashTable.get(i)).size();
+                for (int j = 0; j < rowSize; j++) {
+                    System.out.print(((Post) ((Array) hashTable.get(i)).get(j)).getId() + " ");
+                }
+                System.out.println();
             }
-            System.out.println();
+            else {
+                if (hashTable.get(i) instanceof LinkedTreeMap) {
+                    int rowSize = ((ArrayList)((LinkedTreeMap) hashTable.get(i)).get("elements")).size();
+                    for (int j = 0; j < rowSize; j++) {
+                        System.out.print((int)Math.round((double)((LinkedTreeMap)((ArrayList)((LinkedTreeMap) hashTable.get(i)).get("elements")).get(j)).get("id")) + " ");
+                    }
+                    System.out.println();
+                }
+            }
         }
     }
 
@@ -100,5 +119,41 @@ public class HashTable <T> implements HashTableInterface {
             }
         }
         return false;
+    }
+
+    public void setHashTable(Array<Array<T>> hashTable) {
+        this.hashTable = hashTable;
+    }
+
+    public void setImportedInfo(Array<LinkedTreeMap> hashTable) {
+        this.hashTable = new Array<>();
+        int hashSize = hashTable.size();
+        for (int i = 0; i < hashSize; i++) {
+            Array<Post> row = new Array<>();
+            int rowSize = ((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).size();
+            for (int j = 0; j < rowSize; j++) {
+                int id = (int)Math.round((double)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("id"));
+                Array<String> likedBy = new Array<>();
+                int likedBySize = ((ArrayList)((LinkedTreeMap)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("liked_by")).get("elements")).size();
+                for (int z = 0; z < likedBySize; z++) {
+                    String value = (String) ((ArrayList)((LinkedTreeMap)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("liked_by")).get("elements")).get(z);
+                    likedBy.add(value);
+                }
+                long published = (long)Math.round((double)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("published"));
+                String publishedBy = (String)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("published_by");
+                double latitude = (double)((LinkedTreeMap)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("location")).get("latitude");
+                double longitude = (double)((LinkedTreeMap)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("location")).get("longitude");
+                Location location = new Location(latitude, longitude);
+                Array<String> hashtags = new Array<>();
+                int hashtagsSize = ((ArrayList)((LinkedTreeMap)((LinkedTreeMap)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("hashtags"))).get("elements")).size();
+                for (int z = 0; z < hashtagsSize; z++) {
+                    String hashtag = (String)((ArrayList)((LinkedTreeMap)((LinkedTreeMap)((LinkedTreeMap)((ArrayList)((LinkedTreeMap)hashTable.get(i)).get("elements")).get(j)).get("hashtags"))).get("elements")).get(z);
+                    hashtags.add(hashtag);
+                }
+                Post post = new Post(id, likedBy, published, publishedBy, location, hashtags);
+                row.add(post);
+            }
+            this.hashTable.add((Array<T>) row);
+        }
     }
 }

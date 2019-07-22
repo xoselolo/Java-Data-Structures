@@ -425,11 +425,18 @@ public class RBT <T>{
 
         return builder.toString();
     }
+
     private void inOrder(RBTnode<T> node, StringBuilder builder){
         if (node != null){
             inOrder(node.fillE, builder);
             builder.append("-").append(node.element.toString());
             inOrder(node.fillD, builder);
         }
+    }
+
+
+    public void printStructure() {
+        // TODO: PRINT RBT STRUCTURE... Ahora muestra Posts ordenados por ID?
+        System.out.println(inOrderToString());
     }
 }

@@ -1,10 +1,12 @@
 package dataStructures.graph;
 
+import com.google.gson.internal.LinkedTreeMap;
 import dataStructures.array.Array;
 import javafx.geometry.Pos;
 import model.Post;
 import model.User;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Graph<T> {
@@ -75,6 +77,28 @@ public class Graph<T> {
                     }
                 }
             }
+        }
+    }
+
+    public void setImportedInfo(Array info) {
+        int size = info.size();
+        for (int i = 0; i < size; i++) {
+            String username = (String) ((LinkedTreeMap)((LinkedTreeMap)info.get(i)).get("element")).get("username");
+            long creation = (long) Math.round((double)((LinkedTreeMap)((LinkedTreeMap)info.get(i)).get("element")).get("creation"));
+            int toFollowSize = ((ArrayList)((LinkedTreeMap)((LinkedTreeMap)((LinkedTreeMap)info.get(i)).get("element")).get("to_follow")).get("elements")).size();
+            Array<String> toFollow = new Array<>();
+            for (int j = 0; j < toFollowSize; j++) {
+                String to_follow = (String) ((ArrayList)((LinkedTreeMap)((LinkedTreeMap)((LinkedTreeMap)info.get(i)).get("element")).get("to_follow")).get("elements")).get(j);
+                toFollow.add(to_follow);
+            }
+            User newUser = new User(username, creation, toFollow);
+            int nextSize = ((ArrayList)((LinkedTreeMap)((LinkedTreeMap)info.get(i)).get("next")).get("elements")).size();
+            Array<String> next = new Array<>();
+            for (int j = 0; j < nextSize; j++) {
+                String nextUser = (String) ((ArrayList)((LinkedTreeMap)((LinkedTreeMap)info.get(i)).get("next")).get("elements")).get(j);
+                next.add(nextUser);
+            }
+            add((GraphNode<T>) new GraphNode<User>(newUser, next));
         }
     }
 

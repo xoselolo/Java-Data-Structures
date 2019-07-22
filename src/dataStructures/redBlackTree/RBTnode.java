@@ -1,5 +1,7 @@
 package dataStructures.redBlackTree;
 
+import model.Post;
+
 public class RBTnode <T> {
     // Attributes
     public RBTnode pare;
@@ -18,5 +20,15 @@ public class RBTnode <T> {
     public <Post> RBTnode(T element, RBTnode pare){
         this.element = element;
         this.pare = pare;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"red\": " + red +
+                ",\n\"element\": {" + ((Post)element).toStringExport() + "}" +
+                ",\n\"fillE\": " + fillE +
+                ",\n\"fillD\": " + fillD +
+                '}';
     }
 }
