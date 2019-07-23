@@ -74,7 +74,6 @@ public class HashTable <T> implements HashTableInterface {
                 if (!getRow(hashValue).hasElement(element)){
                     getRow(hashValue).add(element);
                     return;
-                    // TODO : Change for addOrdered method of array
                 }
             }
         }
@@ -115,7 +114,6 @@ public class HashTable <T> implements HashTableInterface {
                 int deletePos = getRow(hashValue).getElementPosition((T) post);
                 getRow(hashValue).remove(deletePos);
                 return true;
-                // TODO : Change for addOrdered method of array
             }
         }
         return false;

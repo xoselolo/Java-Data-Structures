@@ -287,12 +287,10 @@ public class InstaSalle {
                                         break;
 
                                     case 2:
-                                        // TODO: RBT JSON importation (LUIS)
-                                        ok = JsonReader.importFromRBT(JsonWriter.RBT_PATH);
+                                        ok = JsonReader.importFromRBT(JsonWriter.RBT_PATH,RBT);
                                         break;
 
                                     case 3:
-                                        // TODO: Hashtable JSON importation (LUIS)
                                         hashTable = new HashTable<>();
                                         ok = JsonReader.importFromHashtable(JsonWriter.HASH_PATH,hashTable);
                                         break;
@@ -345,41 +343,6 @@ public class InstaSalle {
         } while (error == 1);
 
     }
-
-    /*
-    private static void importIntoHashTable() {
-        int numPosts = postsArray.size();
-        for (int i = 0; i < numPosts; i++){
-            Post post = (Post)postsArray.get(i);
-            hashTable.add(post, Post.class);
-        }
-    }
-
-    private static void importIntoGraph(){
-        int numUsers = usersArray.size();
-        for (int i = 0; i < numUsers; i++){
-            User user = (User)usersArray.get(i);
-            Array<String> next = user.getTo_follow();
-            graph.add(new GraphNode<User>(user, next));
-        }
-    }
-
-    private static void importIntoRBT(){
-        int numPosts = postsArray.size();
-        for (int i = 0; i < numPosts; i++){
-            RBT.insertNode(new RBTnode<Post>((Post)postsArray.get(i)), RBT.getRoot(), null);
-        }
-    }
-
-    private static void importIntoTrie() {
-        int numUsers = usersArray.size();
-        for (int i = 0; i < numUsers; i++) {
-            if (usersArray.get(i) instanceof User) {
-                trie.insert(((User) usersArray.get(i)).getUsername());
-            }
-        }
-    }
-    */
 
     // --------- OPCIÓN 1 --------------
 
@@ -794,7 +757,7 @@ public class InstaSalle {
             }
         } while (error);
         postsArray.add(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags));
-        // TODO: insert in post RBT
+        RBT.insertNode(new RBTnode<Post>(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags)), RBT.getRoot(), null);
         hashTable.add(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), Post.class);
         rTree.getRoot().insertPoint(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), location.getLongitude(), location.getLatitude());
         System.out.println("[SYS] - Inserció realitzada amb èxit!\n");

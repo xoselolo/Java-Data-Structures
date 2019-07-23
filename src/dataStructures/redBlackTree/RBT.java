@@ -1,9 +1,14 @@
 package dataStructures.redBlackTree;
 
+import com.google.gson.internal.LinkedTreeMap;
+import dataStructures.array.Array;
+import javafx.geometry.Pos;
+import model.Location;
 import model.Post;
 import model.User;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -436,7 +441,68 @@ public class RBT <T>{
 
 
     public void printStructure() {
-        // TODO: PRINT RBT STRUCTURE... Ahora muestra Posts ordenados por ID?
         System.out.println(inOrderToString());
+    }
+
+    public void setImportedInfo(RBTnode<T> root) {
+        boolean red = root.red;
+        int postId = (int)Math.round((double)((LinkedTreeMap)root.element).get("id"));
+        int likedBySize = ((ArrayList)((LinkedTreeMap)root.element).get("liked_by")).size();
+        Array<String> likedBy = new Array<>();
+        for (int i = 0; i < likedBySize; i++) {
+            likedBy.add((String)((ArrayList)((LinkedTreeMap)root.element).get("liked_by")).get(i));
+        }
+        long published = (long) Math.round((double)((LinkedTreeMap)root.element).get("published"));
+        String publishedBy = (String) ((LinkedTreeMap)root.element).get("published_by");
+        double latitude = (double) ((LinkedTreeMap)((LinkedTreeMap)root.element).get("location")).get("latitude");
+        double longitude = (double) ((LinkedTreeMap)((LinkedTreeMap)root.element).get("location")).get("longitude");
+        int hashtagsSize = ((ArrayList)((LinkedTreeMap)root.element).get("hashtags")).size();
+        Array<String> hashtags = new Array<>();
+        for (int i = 0; i < hashtagsSize; i++) {
+            hashtags.add((String) ((ArrayList)((LinkedTreeMap)root.element).get("hashtags")).get(i));
+        }
+        Location location = new Location(latitude, longitude);
+        Post newPost = new Post(postId, likedBy, published, publishedBy, location, hashtags);
+        this.root = new RBTnode<>((T)newPost);
+        this.root.red = red;
+        RBTnode<T> fillE = setImportedInfoI(this.root,root.fillE);
+        RBTnode<T> fillD = setImportedInfoI(this.root,root.fillD);
+        this.root.fillE = fillE;
+        this.root.fillD = fillD;
+    }
+
+    private RBTnode<T> setImportedInfoI(RBTnode<T> pare, RBTnode<T> himself) {
+        try {
+            if (himself == null) {
+                return null;
+            }
+        } catch (NullPointerException e) {
+            return null;
+        }
+        boolean red = himself.red;
+        int postId = (int) Math.round((double)((LinkedTreeMap)himself.element).get("id"));
+        int likedBySize = ((ArrayList)((LinkedTreeMap)himself.element).get("liked_by")).size();
+        Array<String> likedBy = new Array<>();
+        for (int i = 0; i < likedBySize; i++) {
+            likedBy.add((String)((ArrayList)((LinkedTreeMap)himself.element).get("liked_by")).get(i));
+        }
+        long published = (long) Math.round((double)((LinkedTreeMap)himself.element).get("published"));
+        String publishedBy = (String) ((LinkedTreeMap)himself.element).get("published_by");
+        double latitude = (double) ((LinkedTreeMap)((LinkedTreeMap)himself.element).get("location")).get("latitude");
+        double longitude = (double) ((LinkedTreeMap)((LinkedTreeMap)himself.element).get("location")).get("longitude");
+        int hashtagsSize = ((ArrayList)((LinkedTreeMap)himself.element).get("hashtags")).size();
+        Array<String> hashtags = new Array<>();
+        for (int i = 0; i < hashtagsSize; i++) {
+            hashtags.add((String) ((ArrayList)((LinkedTreeMap)himself.element).get("hashtags")).get(i));
+        }
+        Location location = new Location(latitude, longitude);
+        Post newPost = new Post(postId, likedBy, published, publishedBy, location, hashtags);
+        RBTnode<T> result = new RBTnode<>((T)newPost);
+        result.red = red;
+        RBTnode<T> fillE = setImportedInfoI(himself,himself.fillE);
+        RBTnode<T> fillD = setImportedInfoI(himself,himself.fillD);
+        result.fillE = fillE;
+        result.fillD = fillD;
+        return result;
     }
 }

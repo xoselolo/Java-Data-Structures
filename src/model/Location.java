@@ -64,4 +64,12 @@ public class Location {
     private Double aRadians(Double d){
         return (d * Math.PI) / 180;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"latitude\": " + latitude +
+                ", \"longitude\": " + longitude +
+                '}';
+    }
 }
