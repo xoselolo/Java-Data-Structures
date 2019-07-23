@@ -39,11 +39,11 @@ public class RTree {
      */
     public static void insertPost(Post newPost){
         if (root != null) {
-            root.insertPost(newPost, new Array<Integer>(), -1);
+            root.insertPost(newPost, new Array<Integer>(), true);
         }
         else {
             root = new LeafNode(null);
-            root.insertPost(newPost, new Array<Integer>(), -1);
+            root.insertPost(newPost, new Array<Integer>(), true);
         }
     }
 

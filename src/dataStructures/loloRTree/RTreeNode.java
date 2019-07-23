@@ -34,11 +34,11 @@ public abstract class RTreeNode {
 
 
     // NEW IMPLEMENTATION
-    public abstract void insertPost(Post newPost, Array<Integer> indexes, int position);
-    public abstract void split(Post newPost, Array<Integer> indexes, int position);
-    public abstract void receiveSplit(RegionNode newCouple, Array<Integer> indexes, int position, Post newPost);
-    public abstract void actualitzaRegioCapAmunt(Post newPost, Array<Integer> indexes, int position);
-    public abstract void actualitzaRegioX(Post newPost, Array<Integer> indexes, int position);
+    public abstract void insertPost(Post newPost, Array<Integer> indexes, boolean refresh);
+    public abstract void split(Post newPost, Array<Integer> indexes);
+    public abstract void receiveSplit(RegionNode newCouple, Array<Integer> indexes, Post newPost);
+    //public abstract void actualitzaRegioCapAmunt(Post newPost, Array<Integer> indexes);
+    //public abstract void actualitzaRegioX(Post newPost, Array<Integer> indexes);
     public boolean needsAllRemainingInHere(int remainingElements){
         return MIN - numSons == remainingElements;
     }

@@ -61,9 +61,20 @@ public class RegionNode extends RTreeNode {
         this.depth = depth;
     }
 
+    public void refresh(Post newPost, Array<Integer> indexes){
+        int index = (int)indexes.get(indexes.size() - 1);
+        this.regions[index].update(newPost.getLocation());
+
+        indexes.remove(indexes.size() - 1);
+
+//        if (indexes.size() > 0 && dad != null){
+//            this.dad.refresh(newPost, indexes);
+//        }
+    }
+
     // Functions
     @Override
-    public void insertPost(Post newPost, Array<Integer> indexes, int position) {
+    public void insertPost(Post newPost, Array<Integer> indexes, boolean refresh) {
         double minIncrease = -1;
         int indexMinIncrease = 0;
         for (int i = 0; i < this.numSons; i++){
@@ -80,33 +91,36 @@ public class RegionNode extends RTreeNode {
         }
 
         indexes.add(indexMinIncrease);
-        position++;
-        sons[indexMinIncrease].insertPost(newPost, indexes, position);
+        this.sons[indexMinIncrease].insertPost(newPost, indexes, refresh);
     }
 
     @Override
-    public void split(Post newPost, Array<Integer> indexes, int position) {
+    public void split(Post newPost, Array<Integer> indexes) {
 
     }
 
     @Override
-    public void receiveSplit(RegionNode newCouple, Array<Integer> indexes, int position, Post newPost) {
-        sons[(int)indexes.get(position)] = newCouple.sons[1];
-        regions[(int)indexes.get(position)] = newCouple.regions[1];
+    public void receiveSplit(RegionNode newCouple, Array<Integer> indexes, Post newPost) {
+        int index = (int)indexes.get(indexes.size() - 1);
+        this.sons[index] = newCouple.sons[1];
+        this.regions[index] = newCouple.regions[1];
         newCouple.numSons--;
+        //this.numSons++;
 
-        indexes.remove(position);
-        position--;
+        indexes.remove(indexes.size() - 1);
 
         if (fitsSon()){
-            sons[numSons] = newCouple.sons[0];
-            regions[numSons] = newCouple.regions[0];
-            numSons++;
+            this.sons[numSons] = newCouple.sons[0];
+            this.regions[numSons] = newCouple.regions[0];
+            this.numSons++;
+
+//            if (indexes.size() > 0 && dad != null){
+//                this.dad.refresh(newPost, indexes);
+//            }
 //            if (dad != null){
 //                dad.actualitzaRegioCapAmunt(newPost, indexes, position);
 //            }
         }else{
-            position = -1;
 
             // Ahora tendremos M hijos + el new RTReeNode
             RTreeNode[] allRTreeNodes = new RTreeNode[numSons + 1];
@@ -147,10 +161,12 @@ public class RegionNode extends RTreeNode {
             // Copiem els dos mes distants un a cada grup
             man.regions[man.numSons] = allRegions[indexPostDistant1];
             man.sons[man.numSons] = allRTreeNodes[indexPostDistant1];
-            man.numSons++;
+            //man.numSons++;
+            man.numSons = 1;
             woman.regions[woman.numSons] = allRegions[indexPostDistant2];
             woman.sons[woman.numSons] = allRTreeNodes[indexPostDistant2];
-            woman.numSons++;
+            //woman.numSons++;
+            woman.numSons = 1;
 
             // Creem les dues regions
             Region regionMan = allRegions[indexPostDistant1];
@@ -243,15 +259,16 @@ public class RegionNode extends RTreeNode {
             if (this.dad == null){
                 // Solo tenemos un nodo hoja como root
                 RTree.root = newLevel;
+                this.dad = (RegionNode)RTree.root;
                 newLevel.setDad(null);
             }else{
-                this.dad.receiveSplit(newLevel, indexes, position, newPost);
+                this.dad.receiveSplit(newLevel, indexes, newPost);
             }
         }
 
     }
 
-    @Override
+    /*@Override
     public void actualitzaRegioCapAmunt(Post newPost, Array<Integer> indexes, int position) {
         RegionNode aux = this.dad;
         indexes.remove(position);
@@ -270,7 +287,7 @@ public class RegionNode extends RTreeNode {
                 actualitzaRegioCapAmunt(newPost, indexes, position);
             }
         }
-    }
+    }*/
 
     @Override
     public String toString() {
