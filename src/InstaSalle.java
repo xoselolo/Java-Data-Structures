@@ -5,7 +5,7 @@ import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.graph.GraphNode;
 import dataStructures.hashTable.HashTable;
-import dataStructures.rTree.RTree;
+import dataStructures.loloRTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import json.JsonReader;
@@ -165,6 +165,7 @@ public class InstaSalle {
                 break;
             case RTREE:
                 // TODO: R-Tree visualization
+                rTree.printStructure();
                 break;
             case REDBLACKTREE:
                 RBT.printStructure();
@@ -454,12 +455,12 @@ public class InstaSalle {
                                 double longitud = new Scanner(System.in).nextDouble();
                                 System.out.print("Id:\n> ");
                                 id = new Scanner(System.in).nextInt();
-                                rTree.getRoot().deletePoint(id, latitude, longitud);
+                                //rTree.getRoot().deletePoint(id, latitude, longitud);
                             }
                             else {
                                 System.out.println("Id:\n> ");
                                 id = new Scanner(System.in).nextInt();
-                                rTree.getRoot().deletePoint(id);
+                                //rTree.getRoot().deletePoint(id);
                             }
                             int postsSize = postsArray.size();
                             int indexPost = -1;
@@ -475,7 +476,12 @@ public class InstaSalle {
                             else {
                                 Post post = (Post) postsArray.get(indexPost);
                                 // TODO: delete from RBT
+                                long initTime = System.nanoTime();
+                                postsArray.remove(indexPost);
+                                System.out.println("Temps de eliminació en Array: " + (System.nanoTime() - initTime));
+                                initTime = System.nanoTime();
                                 hashTable.deletePost(post);
+                                System.out.println("Temps de eliminació en Hashtable: " + (System.nanoTime() - initTime));
                                 System.out.println("Post borrat del sistema amb èxit!");
                             }
                         }
@@ -490,9 +496,13 @@ public class InstaSalle {
                         String username = new Scanner(System.in).next();
                         if (trie.search(username)) {
                             // Si existeix aquest usuari dins l'estructura
+                            long initTime = System.nanoTime();
                             trie.deleteWord(username);
+                            System.out.println("Temps de eliminacio en Trie: " + (System.nanoTime() - initTime));
                             usersArray.remove(username);
+                            initTime = System.nanoTime();
                             graph.remove(username);
+                            System.out.println("Temps de eliminacio en Graph: " + (System.nanoTime() - initTime));
                             System.out.println("Usuari borrat del sistema amb èxit!");
                         }
                         else {
@@ -523,7 +533,9 @@ public class InstaSalle {
                     case 1:
                         System.out.println("[USERS] Introdueix username: ");
                         String username = new Scanner(System.in).next();
+                        long initTime = System.nanoTime();
                         Array<String> usernames = trie.getMatchingWords(username);
+                        System.out.println("Temps de cerca en Trie: " + (System.nanoTime() - initTime));
                         int foundSize = usernames.size();
                         if (foundSize == 0) {
                             System.out.println("No hi ha cap usuari que coincideixi amb la teva búsqueda");
@@ -540,7 +552,9 @@ public class InstaSalle {
                         System.out.println("[POSTS] Introdueix id: ");
                         try{
                             int postId = new Scanner(System.in).nextInt();
+                            initTime = System.nanoTime();
                             Post found = (Post)RBT.search(new Post(postId, null, 0, null, null, null), RBT.getRoot());
+                            System.out.println("Temps de cerca en RBT: " + (System.nanoTime() - initTime));
                             if (found == null){
                                 System.out.println("[POSTS] - Post no trobat :(");
                             }else{
@@ -559,6 +573,7 @@ public class InstaSalle {
                         double latitud = new Scanner(System.in).nextDouble();
                         System.out.print("[POSTS] Introdueix longitud: \n> ");
                         double longitud = new Scanner(System.in).nextDouble();
+                        /*
                         try{
                             Array<Post> posts = rTree.getRoot().searchPoints(new Array<>(), latitud, longitud);
                             System.out.println("Shan trobat " + posts.size() + " posts a prop d'aquesta localitzacio:");
@@ -569,6 +584,7 @@ public class InstaSalle {
                         }catch (Exception e){
                             System.out.println("[SYS] - Coordenades invàlides");
                         }
+                        */
                         break;
                 }
             } catch (InputMismatchException e) {
@@ -646,9 +662,15 @@ public class InstaSalle {
                 }
             } while (error);
         } while (aux == 'Y' || aux == 'y');
+        long initTime = System.nanoTime();
         usersArray.add(new User(nomUser,dataCreacio,usersFollowed));
+        System.out.println("Temps d'inserció en Array: " + (System.nanoTime() - initTime));
+        initTime = System.nanoTime();
         graph.add(new GraphNode<>(new User(nomUser, dataCreacio, usersFollowed),usersFollowed));
+        System.out.println("Temps d'inserció en Graph: " + (System.nanoTime() - initTime));
+        initTime = System.nanoTime();
         trie.insert(nomUser);
+        System.out.println("Temps d'inserció en Trie: " + (System.nanoTime() - initTime));
         System.out.println("[SYS] - Inserció realitzada amb èxit!\n");
     }
 
@@ -756,10 +778,19 @@ public class InstaSalle {
                 System.out.println("[ERR] - Has d'introduir Y/y o N/n");
             }
         } while (error);
+        long initTime = System.nanoTime();
         postsArray.add(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags));
+        System.out.println("Temps d'inserció en Array: " + (System.nanoTime() - initTime));
+        initTime = System.nanoTime();
         RBT.insertNode(new RBTnode<Post>(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags)), RBT.getRoot(), null);
+        System.out.println("Temps d'inserció en RBT: " + (System.nanoTime() - initTime));
+        initTime = System.nanoTime();
         hashTable.add(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), Post.class);
-        rTree.getRoot().insertPoint(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), location.getLongitude(), location.getLatitude());
+        System.out.println("Temps d'inserció en Hashtable: " + (System.nanoTime() - initTime));
+        initTime = System.nanoTime();
+        rTree.insertPost(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags));
+        //rTree.getRoot().insertPoint(new Post(idPost, likedBy, dataPublished, publishedBy, location, hashtags), location.getLongitude(), location.getLatitude());
+        System.out.println("Temps d'inserció en RTree: " + (System.nanoTime() - initTime));
         System.out.println("[SYS] - Inserció realitzada amb èxit!\n");
     }
 }
