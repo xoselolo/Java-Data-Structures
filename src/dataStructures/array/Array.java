@@ -165,18 +165,19 @@ public class Array<T> {
                 if (elements[0].getClass().equals(String.class)) {
                     String result = "[";
                     for (int i = 0; i < elements.length; i++) {
-                        result += "\"" + elements[i] + "\",";
+                        if (i < elements.length-1) {
+                            result += "\"" + elements[i] + "\",";
+                        }
+                        else {
+                            result += "\"" + elements[i] + "\"";
+                        }
                     }
-                    return result + " ]";
+                    return result + "]";
                 }
             }
-            return "{" +
-                    "" + (Arrays.asList(elements)) +
-                    '}';
+            return String.valueOf(Arrays.asList(elements));
         } catch (NullPointerException e) {
-            return "{" +
-                    "" + (elements == null ? null : Arrays.asList(elements)) +
-                    '}';
+            return "[]";
         }
     }
 }

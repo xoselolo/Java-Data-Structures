@@ -70,6 +70,14 @@ public class Location {
         return (d * Math.PI) / 180;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "\"latitude\": " + latitude +
+                ", \"longitude\": " + longitude +
+                '}';
+    }
+
     public boolean isInside(Location downLeftCorner, Location upRightCorner) {
         return this.latitude > downLeftCorner.getLatitude() && this.longitude > downLeftCorner.getLongitude()
                 && this.latitude < upRightCorner.getLatitude() && this.longitude < upRightCorner.getLongitude();

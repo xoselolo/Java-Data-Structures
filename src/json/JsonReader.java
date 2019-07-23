@@ -7,6 +7,8 @@ import dataStructures.Trie.TrieRoot;
 import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.hashTable.HashTable;
+import dataStructures.redBlackTree.RBT;
+import dataStructures.redBlackTree.RBTnode;
 import model.Post;
 import model.User;
 
@@ -44,7 +46,27 @@ public class JsonReader {
         return true;
     }
 
-    public static boolean importFromRBT(String filePath) {
+    public static boolean importFromRBT(String filePath, RBT rbt) {
+        Gson gson = new Gson();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(filePath));
+            RBTnode result = gson.fromJson(br, RBTnode.class);
+            if (result != null) {
+                rbt.setImportedInfo(result);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("[ERR] - No s'ha pogut trobar l'arxiu importat de l'estructura Hashtable");
+            return false;
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return true;
     }
 
