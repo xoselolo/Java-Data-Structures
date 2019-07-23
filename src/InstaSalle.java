@@ -164,7 +164,6 @@ public class InstaSalle {
                 trie.printStructure();
                 break;
             case RTREE:
-                // TODO: R-Tree visualization
                 rTree.printStructure();
                 break;
             case REDBLACKTREE:
@@ -298,7 +297,8 @@ public class InstaSalle {
 
                                     case 4:
                                         // TODO: RTree JSON importation
-                                        ok = JsonReader.importFromRTree(JsonWriter.RTREE_PATH);
+                                        rTree = new RTree();
+                                        ok = JsonReader.importFromRTree(JsonWriter.RTREE_PATH,rTree);
                                         break;
 
                                     case 5:

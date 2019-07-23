@@ -7,6 +7,9 @@ import dataStructures.Trie.TrieRoot;
 import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.hashTable.HashTable;
+import dataStructures.loloRTree.LeafNode;
+import dataStructures.loloRTree.RTree;
+import dataStructures.loloRTree.RTreeNode;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import model.Post;
@@ -94,7 +97,27 @@ public class JsonReader {
         return true;
     }
 
-    public static boolean importFromRTree(String filePath) {
+    public static boolean importFromRTree(String filePath, RTree rTree) {
+        Gson gson = new Gson();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(filePath));
+            LeafNode result = gson.fromJson(br, LeafNode.class);
+            if (result != null) {
+                rTree.setImportedInfo(result);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("[ERR] - No s'ha pogut trobar l'arxiu importat de l'estructura Graph");
+            return false;
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return true;
     }
 

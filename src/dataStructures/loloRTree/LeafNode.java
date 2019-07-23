@@ -1,12 +1,18 @@
 package dataStructures.loloRTree;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import dataStructures.array.Array;
 import model.Location;
 import model.Post;
 
 public class LeafNode extends RTreeNode {
     // Attributes
+    @SerializedName("dad")
+    @Expose
     private RegionNode dad;
+    @SerializedName("posts")
+    @Expose
     private Post[] posts;
 
     // Constructor

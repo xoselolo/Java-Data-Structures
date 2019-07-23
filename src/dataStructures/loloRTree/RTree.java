@@ -68,4 +68,8 @@ public class RTree {
             System.out.println(root.toString());
         }
     }
+
+    public void setImportedInfo(RTreeNode rTreeNode) {
+        root = rTreeNode;
+    }
 }

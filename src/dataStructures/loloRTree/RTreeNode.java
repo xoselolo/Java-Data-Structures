@@ -1,5 +1,7 @@
 package dataStructures.loloRTree;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import dataStructures.array.Array;
 import model.Post;
 
@@ -10,7 +12,12 @@ public abstract class RTreeNode {
 
     public static final int LEAF_DEPTH = 0;
 
+    @SerializedName("numSons")
+    @Expose
     public int numSons;
+
+    @SerializedName("depth")
+    @Expose
     public int depth;
 
     public boolean fitsSon(){

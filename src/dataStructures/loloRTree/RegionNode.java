@@ -1,5 +1,7 @@
 package dataStructures.loloRTree;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import dataStructures.array.Array;
 import model.Location;
 import model.Post;
@@ -8,8 +10,16 @@ import java.util.ArrayList;
 
 public class RegionNode extends RTreeNode {
     // Attributes
+    @SerializedName("dad")
+    @Expose
     private RegionNode dad;
+
+    @SerializedName("regions")
+    @Expose
     private Region[] regions;
+
+    @SerializedName("sons")
+    @Expose
     private RTreeNode[] sons;
 
     // Constructor
