@@ -38,7 +38,7 @@ public class RTree {
      * @param newPost New post to be inserted
      */
     public static void insertPost(Post newPost){
-        root.insertPost(newPost, new Array<Integer>(), -1);
+        root.insertPost(newPost, new Array<Integer>(), true);
     }
 
     /**

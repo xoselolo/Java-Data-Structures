@@ -50,6 +50,10 @@ public class RTreeTest {
         for (int i = 0; i < 10; i++){
             Post newPost = new Post(IDPOST, new Array<String>(), 121212, "P" + IDPOST++, locations.get(i), new Array<String>());
 
+            System.out.println("Inserim el post " + newPost.getPublished_by());
+            if (i == 9){
+                System.out.println("Hello wey");
+            }
             RTree.insertPost(newPost);
         }
 
