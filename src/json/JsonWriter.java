@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import dataStructures.Trie.Trie;
 import dataStructures.graph.Graph;
 import dataStructures.hashTable.HashTable;
-import dataStructures.rTree.RTree;
+import dataStructures.loloRTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import model.Post;
 

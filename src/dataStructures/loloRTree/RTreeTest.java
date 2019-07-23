@@ -3,11 +3,11 @@ package dataStructures.loloRTree;
 import dataStructures.array.Array;
 import model.Location;
 import model.Post;
-import org.junit.Test;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+
 
 public class RTreeTest {
 
@@ -41,7 +41,7 @@ public class RTreeTest {
         locations.add(new Location(1, 1));
     }
 
-    @Test
+    @TestOnly
     public void testRTree(){
         RTree.root = new LeafNode(null);
         initLocations();

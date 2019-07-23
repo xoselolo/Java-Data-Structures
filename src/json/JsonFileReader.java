@@ -10,7 +10,7 @@ import dataStructures.array.Array;
 import dataStructures.graph.Graph;
 import dataStructures.graph.GraphNode;
 import dataStructures.hashTable.HashTable;
-import dataStructures.rTree.RTree;
+import dataStructures.loloRTree.RTree;
 import dataStructures.redBlackTree.RBT;
 import dataStructures.redBlackTree.RBTnode;
 import model.Location;
@@ -24,14 +24,14 @@ public class JsonFileReader {
     // FILENAMES
     //public static String USERS_FILENAME = "files/users.json";
     //public static String USERS_FILENAME = "files/datasets/small/users.json";
-    public static String USERS_FILENAME = "files/datasets/medium/users.json";
+    public static String USERS_FILENAME = "files/datasets/small/users.json";
     //public static String USERS_FILENAME = "files/datasets/large/users.json";
     //public static String USERS_FILENAME = "files/datasets/medium/users.json";
     //public static String USERS_FILENAME = "files/datasets/small/users.json";
 
     //public static String POSTS_FILENAME = "files/posts.json";
     //public static String POSTS_FILENAME = "files/datasets/small/posts.json";
-    public static String POSTS_FILENAME = "files/datasets/medium/posts.json";
+    public static String POSTS_FILENAME = "files/datasets/small/posts.json";
     //public static String POSTS_FILENAME = "files/datasets/large/posts.json";
     //public static String POSTS_FILENAME = "files/datasets/medium/posts.json";
     //public static String POSTS_FILENAME = "files/datasets/small/posts.json";
@@ -134,7 +134,8 @@ public class JsonFileReader {
                             postArray.add(actualPost);
                             RBT.insertNode(new RBTnode<Post>(actualPost), RBT.getRoot(), null);
                             hashTable.add(actualPost, Post.class);
-                            rTree.getRoot().insertPoint(actualPost, actualPost.getLocation().getLatitude(), actualPost.getLocation().getLongitude());
+                            //rTree.insertPost(actualPost);
+                            //rTree.getRoot().insertPoint(actualPost, actualPost.getLocation().getLatitude(), actualPost.getLocation().getLongitude());
                         }
                     }
                 }

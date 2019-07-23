@@ -38,7 +38,13 @@ public class RTree {
      * @param newPost New post to be inserted
      */
     public static void insertPost(Post newPost){
-        root.insertPost(newPost, new Array<Integer>(), -1);
+        if (root != null) {
+            root.insertPost(newPost, new Array<Integer>(), -1);
+        }
+        else {
+            root = new LeafNode(null);
+            root.insertPost(newPost, new Array<Integer>(), -1);
+        }
     }
 
     /**
@@ -48,5 +54,18 @@ public class RTree {
      */
     public static void changeRoot(RegionNode newRoot) {
         root = newRoot;
+    }
+
+    public static RTreeNode getRoot() {
+        return root;
+    }
+
+    public void printStructure() {
+        if (root == null) {
+            System.out.println("null");
+        }
+        else {
+            System.out.println(root.toString());
+        }
     }
 }
