@@ -525,7 +525,7 @@ public class InstaSalle {
     private static void searchInfo() {
         int error;
         do {
-            System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t1. Visualitza usuaris per username\n[SYS] - \t2. Visualitza post per id\n[SYS] - \t3. Visualitza posts per coordenades");
+            System.out.println("[SYS] - Quina informació vols buscar?\n[SYS] - \t1. Visualitza usuaris per username\n[SYS] - \t2. Visualitza post per id\n[SYS] - \t3. Visualitza posts per coordenades\n[SYS] - \t4. Visualitza per hashtags");
             try {
                 error = 0;
                 int option = new Scanner(System.in).nextInt();
@@ -585,6 +585,15 @@ public class InstaSalle {
                             System.out.println("[SYS] - Coordenades invàlides");
                         }
                         */
+                        break;
+
+                    case 4:
+                        // TODO PER HASHTAG
+                        break;
+
+                    default:
+                        System.out.println("[ERR] - Aquesta opcio no es vàlida");
+                        error = 1;
                         break;
                 }
             } catch (InputMismatchException e) {
