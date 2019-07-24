@@ -588,7 +588,20 @@ public class InstaSalle {
                         break;
 
                     case 4:
-                        // TODO PER HASHTAG
+                        Scanner sc = new Scanner(System.in);
+                        System.out.println("Quin es el hashtag que vols buscar?");
+                        String hashtag = sc.nextLine();
+                        Array<Post> orderedPostsByHashtag = hashTable.buscaSegonsHashtag(hashtag);
+
+                        if (orderedPostsByHashtag.size() <= 0){
+                            System.out.println("No hi ha cap post amb aquest hashtag");
+                        }else{
+                            int max = orderedPostsByHashtag.size() < 5 ? orderedPostsByHashtag.size() : 5;
+                            for (int i = 0; i < max; i++){
+                                System.out.println("Post " + (i+1) + ":" + ((Post)orderedPostsByHashtag.get(i)).toString());
+                            }
+                        }
+
                         break;
 
                     default:
