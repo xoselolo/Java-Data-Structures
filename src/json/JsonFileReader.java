@@ -134,7 +134,7 @@ public class JsonFileReader {
                             postArray.add(actualPost);
                             RBT.insertNode(new RBTnode<Post>(actualPost), RBT.getRoot(), null);
                             hashTable.add(actualPost, Post.class);
-                            //rTree.insertPost(actualPost);
+                            rTree.insertPost(actualPost);
                             //rTree.getRoot().insertPoint(actualPost, actualPost.getLocation().getLatitude(), actualPost.getLocation().getLongitude());
                         }
                     }
