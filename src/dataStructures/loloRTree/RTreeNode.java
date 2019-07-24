@@ -6,9 +6,9 @@ import dataStructures.array.Array;
 import model.Post;
 
 public abstract class RTreeNode {
-    public static final int M = 3;
-    public static final int MIN = 2;
-    //public static final int MIN = Math.round(M / 2) - 1;
+    public static final int M = 100;
+    public static final int MIN = 50;
+    //public static final int MIN = Math.round(M / 2);
 
     public static final int LEAF_DEPTH = 0;
 

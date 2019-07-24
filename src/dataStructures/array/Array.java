@@ -2,10 +2,12 @@ package dataStructures.array;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import model.Post;
 import model.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 
 public class Array<T> {
@@ -179,5 +181,21 @@ public class Array<T> {
         } catch (NullPointerException e) {
             return "[]";
         }
+    }
+
+    public Array<Post> sortPostsByTime(){
+        Array<Post> sortedArray = new Array<Post>();
+        while (size() > 0){
+            int indexOfMax = 0;
+            for (int i = 0; i < this.size(); i++){
+                if (((Post)get(i)).compareTo((Post)get(indexOfMax)) > 0){
+                    indexOfMax = i;
+                }
+            }
+            sortedArray.add((Post) get(indexOfMax));
+            remove(indexOfMax);
+
+        }
+        return sortedArray;
     }
 }

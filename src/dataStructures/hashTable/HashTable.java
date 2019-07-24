@@ -79,6 +79,29 @@ public class HashTable <T> implements HashTableInterface {
         }
     }
 
+    public Array<Post> buscaSegonsHashtag(String hashtag){
+        Array<Post> posts;
+        int length = hashtag.length();
+        int value = 0;
+        for (int i = 0; i < length; i++){
+            value += (int)hashtag.charAt(i);
+        }
+        value = value % HashTable.POSITIONS;
+        posts = (Array<Post>) getRow(value);
+        Array<Post> postsCopy = new Array<Post>(posts);
+
+        Array<Post> orderedPosts = postsCopy.sortPostsByTime();
+
+        Array<Post> orderedPostsWithOnlyThisHastag = new Array<Post>();
+        for (int i = 0; i < orderedPosts.size(); i++){
+            if (((Post)orderedPosts.get(i)).getHashtags().hasElement(hashtag)){
+                orderedPostsWithOnlyThisHastag.add((Post)orderedPosts.get(i));
+            }
+        }
+
+        return orderedPostsWithOnlyThisHastag;
+    }
+
     public Array<Array<T>> getHashTable() {
         return hashTable;
     }

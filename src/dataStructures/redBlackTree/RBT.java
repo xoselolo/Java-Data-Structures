@@ -2,7 +2,6 @@ package dataStructures.redBlackTree;
 
 import com.google.gson.internal.LinkedTreeMap;
 import dataStructures.array.Array;
-import javafx.geometry.Pos;
 import model.Location;
 import model.Post;
 import model.User;
