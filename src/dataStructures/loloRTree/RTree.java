@@ -72,4 +72,8 @@ public class RTree {
     public void setImportedInfo(RTreeNode rTreeNode) {
         root = rTreeNode;
     }
+
+    public Array<Post> searchByLocation(Location location){
+        return root.search(location);
+    }
 }

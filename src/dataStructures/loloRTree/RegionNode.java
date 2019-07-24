@@ -299,4 +299,47 @@ public class RegionNode extends RTreeNode {
         }
         return builder.toString();
     }
+
+    public Array<Post> search(Location location){
+        // Ordenem les regions de mes propera a mes llunyana
+        Array<Integer> nearIndexes = new Array<Integer>();
+
+        int ordenats = 0;
+        while (ordenats < this.numSons){
+            int index = -1;
+            double minDistance = -1;
+            for (int i = 0; i < this.numSons; i++){
+                if (!nearIndexes.hasElement(i)){
+                    double distance = location.distance(this.regions[i].center());
+                    if (minDistance == -1){
+                        minDistance = distance;
+                        index = i;
+                    }else{
+                        if (distance < minDistance){
+                            minDistance = distance;
+                            index = i;
+                        }
+                    }
+                }
+
+            }
+            ordenats++;
+            nearIndexes.add(index);
+        }
+
+        Array<Post> nearPosts = new Array<Post>();
+
+        for (int i = 0; i < this.numSons; i++){
+            if (nearPosts.size() >= 5){
+                break;
+            }else{
+                Array<Post> regionPosts = this.sons[i].search(location);
+                for (int k = 0; k < regionPosts.size(); k++){
+                    nearPosts.add((Post) regionPosts.get(k));
+                }
+            }
+        }
+
+        return nearPosts;
+    }
 }

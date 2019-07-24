@@ -3,11 +3,12 @@ package dataStructures.loloRTree;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import dataStructures.array.Array;
+import model.Location;
 import model.Post;
 
 public abstract class RTreeNode {
-    public static final int M = 100;
-    public static final int MIN = 50;
+    public static final int M = 40;
+    public static final int MIN = 20;
     //public static final int MIN = Math.round(M / 2);
 
     public static final int LEAF_DEPTH = 0;
@@ -42,6 +43,8 @@ public abstract class RTreeNode {
     public boolean needsAllRemainingInHere(int remainingElements){
         return MIN - numSons == remainingElements;
     }
+
+    public abstract Array<Post> search(Location location);
 
     public abstract String toString();
 }

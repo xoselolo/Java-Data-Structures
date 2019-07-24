@@ -176,6 +176,42 @@ public class LeafNode extends RTreeNode {
 
     }
 
+    @Override
+    public Array<Post> search(Location location) {
+        Array<Post> nearPosts = new Array<Post>();
+
+        Array<Integer> nearIndexes = new Array<Integer>();
+
+        int ordenats = 0;
+        while (ordenats < this.numSons){
+            int index = -1;
+            double minDistance = -1;
+            for (int i = 0; i < this.numSons; i++){
+                if (!nearIndexes.hasElement(i)){
+                    double distance = location.distance(this.posts[i].getLocation());
+                    if (minDistance == -1){
+                        minDistance = distance;
+                        index = i;
+                    }else{
+                        if (distance < minDistance){
+                            minDistance = distance;
+                            index = i;
+                        }
+                    }
+                }
+
+            }
+            ordenats++;
+            nearIndexes.add(index);
+        }
+
+        for (int i = 0; i < nearIndexes.size(); i++){
+            nearPosts.add(this.posts[(int) nearIndexes.get(i)]);
+        }
+
+        return nearPosts;
+    }
+
     /*
     @Override
     public void actualitzaRegioCapAmunt(Post newPost, Array<Integer> indexes) {

@@ -573,6 +573,20 @@ public class InstaSalle {
                         double latitud = new Scanner(System.in).nextDouble();
                         System.out.print("[POSTS] Introdueix longitud: \n> ");
                         double longitud = new Scanner(System.in).nextDouble();
+                        Location location = new Location(latitud, longitud);
+
+                        Array<Post> nearPosts = rTree.searchByLocation(location);
+
+                        if (nearPosts.size() <= 0){
+                            System.out.println("No hi ha cap post amb aquest hashtag");
+                        }else{
+                            int max = nearPosts.size() < 5 ? nearPosts.size() : 5;
+                            for (int i = 0; i < max; i++){
+                                System.out.println("Post " + (i+1) + ":" + ((Post)nearPosts.get(i)).toString());
+                            }
+                        }
+
+
                         /*
                         try{
                             Array<Post> posts = rTree.getRoot().searchPoints(new Array<>(), latitud, longitud);
